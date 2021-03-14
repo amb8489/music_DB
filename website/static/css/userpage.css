@@ -1,0 +1,91 @@
+
+
+.user_bock {
+  height: 100%;
+  width: 180px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  right: 0;
+  background-color: #F2F2F2;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.user_bock a {
+  text-align: left;
+
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 14px;
+  color: #818181;
+  display: block;
+}
+
+
+
+
+
+.graydiv {
+  align: center;
+  margin-right: 180px;
+  margin-left: 180px;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+  padding: 15px;
+}
+body {
+  font-family: "Lato", sans-serif;
+}
+.myAlbums {
+
+  background-color: #ABEBC6;
+
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+.settings {
+  background-color: #f4f4f4;
+
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+.me {
+  background-color: #F9E79F;
+  font-size: 28px; /* Increased text to enable scrolling */
+  padding: 0px 10px;
+}
+.following {
+  background-color: #C39BD3;
+  font-size: 28px;
+  padding: 0px 10px;
+}
+.explore{
+  background-color: #7FB3D5;
+  font-size: 28px;
+  padding: 0px 10px;
+}
+.sidenav {
+  height: 100%;
+  width: 180px;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  background-color: #111;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+.sidenav a {
+  padding: 6px 8px 6px 16px;
+  text-decoration: none;
+  font-size: 25px;
+  color: #818181;
+  display: block;
+}
+
+.sidenav a:hover {
+  color: #f1f1f1;
+}
+#content > div {display:none;}

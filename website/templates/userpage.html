@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- style stuff -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='/css/userpage.css') }}" />
+
+  <style>
+    @media screen and (max-height: 450px) {
+      .sidenav {
+        padding-top: 15px;
+      }
+
+      .sidenav a {
+        font-size: 18px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      @media screen and (max-height: 450px) {
+        .sidenav {
+          padding-top: 15px;
+        }
+
+        .sidenav a {
+          font-size: 18px;
+        }
+      }
+    </style>
+
+  </head>
+
+  <body>
+    <!--side bar-->
+
+    <div class="sidenav">
+      <a href="#" onclick="showhide('me');">me</a>
+      <a href="#" onclick="showhide('myAlbums');">my music</a>
+      <a href="#" onclick="showhide('explore');">explore</a>
+    </div>
+
+    <!--- user profile side -->
+    <div class="user_bock" id="usrblk">
+      <h2 style="text-align: center"> {{user_data['userName']}}</h2>
+      <p><a href="#" onclick="showhide('following');">followers [ ]</a></p>
+      <p><a href="#" onclick="showhide('following');">following [ ]</a></p>
+      <p><a href="#" onclick="showhide('myAlbums');">collections [ ]</a></p>
+      <p><a href="#" onclick="showhide('settings');">settings</a></p>
+
+
+
+    </div>
+
+
+
+    <!--all content pages -->
+
+    <div id="all_content">
+      <div id="logo">
+        <p style="margin-left: 80%"><a href="/">log out</a></p>
+        <h1 style="text-align: center" ;><a href="#" onclick="showhide('me');">logo</a></h1>
+      </div>
+      <div id="info" class="graydiv">
+
+        <!--user home page -->
+
+        <div class="me" id="me">
+          <h2>{{user_data['userName']}}</h2>
+
+
+          <p>your top 10 artists</p>
+
+        </div>
+
+        <div id="content">
+
+          <!--settings page -->
+
+          <div class="settings" id="settings">
+            <h2>your user settings</h2>
+            {% for key,value in user_data.items() %}
+            <p>{{key}} : {{value}}</p>
+            {% endfor %}
+          </div>
+
+
+          <!--following page -->
+
+          <div class="following" id="following">
+            <h2>following</h2>
+          </div>
+
+
+          <!--myAlbums page -->
+
+          <div class="myAlbums" id="myAlbums">
+            <h2>my playlists</h2>
+            <p>search for songs</p>
+            <p>create a playlist</p>
+            <p>delete a playlist</p>
+            <p>add/remove song or album from playlist</p>
+
+          </div>
+
+
+          <!--explore page -->
+
+          <div class="explore" id="explore">
+            <h2>explore</h2>
+
+            <p>song recommendatios</p>
+            <p>the top 50 most popular songs of the month</p>
+            <p>The top 50 most popular songs among my friends</p>
+            <p>The top 5 most popular genres of the month</p>
+            <p>For you: Recommend songs to listen to based on your play history</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!--function to show only the page clicked on -->
+    <script>
+      var divState = {};
+
+      function showhide(id) {
+        if (document.getElementById) {
+          var divid = document.getElementById(id);
+          if (divState[id] != true) {
+            divState[id] = (divState[id]) ? false : true;
+            //close others
+            divState["me"] = true
+            for (var div in divState) {
+
+              if (divState[div] && div != id) {
+                document.getElementById(div).style.display = 'none';
+                divState[div] = false;
+              }
+            }
+            divid.style.display = (divid.style.display == 'block' ? 'none' : 'block');
+          }
+        }
+
+      }
+    </script>
+  </body>
+
+  </html>

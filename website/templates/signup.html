@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>signup</title>
+  <!-- style  -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='/css/signup.css') }}" />
+
+</head>
+<body>
+  <!-- logo link to bring you to home page  -->
+  <a href="/">
+    <h1 style="text-align: center">SaberTooth </h1>
+  </a>
+<!-- text for create account  -->
+  <h2 style="text-align: center ; margin-top: 5%;">create an account </h2>
+
+  <div id="loginp1" class="graydiv">
+
+    <!-- log in form  goes through main.py/ userpage()-->
+    <form action="/signup" method="POST">
+
+      <p><label style="font-size:14px" id="fnamel" for="fname">First Name</label></p>
+      <p><input type="text" id="fname" name="firstName" placeholder="Your name.."></p>
+
+      <label style="font-size:14px" id="lnamel" for="lname">Last Name</label>
+      <p><input type="text" id="lname" name="lastName" placeholder="Your last name.."></p>
+
+      <label style="font-size:14px; display: none" id="unl" for="username">Create Username</label>
+      <p><input style="display: none" type="text" id="username" name="userName" placeholder="New username.."></p>
+
+      <label style="font-size:14px" id="enamel" for="email">Email</label>
+      <p><input type="text" id="email" name="emailAdress" placeholder="Your email.."></p>
+
+      <label style="font-size:14px; display: none" id="pwl" for="Password">Create Password</label>
+      <p><input style="display: none" type="password" id="Password" name="Password" placeholder="New Password.."></p>
+
+      <p><input style="display: none" style="margin-left: 35%" ; id="sb" type="submit" value="create account"></p>
+
+    </form>
+
+    <!-- if error in log in display error msg error message comes from main.py/ userpage() -->
+    {% if error %}
+    <p class="error"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+
+    <!-- button to go back to next page in sign up form-->
+    <button id="back" ; onclick="myFunction()"> Next</button>
+    <p><label style="font-size:12px; margin-left: 25%" for="already_account">already have an account? <a href=login>sign in</a></label></p>
+
+  </div>
+
+
+  <!-- function to show first the first/ last name and email, then user name password -->
+  <script>
+    function myFunction() {
+      var a = document.getElementById("pwl");
+      var b = document.getElementById("Password");
+      var c = document.getElementById("unl");
+      var d = document.getElementById("username");
+      var e = document.getElementById("sb");
+
+      var f = document.getElementById("fnamel");
+      var g = document.getElementById("fname");
+      var h = document.getElementById("lnamel");
+      var i = document.getElementById("lname");
+      var j = document.getElementById("enamel");
+      var k = document.getElementById("email");
+
+
+      if (a.style.display === "none") {
+        a.style.display = "block";
+        b.style.display = "block";
+        c.style.display = "block";
+        d.style.display = "block";
+        e.style.display = "block";
+        document.querySelector('#back').innerText = 'Back';
+
+        f.style.display = "none";
+        g.style.display = "none";
+        h.style.display = "none";
+        i.style.display = "none";
+        j.style.display = "none";
+        k.style.display = "none";
+
+
+      } else {
+        a.style.display = "none";
+        b.style.display = "none";
+        c.style.display = "none";
+        d.style.display = "none";
+        e.style.display = "none";
+
+        f.style.display = "block";
+        g.style.display = "block";
+        h.style.display = "block";
+        i.style.display = "block";
+        j.style.display = "block";
+        k.style.display = "block";
+        document.querySelector('#back').innerText = 'Next';
+
+      }
+    }
+  </script>
+
+
+
+
+</body>
+
+</html>

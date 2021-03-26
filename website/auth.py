@@ -21,7 +21,7 @@ def signup():
 
 
         if allowed:
-            session['user_data']= user_data
+            session['user_data'] =  user_data
             return redirect(url_for('views.userpage',user_data = user_data))
 
             #return render_template('userpage.html',user_data = user_data)

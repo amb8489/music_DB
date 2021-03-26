@@ -1,10 +1,16 @@
+.body{
+
+  background-color: #ffffca;
+
+
+}
 
 .centerDiv {
-  background-color: lightgray;
+  background-color: #ffffca;
   border-radius: 12px;
   margin-top: 20%;
   margin-bottom: 20%;
-  
+
   margin-right: 25%;
   margin-left: 25%;
   width: 50%;
@@ -29,6 +35,6 @@
 
 }
 .button1:hover {
-  background-color: #007CBA;  /* Blue */
+  background-color: #00ACBA;  /* Blue */
   border-radius: 12px;
 }

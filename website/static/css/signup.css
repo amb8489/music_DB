@@ -20,8 +20,8 @@ input[type=password], select {
 input[type=submit] {
   margin-right: 35%;
   margin-left: 35%;
-  background-color: #4CAF50;
-  color: white;
+  background-color: #F4F4F4;
+  color: black;
   padding: 14px 20px;
   margin: 8px 0;
   border: none;
@@ -29,7 +29,8 @@ input[type=submit] {
   cursor: pointer;
 }
 input[type=submit]:hover {
-  background-color: #45a049;
+  background-color: #ffffff;
+
 }
 
 .graydiv {

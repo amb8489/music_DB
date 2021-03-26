@@ -37,6 +37,7 @@ input[type=submit]:hover {
   margin-right: 35%;
   margin-left: 35%;
   border-radius: 10px;
-  background-color: #f2f2f2;
+  background-color: #ffffca;
+;
   padding: 15px;
 }

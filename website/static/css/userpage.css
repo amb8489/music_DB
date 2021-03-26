@@ -7,7 +7,8 @@
   z-index: 1;
   top: 0;
   right: 0;
-  background-color: #F2F2F2;
+  background-color: #ffffca;
+
   overflow-x: hidden;
   padding-top: 20px;
 }
@@ -51,9 +52,11 @@ body {
   padding: 0px 10px;
 }
 .me {
-  background-color: #F9E79F;
+  background-color: #99d6e6;
   font-size: 28px; /* Increased text to enable scrolling */
   padding: 0px 10px;
+  height: 100%;
+
 }
 .following {
   background-color: #C39BD3;

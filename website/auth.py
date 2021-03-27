@@ -59,9 +59,9 @@ def confirm_new_account(form_data):
         user_data.update(form_data)
 
 
-        # add time of creation and last log in = time of creation
+        # ------------- add time of creation and last log in = time of creation-------------------
 
-        # place user in db
+        # ------------- place new user in db --------------------------------
 
     return user_data,success,error
 
@@ -71,7 +71,9 @@ def confirm_new_account(form_data):
 place to confirm log in
 '''
 def confirm_login(form_data):
-    # check db for right cridetials
+    #----------- check db for right cridetials---------------
+
+    # -------------- if good login  set user last log in in db --------------
 
     return False
 
@@ -85,13 +87,11 @@ def login():
     if request.method == 'POST':
         form_data = request.form
 
-        #authenticate FROM DB
-
         #right now always false
         authenticated = confirm_login(form_data)
 
         if authenticated:
-            # load user data from db
+            # ------------load user data from db--------------------
 
             #shiould prob be a redirect with a new log in route taht will load user data
             return render_template('userpage.html',user_data = form_data)

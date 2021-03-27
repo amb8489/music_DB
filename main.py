@@ -70,7 +70,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 app = create_app()
 
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///example.sqlite"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://user:password@host/database"
 db = SQLAlchemy(app)
 
 

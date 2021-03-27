@@ -22,9 +22,9 @@
 
 .button {
   border: none;
-  background-color: #008CBA;  /* Blue */
+  background-color: #35baf6;  /* Blue */
   border-radius: 20px;
-  color: white;
+  color: black;
   padding: 15px 32px;
   text-align: center;
   text-decoration: none;
@@ -35,6 +35,6 @@
 
 }
 .button1:hover {
-  background-color: #00ACBA;  /* Blue */
+  background-color: #FFFFFF;  /* whitw */
   border-radius: 12px;
 }

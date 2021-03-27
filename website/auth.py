@@ -29,8 +29,6 @@ def signup():
 
             return redirect(url_for('views.userpage',user_data = user_data))
 
-            #return render_template('userpage.html',user_data = user_data)
-
         return render_template('signup.html',error = error)
 
 
@@ -46,7 +44,8 @@ def confirm_new_account(form_data):
     success = False
 
 
-    # What ever needs to be check in db bfore signing up
+    # ------------What ever needs to be checked signing up------------
+
     if form_data['firstName']=="":
         error = 'please input a vaild name'
     elif form_data['lastName']=="":
@@ -93,7 +92,6 @@ def login():
         if authenticated:
             # ------------load user data from db--------------------
 
-            #shiould prob be a redirect with a new log in route taht will load user data
             return render_template('userpage.html',user_data = form_data)
         else:
             error = "username or passoword is incorrcet"

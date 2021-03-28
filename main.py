@@ -71,7 +71,8 @@ from website.database import DB_interface
 
 app = create_app()
 with open("dburl.txt", "r") as f:
-    app.config["SQLALCHEMY_DATABASE_URI"] = f.read()
+    app.config["SQLALCHEMY_DATABASE_URI"] = f.readline().strip()
+
 
 db = SQLAlchemy(app)
 

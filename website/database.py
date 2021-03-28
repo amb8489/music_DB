@@ -8,7 +8,3 @@ class DB_interface:
         self.Base.prepare(engine, reflect=True)
         self.db = db
         self.session = Session(engine)
-
-    def access(self, table: str, ):
-        table = getattr(self.Base.classes, table)
-        

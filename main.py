@@ -70,7 +70,7 @@ from flask_sqlalchemy import SQLAlchemy
 from website.database import DB_interface
 
 app = create_app()
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://p320_03a@reddwarf.cs.rit.edu"
+app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://p320_03a:gslAMAqn0xcx@reddwarf.cs.rit.edu"
 
 db = SQLAlchemy(app)
 

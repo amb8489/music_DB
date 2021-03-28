@@ -13,21 +13,20 @@ class DB_interface:
 
 
 
-#
-#
+
 # import os
 # import sys
 # import glob
 # import string
 # import time
-# import datetime
-# import numpy as np
-# directory = 'website/songs/dataset'
+#
+# directory = 'songs'
 #
 # for filename in os.listdir(directory):
 #     if filename.endswith(".txt"):
 #         path =directory+"/"+filename
-#         with open(path,"wr") as f:
+#
+#         with open(path,"r") as f:
 #             for line in f:
-#                 print(f.readline())
-#                 time.sleep(1)
+#                 song_data = f.readline().split("<sep>")
+#                 print(song_data)

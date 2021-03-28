@@ -67,13 +67,14 @@ TODO:
 from flask import Flask, render_template, request
 from website import create_app
 from flask_sqlalchemy import SQLAlchemy
-from website.database import init
+from website.database import DB_interface
 
 app = create_app()
 app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://p320_03a@reddwarf.cs.rit.edu"
 
 db = SQLAlchemy(app)
 
+interface = DB_interface(db)
+
 if __name__ == "__main__":
-    init(db)
     app.run(debug=True)

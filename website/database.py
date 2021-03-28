@@ -4,8 +4,8 @@ from sqlalchemy.orm import Session
 class DB_interface:
     def __init__(self, db):
         engine = db.get_engine();
-        Base = automap_base()
-        Base.prepare(engine, reflect=True)
+        self.Base = automap_base()
+        self.Base.prepare(engine, reflect=True)
         self.db = db
         self.session = Session(engine)
 

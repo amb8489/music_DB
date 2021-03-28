@@ -1,5 +1,5 @@
 #aaron berghash
-
+#greg mockler
 
 '''
 TODO:
@@ -70,7 +70,8 @@ from flask_sqlalchemy import SQLAlchemy
 from website.database import DB_interface
 
 app = create_app()
-app.config["SQLALCHEMY_DATABASE_URI"] = "postgresql://p320_03a:gslAMAqn0xcx@reddwarf.cs.rit.edu"
+with open("dburl.txt", "r") as f:
+    app.config["SQLALCHEMY_DATABASE_URI"] = f.read()
 
 db = SQLAlchemy(app)
 

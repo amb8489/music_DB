@@ -14,7 +14,7 @@ class DB_interface:
 
 
 #
-
+#
 # import os
 # import sys
 # import glob
@@ -27,7 +27,7 @@ class DB_interface:
 # for filename in os.listdir(directory):
 #     if filename.endswith(".txt"):
 #         path =directory+"/"+filename
-#         with open(path,"r") as f:
+#         with open(path,"wr") as f:
 #             for line in f:
 #                 print(f.readline())
 #                 time.sleep(1)

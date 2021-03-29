@@ -1,4 +1,8 @@
 
+* {
+  box-sizing: border-box;
+}
+
 
 .user_bock {
   height: 100%;
@@ -34,6 +38,7 @@
   border-radius: 10px;
   background-color: #f2f2f2;
   padding: 15px;
+
 }
 body {
   font-family: "Lato", sans-serif;
@@ -67,6 +72,7 @@ body {
   background-color: #7FB3D5;
   font-size: 28px;
   padding: 0px 10px;
+
 }
 .sidenav {
   height: 100%;
@@ -92,3 +98,41 @@ body {
   color: #ffffca;
 }
 #content > div {display:none;}
+
+
+
+
+
+
+
+/* search bar */
+
+form {
+  background-color: #4654e1;
+  width: 300px;
+  height: 44px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+}
+button {
+        all: unset;
+        background-color: #4885f2;
+        border-radius: 5px;
+
+        cursor: pointer;
+        width: 44px;
+        height: 44px;
+        font-size: 12px;
+
+      }
+input {
+  all: unset;
+  font: 16px system-ui;
+  color: #fff;
+  height: 100%;
+  width: 100%;
+  padding: 6px 10px;
+}

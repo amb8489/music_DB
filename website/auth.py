@@ -39,18 +39,14 @@ def confirm_new_account(form_data):
     error = ''
     success = False
 
-
     # if any part of user data is empty
     for key in form_data:
-        if form_data[key]=="":
+        if form_data[key] == "":
             error = 'please input a valid {}'.format(key)
             return user_data, success, error
 
-
-
     # --- TODO --- do a check to make sure that new credentials are NOT
     # already beig used like (username and email)
-
 
     success = True
     user_data['passwordHash'] = hash(form_data['password'])
@@ -60,9 +56,9 @@ def confirm_new_account(form_data):
     conn = get_connection()
     cur = conn.cursor()
     sql = "insert into useraccount(username, firstname, lastname, email, password, creationdate, lastaccess)" \
-             " values(%s, %s, %s, %s, %s, %s, %s)"
-    cur.execute(sql,(user_data["username"], user_data["firstName"], user_data["lastName"], user_data["emailAddress"],
-                     user_data["password"], datetime.now(), datetime.now()))
+          " values(%s, %s, %s, %s, %s, %s, %s)"
+    cur.execute(sql, (user_data["username"], user_data["firstName"], user_data["lastName"], user_data["emailAddress"],
+                      user_data["password"], datetime.now(), datetime.now()))
     conn.commit()
     cur.close()
 

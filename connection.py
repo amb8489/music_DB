@@ -33,11 +33,12 @@ for filename in os.listdir(directory):
 
         with open(path,"r") as f:
             for line in f:
-                song_data = f.readline().split(sep)
+                song_data = f.readline().strip().split(sep)
+                # title , artist, length,album,year, genre
 
                 title = song_data[0]
                 artist = song_data[1]
                 duration = song_data[2]
-                album = song_data[2]
-
-                genre = song_data[4]
+                album = song_data[3]
+                year = song_data[4]
+                genre = song_data[5]

@@ -51,6 +51,8 @@ function to get user a searched song
 '''
 @views.route('/searchusers/',methods = ['POST', 'GET'])
 def search_users():
+
+
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
@@ -60,7 +62,9 @@ def search_users():
         user_data = request.args['user_data']  # counterpart for url_for()
         user_data = session['user_data']  # counterpart for session
 
-        email ="fill"
+        email = form_data["email"]
+
+
         conn = get_connection()
         cur = conn.cursor()
         sql = "select username ,email" \

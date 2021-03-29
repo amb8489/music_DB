@@ -1,4 +1,5 @@
 import psycopg2
+from dbinfo import info
 
 connection = None
 
@@ -6,10 +7,10 @@ connection = None
 def connect():
     global connection
     connection = psycopg2.connect(
-        host="reddwarf.cs.rit.edu",
-        database="p320_03a",
-        user="p320_03a",
-        password="gslAMAqn0xcx"
+        host=info["host"],
+        database=info["database"],
+        user=info["user"],
+        password=info["password"]
     )
 
 

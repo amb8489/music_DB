@@ -1,6 +1,8 @@
-from flask import Blueprint, render_template, request, redirect, url_for, session
-from connection import get_connection
 from datetime import datetime
+
+from flask import Blueprint, render_template, request, redirect, url_for, session
+
+from connection import get_connection
 
 auth = Blueprint('auth', __name__)
 
@@ -75,11 +77,27 @@ def confirm_login(form_data):
     :return:
     """
 
-    # ----------- check db for right credentials---------------
+    # check db for right credentials
+    username = form_data["username"]
+    password = form_data["password"]
 
-    # -------------- if good login  set user last log in in db --------------
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = "select 1 from useraccount " \
+          "where username = %s and password = %s"
+    cur.execute(sql, (username, password))
+    result = cur.fetchone()
+    if result is None:
+        return False
 
-    return False
+    # if good login set user last log in in db
+    sql = "update useraccount" \
+          " set lastaccess = %s" \
+          " where username = %s"
+    cur.execute(sql, (datetime.now(), username))
+    cur.close()
+
+    return True
 
 
 # sign in page
@@ -94,9 +112,17 @@ def login():
         authenticated = confirm_login(form_data)
 
         if authenticated:
-            # ------------load user data from db--------------------
+            conn = get_connection()
+            cur = conn.cursor()
+            sql = "select email, creationdate, lastaccess " \
+                  "from useraccount " \
+                  "where username = %s"
+            cur.execute(sql, (form_data["username"],))
+            result = cur.fetchone()
+            user_data = {"username": form_data["username"], "emailAddress": result[0], "creationDate": result[1],
+                         "lastAccess": result[2]}
 
-            return render_template('userpage.html', user_data=form_data)
+            return render_template('userpage.html', user_data=user_data)
         else:
             error = "username or password is incorrect"
             return render_template('login.html', error=error)

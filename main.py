@@ -1,7 +1,8 @@
-#aaron berghash
-#greg mockler
+# aaron berghash
+# greg mockler
+# tanner bradford
 
-'''
+"""
 TODO:
 
 * link data base to appliction
@@ -60,9 +61,7 @@ TODO:
 
 * make the application look good if we make it
 
-
-'''
-
+"""
 
 from website import create_app
 

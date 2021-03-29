@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session
-
+from connection import get_connection
 views = Blueprint('views', __name__)
 
 
@@ -64,14 +64,22 @@ def search_users():
         email = form_data["usr_email"]
 
 
-        conn = get_connection()  # import
+        conn = get_connection()
         cur = conn.cursor()
-        sql = "select username ,email" \
+
+        sql = "select username " \
               "from useraccount " \
               "where email = %s"
-        cur.execute(sql, (email,))
+        cur.execute(sql, (email.strip(),))
         result = cur.fetchone()
-        # if no name shows up then its gg boys 
-        user_data["searched_friend"] = result
+
+
+        if result is None:
+            user_data["searched_friend"] ="no user found with this email"
+
+            return render_template('userpage.html', user_data=user_data)
+
+        # if no name shows up then its gg boys
+        user_data["searched_friend"] = result[0]
 
         return render_template('userpage.html', user_data=user_data)

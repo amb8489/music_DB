@@ -59,13 +59,12 @@ def search_users():
         form_data = request.form
 
 
-        user_data = request.args['user_data']  # counterpart for url_for()
         user_data = session['user_data']  # counterpart for session
 
-        email = form_data["email"]
+        email = form_data["usr_email"]
 
 
-        conn = get_connection()
+        conn = get_connection()  # import 
         cur = conn.cursor()
         sql = "select username ,email" \
               "from useraccount " \

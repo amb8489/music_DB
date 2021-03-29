@@ -98,11 +98,14 @@
 
           <!--following page -->
 
+
+
+
           <div class="following" id="following">
             <h2>following</h2>
-            <form id="form" role="search">
-              <input type="search" id="query" name="q" placeholder="Search friends by email" aria-label="Search through site content">
-              <button>Search</button>
+            <form action="/searchusers/" method="POST" id="form" role="search" >
+              <input type="search" type="text" id="usr_email" name="usr_email" placeholder="Search songs" aria-label="Search through site content">
+              <button><input type="submit" value="search"></button>
             </form>
           </div>
 
@@ -125,9 +128,9 @@
             <h2>explore</h2>
 
 
-            <form id="form" role="search">
-              <input type="search" id="query" name="q" placeholder="Search songs" aria-label="Search through site content">
-              <button>Search</button>
+            <form action="/searchusers/" method="POST" id="form" role="search" >
+              <input type="search" id="usr_email" name="q" placeholder="Search songs" aria-label="Search through site content">
+              <button><input type="submit" value="search"></button>
             </form>
 
 

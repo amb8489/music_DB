@@ -60,7 +60,7 @@ def search_users():
         user_data = request.args['user_data']  # counterpart for url_for()
         user_data = session['user_data']  # counterpart for session
 
-        email =
+        email ="fill"
         conn = get_connection()
         cur = conn.cursor()
         sql = "select username ,email" \

@@ -73,13 +73,9 @@ def search_users():
         cur.execute(sql, (email.strip(),))
         result = cur.fetchone()
 
-
         if result is None:
             user_data["searched_friend"] ="no user found with this email"
-
             return render_template('userpage.html', user_data=user_data)
-
         # if no name shows up then its gg boys
         user_data["searched_friend"] = result[0]
-
         return render_template('userpage.html', user_data=user_data)

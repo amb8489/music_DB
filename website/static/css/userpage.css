@@ -119,6 +119,7 @@ form {
 }
 button {
         all: unset;
+
         background-color: #ffffca;
         /* border-radius: 12px; */
         border-color: black
@@ -136,4 +137,5 @@ input {
   height: 100%;
   width: 100%;
   padding: 6px 10px;
+
 }

@@ -103,7 +103,6 @@ def login():
     if request.method == 'POST':
         form_data = request.form
 
-        # right now always false
         authenticated = confirm_login(form_data)
 
         if authenticated:

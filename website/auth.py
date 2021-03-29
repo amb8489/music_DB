@@ -42,7 +42,7 @@ def confirm_new_account(form_data):
 
     for key in form_data:
         if form_data[key]=="":
-            error = "please input a valid {}'.format(key)
+            error = 'please input a valid {}'.format(key)
             return user_data, success, error
 
 

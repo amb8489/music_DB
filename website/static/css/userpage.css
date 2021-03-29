@@ -108,10 +108,10 @@ body {
 /* search bar */
 
 form {
-  background-color: #4654e1;
+  background-color: #F2f2f2;
   width: 300px;
   height: 44px;
-  border-radius: 5px;
+  /* border-radius: 12px; */
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -119,19 +119,20 @@ form {
 }
 button {
         all: unset;
-        background-color: #4885f2;
-        border-radius: 5px;
-
+        background-color: #ffffca;
+        /* border-radius: 12px; */
+        border-color: black
         cursor: pointer;
-        width: 44px;
+        width: 90px;
         height: 44px;
         font-size: 12px;
+        text-align: center;
 
       }
 input {
   all: unset;
   font: 16px system-ui;
-  color: #fff;
+  color: black;
   height: 100%;
   width: 100%;
   padding: 6px 10px;

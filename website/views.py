@@ -41,3 +41,34 @@ function to get user a searched song
 def searched_song():
 
     pass
+
+
+
+
+##### IN-PROGRESS
+'''
+function to get user a searched song
+'''
+@views.route('/searchusers/',methods = ['POST', 'GET'])
+def search_users():
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        form_data = request.form
+
+
+        user_data = request.args['user_data']  # counterpart for url_for()
+        user_data = session['user_data']  # counterpart for session
+
+        email =
+        conn = get_connection()
+        cur = conn.cursor()
+        sql = "select username ,email" \
+              "from useraccount " \
+              "where email = %s"
+        cur.execute(sql, (email,))
+        result = cur.fetchone()
+
+        user_data["searched_friend"] = result
+
+        return render_template('userpage.html', user_data=user_data)

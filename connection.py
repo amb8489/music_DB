@@ -1,6 +1,5 @@
 import psycopg2
 from dbinfo import info
-
 connection = None
 
 
@@ -13,6 +12,7 @@ def connect():
         password=info["password"]
     )
 
+
 def get_connection():
     if not connection:
         connect()
@@ -24,10 +24,15 @@ def get_connection():
 def add_songs():
     import os
     import sys
+    import random
+    import time
     directory = 'songs'
     sep = "<sep>"
 
-    number_of_song_files_to_add = 3
+    conn = get_connection()
+    cur = conn.cursor()
+
+    number_of_song_files_to_add = 2
     d = 0
     for filename in os.listdir(directory):
         if d == number_of_song_files_to_add:
@@ -48,6 +53,31 @@ def add_songs():
                     album =    song_data[3]
                     year =     song_data[4]
                     genre =    song_data[5]
+                    month = random.randint(1,12)
 
+                    if month < 10:
+                        year+="-0"+str(month)
+                    else:
+                        year+="-"+str(month)
+
+
+                    day = random.randint(10,30)
+                    if month == 2:
+                        day%=27
+                        day+=1
+
+                    day = str(day)
+                    year+="-"
+                    year+=day
                     # --- sql to add dat NOTE: year is just the year this might
                     # be wrong in the db table ---
+
+
+                    if len(title)<50:
+                        # place new user in db
+                        sql = "insert into song(title, releasedate, length)"\
+                              "values(%s, %s, %s)"
+
+                        cur.execute(sql, (title,year,float(duration)))
+                        conn.commit()
+    cur.close()

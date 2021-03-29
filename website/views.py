@@ -64,14 +64,14 @@ def search_users():
         email = form_data["usr_email"]
 
 
-        conn = get_connection()  # import 
+        conn = get_connection()  # import
         cur = conn.cursor()
         sql = "select username ,email" \
               "from useraccount " \
               "where email = %s"
         cur.execute(sql, (email,))
         result = cur.fetchone()
-
+        # if no name shows up then its gg boys 
         user_data["searched_friend"] = result
 
         return render_template('userpage.html', user_data=user_data)

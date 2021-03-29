@@ -39,31 +39,26 @@ def confirm_new_account(form_data):
 
     # ------------What ever needs to be checked signing up------------
 
-    if form_data['firstName'] == "":
-        error = 'please input a valid first name'
-    elif form_data['lastName'] == "":
-        error = 'please input a valid last name'
-    elif form_data['emailAddress'] == "":
-        error = 'please input a valid email'
-    elif form_data['username'] == "":
-        error = 'please input a valid username'
-    elif form_data['password'] == "":
-        error = 'please input a valid password'
-    else:
-        success = True
-        user_data['passwordHash'] = hash(form_data['password'])
-        user_data.update(form_data)
 
-        # place new user in db
-        conn = get_connection()
-        cur = conn.cursor()
-        sql = "insert into useraccount(username, firstname, lastname, email, password, creationdate, lastaccess)" \
-              " values(%s, %s, %s, %s, %s, %s, %s)"
-        cur.execute(sql,
-                    (user_data["username"], user_data["firstName"], user_data["lastName"], user_data["emailAddress"],
+    for key in form_data:
+        if form_data[key]=="":
+            error = "please input a valid {}'.format(key)
+            return user_data, success, error
+
+
+    success = True
+    user_data['passwordHash'] = hash(form_data['password'])
+    user_data.update(form_data)
+
+    # place new user in db
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = "insert into useraccount(username, firstname, lastname, email, password, creationdate, lastaccess)" \
+             " values(%s, %s, %s, %s, %s, %s, %s)"
+    cur.execute(sql,(user_data["username"], user_data["firstName"], user_data["lastName"], user_data["emailAddress"],
                      user_data["password"], datetime.now(), datetime.now()))
-        conn.commit()
-        cur.close()
+    conn.commit()
+    cur.close()
 
     return user_data, success, error
 

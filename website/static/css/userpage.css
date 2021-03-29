@@ -80,7 +80,8 @@ body {
 .following {
   background-color: #C39BD3;
   font-size: 28px;
-  margin-bottom: 1px;
+  height: 200px;
+
 
   padding: 0px 10px;
 

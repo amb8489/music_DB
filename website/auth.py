@@ -1,4 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for, session
+from connection import get_connection
+from datetime import datetime
 
 auth = Blueprint('auth', __name__)
 
@@ -38,19 +40,30 @@ def confirm_new_account(form_data):
     # ------------What ever needs to be checked signing up------------
 
     if form_data['firstName'] == "":
-        error = 'please input a valid name'
+        error = 'please input a valid first name'
     elif form_data['lastName'] == "":
         error = 'please input a valid last name'
     elif form_data['emailAddress'] == "":
         error = 'please input a valid email'
+    elif form_data['username'] == "":
+        error = 'please input a valid username'
+    elif form_data['password'] == "":
+        error = 'please input a valid password'
     else:
         success = True
-        user_data['passwordHash'] = hash(form_data['Password'])
+        user_data['passwordHash'] = hash(form_data['password'])
         user_data.update(form_data)
 
-        # ------------- add time of creation and last log in = time of creation-------------------
-
-        # ------------- place new user in db --------------------------------
+        # place new user in db
+        conn = get_connection()
+        cur = conn.cursor()
+        sql = "insert into useraccount(username, firstname, lastname, email, password, creationdate, lastaccess)" \
+              " values(%s, %s, %s, %s, %s, %s, %s)"
+        cur.execute(sql,
+                    (user_data["username"], user_data["firstName"], user_data["lastName"], user_data["emailAddress"],
+                     user_data["password"], datetime.now(), datetime.now()))
+        conn.commit()
+        cur.close()
 
     return user_data, success, error
 

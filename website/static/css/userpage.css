@@ -33,11 +33,25 @@
 
 .graydiv {
   align: center;
+  height: 500px;
+
   margin-right: 180px;
   margin-left: 180px;
   border-radius: 10px;
   background-color: #f2f2f2;
   padding: 15px;
+
+}
+
+.card {
+
+  align: center;
+  margin-top: 15px;
+  margin-bottom: 1px;
+
+  border-radius: 10px;
+  background-color: #f2f2f2;
+  padding: 6px 8px 6px 16px;
 
 }
 body {
@@ -66,7 +80,10 @@ body {
 .following {
   background-color: #C39BD3;
   font-size: 28px;
+  margin-bottom: 1px;
+
   padding: 0px 10px;
+
 }
 .explore{
   background-color: #7FB3D5;

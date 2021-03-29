@@ -107,7 +107,17 @@
               <input type="search" type="text" id="usr_email" name="usr_email" placeholder="Search songs" aria-label="Search through site content">
               <button style="test-align: center;" ; type="submit" value=search>search</button>
             </form>
+
+            <div class="card">
+              <form action="/searchusers/" method="POST" id="form" role="search" >
+              <p>{{user_data["searched_friend"]}}</p>
+                <button style="text-align: center; align: right;" type="submit" value=search>follow</button></p>
+              </form>
+            </div>
+
+
           </div>
+
 
 
           <!--myAlbums page -->

@@ -64,19 +64,9 @@ TODO:
 '''
 
 
-from flask import Flask, render_template, request
 from website import create_app
-from flask_sqlalchemy import SQLAlchemy
-from website.database import DB_interface
 
 app = create_app()
-with open("dburl.txt", "r") as f:
-    app.config["SQLALCHEMY_DATABASE_URI"] = f.readline().strip()
-
-
-db = SQLAlchemy(app)
-
-interface = DB_interface(db)
 
 if __name__ == "__main__":
     app.run(debug=True)

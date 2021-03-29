@@ -82,13 +82,14 @@
             <button style="test-align: center;" ; type="submit" value=search>search</button>
           </form>
 
+          {% if user_data["searched_friend"] != "None" %}
           <div class="card">
-            <form action="/searchusers/" method="POST" id="form" role="search" >
+            <form action="/followuser/" method="POST" id="form" role="search" >
             <p>{{user_data["searched_friend"]}}</p>
               <button style="text-align: center; align: right;" type="submit" value=search>follow</button></p>
             </form>
           </div>
-
+          {%endif%}
         </div>
 
         <div id="content">

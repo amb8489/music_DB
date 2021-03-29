@@ -50,6 +50,7 @@ def confirm_new_account(form_data):
 
     success = True
     user_data['passwordHash'] = hash(form_data['password'])
+
     user_data.update(form_data)
 
     # place new user in db
@@ -115,6 +116,7 @@ def login():
             result = cur.fetchone()
             user_data = {"username": form_data["username"], "emailAddress": result[0], "creationDate": result[1],
                          "lastAccess": result[2]}
+            user_data["searched_friend"] ="None"
 
             return render_template('userpage.html', user_data=user_data)
         else:

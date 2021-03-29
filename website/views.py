@@ -14,7 +14,9 @@ def home():
 def userpage():
     user_data = request.args['user_data']  # counterpart for url_for()
     user_data = session['user_data']  # counterpart for session
-    return render_template("userpage.html", user_data=user_data)
+    user_data["searched_friend"] = "None"
+
+    return render_template("userpage.html",user_data =user_data)
 
 
 '''
@@ -45,7 +47,29 @@ def searched_song():
 
 
 
-##### IN-PROGRESS
+'''
+function to follow  TODO
+'''
+@views.route('/followuser/',methods = ['POST', 'GET'])
+def follow_user():
+
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        form_data = request.form
+        user_data = session['user_data']  # counterpart for session
+        user_data["searched_friend"] ="None"
+
+
+
+
+
+        # TODO 
+        return render_template('userpage.html', user_data=user_data)
+
+
+
+
 '''
 function to get user a searched song
 '''
@@ -74,7 +98,7 @@ def search_users():
         result = cur.fetchone()
 
         if result is None:
-            user_data["searched_friend"] ="no user found with this email"
+            user_data["searched_friend"] ="None"
             return render_template('userpage.html', user_data=user_data)
 
         user_data["searched_friend"] = result[0]

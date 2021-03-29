@@ -27,7 +27,13 @@ def add_songs():
     directory = 'songs'
     sep = "<sep>"
 
+    number_of_song_files_to_add = 3
+    d = 0
     for filename in os.listdir(directory):
+        if d == number_of_song_files_to_add:
+            return
+        d+=1
+
         if filename.endswith(".txt"):
             path =directory+"/"+filename
 
@@ -36,12 +42,12 @@ def add_songs():
                     song_data = f.readline().strip().split(sep)
                     # title , artist, length,album,year, genre
 
-                    title = song_data[0]
-                    artist = song_data[1]
+                    title =    song_data[0]
+                    artist =   song_data[1]
                     duration = song_data[2]
-                    album = song_data[3]
-                    year = song_data[4]
-                    genre = song_data[5]
+                    album =    song_data[3]
+                    year =     song_data[4]
+                    genre =    song_data[5]
 
                     # --- sql to add dat NOTE: year is just the year this might
                     # be wrong in the db table ---

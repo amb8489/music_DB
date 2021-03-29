@@ -37,13 +37,17 @@ def confirm_new_account(form_data):
     error = ''
     success = False
 
-    # ------------What ever needs to be checked signing up------------
 
-
+    # if any part of user data is empty
     for key in form_data:
         if form_data[key]=="":
             error = 'please input a valid {}'.format(key)
             return user_data, success, error
+
+
+
+    # --- TODO --- do a check to make sure that new credentials are NOT
+    # already beig used like (username and email)
 
 
     success = True

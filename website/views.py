@@ -182,7 +182,7 @@ def follow_user():
 
 
 '''
-function to get user a searched song
+function to find user by email
 '''
 
 @views.route('/searchusers/',methods = ['POST', 'GET'])

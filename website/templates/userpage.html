@@ -115,7 +115,7 @@
 
             <form action="/unfollowuser/" method="POST" id="form" role="search">
               <p class="unfollow">{{ user }}</p>
-              <button style="  background-color: #be1600;" value= "{{ user }}" type="submit" name="unfollow">unfollow</button>
+              <input type="submit" name="usr" value= "{{ user }}">
               <p></p>
             </form>
             {% endfor %}

@@ -134,6 +134,10 @@ def login():
             user_data["searched_friend"] = "None"
             user_data["num_followers"] = result[3]
             user_data["num_following"] = result[4]
+
+            # fill with followings
+            user_data['following'] = []
+
             session['user_data'] = user_data
             return render_template('userpage.html', user_data=user_data)
         else:

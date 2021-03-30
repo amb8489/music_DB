@@ -111,6 +111,9 @@
 
           <div class="following" id="following">
             <h2>following</h2>
+            {% for user in user_data["following"] %}
+            <p>{{ user }}</p>
+            {% endfor %}
 
 
 

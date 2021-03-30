@@ -68,21 +68,29 @@ def follow_user():
         conn = get_connection()
         cur = conn.cursor()
         #
-        sql = "select numberoffollowers, numberfollowing " \
+        sql = "select numberoffollowers, numberfollowing, userid " \
               "from useraccount " \
               "where username = %s"
         cur.execute(sql, (user_data["username"],))
         result = cur.fetchone()
 
 
-
         user_data["num_followers"] = result[0]
         user_data["num_following"] = result[1]+1
+        user_id = result[2]
+
+        sql = "select userid " \
+              "from useraccount " \
+              "where username = %s"
+        cur.execute(sql, (user_data["searched_friend"],))
+        result = cur.fetchone()
+
+        seached_user_id = result[0]
 
         #add to user follers count
 
         sql = "update useraccount "\
-              "set numberfollowing =  1 "\
+              "set numberfollowing = numberfollowing + 1 "\
               "where username = %s"
         cur.execute(sql, (user_data["username"],))
 
@@ -92,6 +100,11 @@ def follow_user():
               " where username = %s"
         cur.execute(sql, (user_data["searched_friend"],))
         # make connection thaty i follow this person
+
+
+        sql = "insert into userfollows(useridfollower, useridfollowing)" \
+              " values(%s, %s)"
+        cur.execute(sql, (user_id,seached_user_id))
 
         user_data["searched_friend"] ="None"
         conn.commit()

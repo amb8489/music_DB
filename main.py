@@ -54,8 +54,8 @@ TODO:
         You must record every time a song is played by a user. You do not need to
         actually be able toplay songs, simply mark them as played
 
-    [ ] Users can follow a friend.
-    [ ] Users can search for new friends by email
+    [x] Users can follow a friend.
+    [x] Users can search for new friends by email
     [ ] The application must also allow an user to unfollow a friend
 
 * make the application look good if we make it

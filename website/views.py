@@ -67,7 +67,7 @@ def follow_user():
 
         conn = get_connection()
         cur = conn.cursor()
-
+        #
         sql = "select numberoffollowers, numberfollowing " \
               "from useraccount " \
               "where username = %s"
@@ -79,27 +79,24 @@ def follow_user():
         user_data["num_followers"] = result[0]
         user_data["num_following"] = result[1]+1
 
-        # add to user follers count
+        #add to user follers count
 
-        sql = "UPDATE useraccount "\
-              "SET numberfollowing = %s "\
+        sql = "update useraccount "\
+              "set numberfollowing =  1 "\
               "where username = %s"
-        cur.execute(sql, (user_data["num_following"],user_data["username"]))
+        cur.execute(sql, (user_data["username"],))
 
-        sql = "select numberoffollowers " \
-              "from useraccount " \
-              "where username = %s"
+
+        sql = "update useraccount"\
+              " set numberoffollowers = numberoffollowers + 1"\
+              " where username = %s"
         cur.execute(sql, (user_data["searched_friend"],))
-        result = cur.fetchone()
-
-        sql = "UPDATE useraccount "\
-              "SET numberoffollowers = %s "\
-              "where username = %s"
-        cur.execute(sql, (result[0]+1,user_data["searched_friend"]))
         # make connection thaty i follow this person
 
         user_data["searched_friend"] ="None"
+        conn.commit()
 
+        cur.close()
 
         # TODO
         return render_template('userpage.html', user_data=user_data)
@@ -141,5 +138,6 @@ def search_users():
 
         user_data["searched_friend"] = result[0]
         session['user_data'] = user_data
+        cur.close()
 
         return render_template('userpage.html', user_data=user_data)

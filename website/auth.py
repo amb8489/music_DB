@@ -153,7 +153,7 @@ def login():
                   "FROM useraccount "\
                   "WHERE userid IN %s"
 
-            cur.execute(sql, ((1,2,6),))
+            cur.execute(sql, (tuple(result),))
             result = cur.fetchall()
 
             user_data['following'] = result

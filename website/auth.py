@@ -124,7 +124,7 @@ def login():
         if authenticated:
             conn = get_connection()
             cur = conn.cursor()
-            sql = "select email, creationdate, lastaccess,numberoffollowers,numberfollowing " \
+            sql = "select email, creationdate, lastaccess,numberoffollowers,numberfollowing,userid " \
                   "from useraccount " \
                   "where username = %s"
             cur.execute(sql, (form_data["username"],))
@@ -134,9 +134,34 @@ def login():
             user_data["searched_friend"] = "None"
             user_data["num_followers"] = result[3]
             user_data["num_following"] = result[4]
+            user_data["id"] = result[5]
+
+
+
+
+
 
             # fill with followings
-            user_data['following'] = []
+            sql = "SELECT ALL useridfollowing"\
+                  " FROM userfollows"\
+                  " WHERE useridfollower = %s"
+
+            cur.execute(sql, (user_data["id"],))
+            result = cur.fetchall()
+
+            sql = "SELECT All username "\
+                  "FROM useraccount "\
+                  "WHERE userid IN %s"
+
+            cur.execute(sql, ((1,2,6),))
+            result = cur.fetchall()
+
+            user_data['following'] = result
+
+
+
+
+
 
             session['user_data'] = user_data
             return render_template('userpage.html', user_data=user_data)

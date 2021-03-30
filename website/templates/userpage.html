@@ -77,14 +77,14 @@
         <div class="me" id="me">
           <h3>find friends</h3>
 
-          <form action="/searchusers/" method="POST" id="form" role="search">
-            <input type="search" type="text" id="usr_email" name="usr_email" placeholder="Search users by email" aria-label="Search through site content">
-            <button style="test-align: center;" ; type="submit" value=search>search</button>
+          <form class="form" action="/searchusers/" method="POST" id="form" role="search">
+            <input class="input" type="search" type="text" id="usr_email" name="usr_email" placeholder="Search users by email" aria-label="Search through site content">
+            <button  class = "button" style="test-align: center;" ; type="submit" value=search>search</button>
           </form>
 
           {% if user_data["searched_friend"] != "None" %}
           <div class="card">
-            <form action="/followuser/" method="POST" id="form" role="search">
+            <form class="form" action="/followuser/" method="POST" id="form" role="search">
               <p>{{user_data["searched_friend"]}}</p>
               <button style="text-align: center; align: right;" id="usr_email" name="usr_email" type="submit" value=user_data["searched_friend"]>follow</button></p>
             </form>
@@ -112,9 +112,12 @@
           <div class="following" id="following">
             <h2>following</h2>
             {% for user in user_data["following"] %}
-            <p class="unfollow">{{ user }}</p>
-            <button class="unfolllow" type="submit" name="unfollow">unfollow</button>
-            <p></p>
+
+            <form action="/unfollowuser/" method="POST" id="form" role="search">
+              <p class="unfollow">{{ user }}</p>
+              <button style="  background-color: #be1600;" value= "{{ user }}" type="submit" name="unfollow">unfollow</button>
+              <p></p>
+            </form>
             {% endfor %}
 
 

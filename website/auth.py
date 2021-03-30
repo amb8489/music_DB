@@ -88,7 +88,7 @@ def confirm_new_account(form_data):
 
 
 
-
+    
 
 
 def confirm_login(form_data):

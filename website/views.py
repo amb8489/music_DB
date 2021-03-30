@@ -51,10 +51,19 @@ def searched_song():
 '''
 function to get user a searched song
 '''
-@views.route('/unfollowuser/')
+@views.route('/unfollowuser/',methods = ['POST', 'GET'])
 def unfollow_user():
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
 
-    pass
+
+            # getttting form data
+
+            form_data = request.form
+            user_data = session['user_data']
+    return render_template('login.html')
+
 
 
 '''

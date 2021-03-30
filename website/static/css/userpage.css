@@ -129,7 +129,7 @@ body {
 
 /* search bar */
 
-form {
+.form {
   background-color: #F2f2f2;
   width: 300px;
   height: 44px;
@@ -139,7 +139,7 @@ form {
   align-items: center;
 
 }
-button {
+.button {
         all: unset;
 
         background-color: #ffffca;
@@ -152,7 +152,7 @@ button {
         text-align: center;
 
       }
-input {
+.input {
   all: unset;
   font: 16px system-ui;
   color: black;

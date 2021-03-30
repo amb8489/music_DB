@@ -112,7 +112,9 @@
           <div class="following" id="following">
             <h2>following</h2>
             {% for user in user_data["following"] %}
-            <p>{{ user }}</p>
+            <p  class = "unfollow">{{ user }}</p>
+            <button class="unfolllow" type="submit" name="unfollow">unfollow</button>
+            <p></p>
             {% endfor %}
 
 

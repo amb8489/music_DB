@@ -3,7 +3,11 @@
   box-sizing: border-box;
 }
 
+.unfollow{
+  margin: 0;
+  display: inline-block;
 
+}
 .user_bock {
   height: 100%;
   width: 180px;

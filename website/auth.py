@@ -136,10 +136,7 @@ def login():
             user_data["num_following"] = result[4]
             user_data["id"] = result[5]
 
-
-
-
-
+            user_data['following'] = []
 
             # fill with followings
             sql = "SELECT ALL useridfollowing"\
@@ -148,19 +145,20 @@ def login():
 
             cur.execute(sql, (user_data["id"],))
             result = cur.fetchall()
+            if len(result)>0:
 
-            sql = "SELECT All username "\
-                  "FROM useraccount "\
-                  "WHERE userid IN %s"
+                sql = "SELECT All username "\
+                      "FROM useraccount "\
+                      "WHERE userid IN %s"
 
-            cur.execute(sql, (tuple(result),))
-            result = cur.fetchall()
+                cur.execute(sql, (tuple(result),))
+                result = cur.fetchall()
 
-            names = []
-            for name in result:
-                name = name[0]
-                names.append(name)
-            user_data['following'] = names
+                names = []
+                for name in result:
+                    name = name[0]
+                    names.append(name)
+                user_data['following'] = names
 
 
 

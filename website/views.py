@@ -49,7 +49,7 @@ def searched_song():
 
 
 '''
-function to get user a searched song
+function to unfollow user
 '''
 @views.route('/unfollowuser/',methods = ['POST', 'GET'])
 def unfollow_user():
@@ -182,7 +182,7 @@ def follow_user():
 
 
 '''
-function to find user by email
+function to find a user by email
 '''
 
 @views.route('/searchusers/',methods = ['POST', 'GET'])

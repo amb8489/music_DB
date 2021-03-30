@@ -13,11 +13,11 @@ def home():
 @views.route("/userpage")
 def userpage():
     user_data = request.args['user_data']  # counterpart for url_for()
+    user_data = session['user_data']
     session['user_data'] = user_data
-    user_data = session['user_data']  # counterpart for session
     user_data["searched_friend"] = "None"
 
-    return render_template("userpage.html",user_data =user_data)
+    return render_template("userpage.html",user_data = user_data)
 
 
 '''
@@ -105,9 +105,12 @@ def follow_user():
         sql = "insert into userfollows(useridfollower, useridfollowing)" \
               " values(%s, %s)"
         cur.execute(sql, (user_id,seached_user_id))
+        user_data["following"].append(user_data["searched_friend"])
 
-        user_data["searched_friend"] ="None"
+        user_data["searched_friend"] = "None"
         conn.commit()
+        # user_data["following"].append(user_data["searched_friend"])
+
 
         cur.close()
 

@@ -22,10 +22,12 @@ def signup():
 
         if allowed:
 
+
             user_data["num_followers"] = "0"
             user_data["num_following"] = "0"
-            session['user_data'] = user_data
             user_data.update(form_data)
+
+            session['user_data'] = user_data
 
             return redirect(url_for('views.userpage', user_data=user_data))
 
@@ -54,6 +56,7 @@ def confirm_new_account(form_data):
 
     success = True
     user_data['passwordHash'] = hash(form_data['password'])
+    user_data['following'] = []
 
     user_data.update(form_data)
 
@@ -68,6 +71,14 @@ def confirm_new_account(form_data):
     cur.close()
 
     return user_data, success, error
+
+
+
+
+
+
+
+
 
 
 def confirm_login(form_data):
@@ -124,7 +135,6 @@ def login():
             user_data["num_followers"] = result[3]
             user_data["num_following"] = result[4]
             session['user_data'] = user_data
-
             return render_template('userpage.html', user_data=user_data)
         else:
             error = "username or password is incorrect"

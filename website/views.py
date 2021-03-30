@@ -13,6 +13,7 @@ def home():
 @views.route("/userpage")
 def userpage():
     user_data = request.args['user_data']  # counterpart for url_for()
+    session['user_data'] = user_data
     user_data = session['user_data']  # counterpart for session
     user_data["searched_friend"] = "None"
 

@@ -25,6 +25,7 @@ def signup():
             user_data["num_followers"] = "0"
             user_data["num_following"] = "0"
             session['user_data'] = user_data
+            user_data.update(form_data)
 
             return redirect(url_for('views.userpage', user_data=user_data))
 
@@ -122,6 +123,7 @@ def login():
             user_data["searched_friend"] = "None"
             user_data["num_followers"] = result[3]
             user_data["num_following"] = result[4]
+            session['user_data'] = user_data
 
             return render_template('userpage.html', user_data=user_data)
         else:

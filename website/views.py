@@ -48,9 +48,17 @@ def searched_song():
 
 
 
+'''
+function to get user a searched song
+'''
+@views.route('/unfollowuser/')
+def unfollow_user():
+
+    pass
+
 
 '''
-function to follow  TODO
+function to follow
 '''
 @views.route('/followuser/',methods = ['POST', 'GET'])
 def follow_user():

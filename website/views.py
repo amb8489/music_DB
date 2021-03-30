@@ -56,15 +56,38 @@ def follow_user():
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
+
+
+
         form_data = request.form
         user_data = session['user_data']  # counterpart for session
         user_data["searched_friend"] ="None"
 
 
 
+        conn = get_connection()
+        cur = conn.cursor()
+
+        sql = "select numberoffollowers, numberfollowing " \
+              "from useraccount " \
+              "where username = %s"
+        cur.execute(sql, (user_data["username"],))
+        result = cur.fetchone()
 
 
-        # TODO 
+
+        user_data["num_followers"] = result[0]
+        user_data["num_following"] = result[1]
+
+        # add to user follers count
+
+        # add to my following count
+
+        # make connection thaty i follow this person
+
+
+
+        # TODO
         return render_template('userpage.html', user_data=user_data)
 
 
@@ -96,6 +119,7 @@ def search_users():
               "where email = %s"
         cur.execute(sql, (email.strip(),))
         result = cur.fetchone()
+
 
         if result is None:
             user_data["searched_friend"] ="None"

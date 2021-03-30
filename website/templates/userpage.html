@@ -55,9 +55,9 @@
     <!--- user profile side -->
     <div class="user_bock" id="usrblk">
       <h2 style="text-align: center"> {{ user_data['username'] }}</h2>
-      <p><a href="#" onclick="showhide('following');">[ x ] followers</a></p>
-      <p><a href="#" onclick="showhide('following');">[ x ] following</a></p>
-      <p><a href="#" onclick="showhide('myAlbums');">[ x ] collections</a></p>
+      <p><a href="#" onclick="showhide('following');">{{user_data["num_followers"]}} followers</a></p>
+      <p><a href="#" onclick="showhide('following');">{{user_data["num_following"]}} following</a></p>
+      <!-- <p><a href="#" onclick="showhide('myAlbums');">[ X ]collections</a></p> -->
       <p><a href="#" onclick="showhide('settings');">settings</a></p>
 
 

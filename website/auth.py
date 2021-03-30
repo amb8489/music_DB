@@ -21,6 +21,9 @@ def signup():
         user_data, allowed, error = confirm_new_account(form_data)
 
         if allowed:
+
+            user_data["num_followers"] = "0"
+            user_data["num_following"] = "0"
             session['user_data'] = user_data
 
             return redirect(url_for('views.userpage', user_data=user_data))
@@ -109,14 +112,16 @@ def login():
         if authenticated:
             conn = get_connection()
             cur = conn.cursor()
-            sql = "select email, creationdate, lastaccess " \
+            sql = "select email, creationdate, lastaccess,numberoffollowers,numberfollowing " \
                   "from useraccount " \
                   "where username = %s"
             cur.execute(sql, (form_data["username"],))
             result = cur.fetchone()
             user_data = {"username": form_data["username"], "emailAddress": result[0], "creationDate": result[1],
                          "lastAccess": result[2]}
-            user_data["searched_friend"] ="None"
+            user_data["searched_friend"] = "None"
+            user_data["num_followers"] = result[3]
+            user_data["num_following"] = result[4]
 
             return render_template('userpage.html', user_data=user_data)
         else:

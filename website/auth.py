@@ -14,19 +14,19 @@ def signup():
         return render_template('signup.html')
     if request.method == 'POST':
 
-        # get form data
+        # get form data from signup page
         form_data = request.form
 
         # check for good credentials
         user_data, allowed, error = confirm_new_account(form_data)
 
+        # setting up new user info
         if allowed:
-
-
             user_data["num_followers"] = "0"
             user_data["num_following"] = "0"
             user_data.update(form_data)
 
+            #saving iser data into session
             session['user_data'] = user_data
 
             return redirect(url_for('views.userpage', user_data=user_data))
@@ -34,7 +34,13 @@ def signup():
         return render_template('signup.html', error=error)
 
 
+
+
+
+
+
 def confirm_new_account(form_data):
+
     """
     confirm new account's data is valid
     :param form_data:
@@ -51,9 +57,13 @@ def confirm_new_account(form_data):
             error = 'please input a valid {}'.format(key)
             return user_data, success, error
 
-    # --- TODO --- do a check to make sure that new credentials are NOT
-    # already beig used like (username and email)
+    # user already exists
+    if confirm_login(form_data):
+        error = "account already taken"
+        return user_data, success, error
 
+
+    # seeting up new user in db
     success = True
     user_data['passwordHash'] = hash(form_data['password'])
     user_data['following'] = []
@@ -88,7 +98,7 @@ def confirm_login(form_data):
     :return:
     """
 
-    # check db for right credentials
+    # check db credentials exists
     username = form_data["username"]
     password = form_data["password"]
 
@@ -98,6 +108,8 @@ def confirm_login(form_data):
           "where username = %s and password = %s"
     cur.execute(sql, (username, password))
     result = cur.fetchone()
+
+    # if credentials dont exists
     if result is None:
         return False
 
@@ -117,11 +129,16 @@ def login():
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
+
+        # getting data the user inputed
         form_data = request.form
 
+        # confirming the user log in details
         authenticated = confirm_login(form_data)
 
         if authenticated:
+
+            # getting that users data from db
             conn = get_connection()
             cur = conn.cursor()
             sql = "select email, creationdate, lastaccess,numberoffollowers,numberfollowing,userid " \
@@ -129,8 +146,12 @@ def login():
                   "where username = %s"
             cur.execute(sql, (form_data["username"],))
             result = cur.fetchone()
+
+            # caching user data
             user_data = {"username": form_data["username"], "emailAddress": result[0], "creationDate": result[1],
                          "lastAccess": result[2]}
+
+            # extra set info up on every login
             user_data["searched_friend"] = "None"
             user_data["num_followers"] = result[3]
             user_data["num_following"] = result[4]
@@ -138,15 +159,16 @@ def login():
 
             user_data['following'] = []
 
-            # fill with followings
+            # getting the user that they are following
             sql = "SELECT ALL useridfollowing"\
                   " FROM userfollows"\
                   " WHERE useridfollower = %s"
 
             cur.execute(sql, (user_data["id"],))
             result = cur.fetchall()
-            if len(result)>0:
 
+            # if users follow nobody
+            if len(result)>0:
                 sql = "SELECT All username "\
                       "FROM useraccount "\
                       "WHERE userid IN %s"
@@ -154,6 +176,7 @@ def login():
                 cur.execute(sql, (tuple(result),))
                 result = cur.fetchall()
 
+                # formating names
                 names = []
                 for name in result:
                     name = name[0]
@@ -161,12 +184,10 @@ def login():
                 user_data['following'] = names
 
 
-
-
-
-
+            # saving user details into the session for global use
             session['user_data'] = user_data
             return render_template('userpage.html', user_data=user_data)
         else:
+            # log in was bad
             error = "username or password is incorrect"
             return render_template('login.html', error=error)

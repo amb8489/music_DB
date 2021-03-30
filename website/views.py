@@ -12,7 +12,8 @@ def home():
 # the user page
 @views.route("/userpage")
 def userpage():
-    user_data = request.args['user_data']  # counterpart for url_for()
+    # getting and saving new data
+    user_data = request.args['user_data']
     user_data = session['user_data']
     session['user_data'] = user_data
     user_data["searched_friend"] = "None"
@@ -59,21 +60,21 @@ def follow_user():
     if request.method == 'POST':
 
 
+        # getttting form data
 
         form_data = request.form
-        user_data = session['user_data']  # counterpart for session
+        user_data = session['user_data']
 
-
+        # calculating follower count
 
         conn = get_connection()
         cur = conn.cursor()
-        #
+
         sql = "select numberoffollowers, numberfollowing, userid " \
               "from useraccount " \
               "where username = %s"
         cur.execute(sql, (user_data["username"],))
         result = cur.fetchone()
-
 
         user_data["num_followers"] = result[0]
         user_data["num_following"] = result[1]+1
@@ -87,20 +88,19 @@ def follow_user():
 
         seached_user_id = result[0]
 
-        #add to user follers count
+        # add to user following count for user
 
         sql = "update useraccount "\
               "set numberfollowing = numberfollowing + 1 "\
               "where username = %s"
         cur.execute(sql, (user_data["username"],))
 
-
+        #updating followers count for other user
         sql = "update useraccount"\
               " set numberoffollowers = numberoffollowers + 1"\
               " where username = %s"
         cur.execute(sql, (user_data["searched_friend"],))
-        # make connection thaty i follow this person
-
+        # follow this person conection in db
 
         sql = "insert into userfollows(useridfollower, useridfollowing)" \
               " values(%s, %s)"
@@ -114,7 +114,6 @@ def follow_user():
 
         cur.close()
 
-        # TODO
         return render_template('userpage.html', user_data=user_data)
 
 
@@ -123,9 +122,9 @@ def follow_user():
 '''
 function to get user a searched song
 '''
+
 @views.route('/searchusers/',methods = ['POST', 'GET'])
 def search_users():
-
 
     if request.method == 'GET':
         return render_template('login.html')
@@ -133,25 +132,25 @@ def search_users():
         form_data = request.form
 
 
-        user_data = session['user_data']  # counterpart for session
-
+        # getting user data
+        user_data = session['user_data']
         email = form_data["usr_email"]
 
-
+        # searching for user in db
         conn = get_connection()
         cur = conn.cursor()
-
         sql = "select username " \
               "from useraccount " \
               "where email = %s"
         cur.execute(sql, (email.strip(),))
         result = cur.fetchone()
 
-
+        # if user not found
         if result is None:
             user_data["searched_friend"] ="None"
             return render_template('userpage.html', user_data=user_data)
 
+        #saving some data
         user_data["searched_friend"] = result[0]
         session['user_data'] = user_data
         cur.close()

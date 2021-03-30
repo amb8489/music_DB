@@ -86,7 +86,7 @@
           <div class="card">
             <form action="/followuser/" method="POST" id="form" role="search" >
             <p>{{user_data["searched_friend"]}}</p>
-              <button style="text-align: center; align: right;" type="submit" value=search>follow</button></p>
+              <button style="text-align: center; align: right;" id="usr_email" name="usr_email"  type="submit" value= user_data["searched_friend"] >follow</button></p>
             </form>
           </div>
           {%endif%}

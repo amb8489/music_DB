@@ -62,7 +62,6 @@ def follow_user():
 
         form_data = request.form
         user_data = session['user_data']  # counterpart for session
-        user_data["searched_friend"] ="None"
 
 
 
@@ -78,14 +77,28 @@ def follow_user():
 
 
         user_data["num_followers"] = result[0]
-        user_data["num_following"] = result[1]
+        user_data["num_following"] = result[1]+1
 
         # add to user follers count
 
-        # add to my following count
+        sql = "UPDATE useraccount "\
+              "SET numberfollowing = %s "\
+              "where username = %s"
+        cur.execute(sql, (user_data["num_following"],user_data["username"]))
 
+        sql = "select numberoffollowers " \
+              "from useraccount " \
+              "where username = %s"
+        cur.execute(sql, (user_data["searched_friend"],))
+        result = cur.fetchone()
+
+        sql = "UPDATE useraccount "\
+              "SET numberoffollowers = %s "\
+              "where username = %s"
+        cur.execute(sql, (result[0]+1,user_data["searched_friend"]))
         # make connection thaty i follow this person
 
+        user_data["searched_friend"] ="None"
 
 
         # TODO
@@ -127,4 +140,6 @@ def search_users():
             return render_template('userpage.html', user_data=user_data)
 
         user_data["searched_friend"] = result[0]
+        session['user_data'] = user_data
+
         return render_template('userpage.html', user_data=user_data)

@@ -26,7 +26,7 @@ def signup():
             user_data["num_following"] = "0"
             user_data.update(form_data)
 
-            #saving iser data into session
+            #saving user data into session
             session['user_data'] = user_data
 
             return redirect(url_for('views.userpage', user_data=user_data))
@@ -57,13 +57,17 @@ def confirm_new_account(form_data):
             error = 'please input a valid {}'.format(key)
             return user_data, success, error
 
-    # user already exists
-    if confirm_login(form_data):
-        error = "account already taken"
+    # username already exists
+    if username_taken(form_data["username"]):
+        error = "username already taken"
         return user_data, success, error
 
+    # email already exists
+    if email_taken(form_data["emailAddress"]):
+        error = "email already taken"
+        return user_data, success, error
 
-    # seeting up new user in db
+    # setting up new user in db
     success = True
     user_data['passwordHash'] = hash(form_data['password'])
     user_data['following'] = []
@@ -83,12 +87,38 @@ def confirm_new_account(form_data):
     return user_data, success, error
 
 
+def email_taken(email):
+
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = "select 1 from useraccount " \
+          "where email = %s"
+    cur.execute(sql, (email,))
+    result = cur.fetchone()
+    cur.close()
+
+    # if account doesn't exist
+    if result is None:
+        return False
+
+    return True
 
 
+def username_taken(username):
 
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = "select 1 from useraccount " \
+          "where username = %s"
+    cur.execute(sql, (username,))
+    result = cur.fetchone()
+    cur.close()
 
+    # if account doesn't exist
+    if result is None:
+        return False
 
-    
+    return True
 
 
 def confirm_login(form_data):
@@ -109,7 +139,7 @@ def confirm_login(form_data):
     cur.execute(sql, (username, password))
     result = cur.fetchone()
 
-    # if credentials dont exists
+    # if credentials don't exist
     if result is None:
         return False
 

@@ -156,7 +156,11 @@ def login():
             cur.execute(sql, (tuple(result),))
             result = cur.fetchall()
 
-            user_data['following'] = result
+            names = []
+            for name in result:
+                name = name[0]
+                names.append(name)
+            user_data['following'] = names
 
 
 

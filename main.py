@@ -29,6 +29,14 @@
         Number of songs in the collection
         Total duration in minutes
 
+  [ ] Users can add and delete albums, and songs from their collection
+  [ ] Users can modify the name of a collection.
+  [ ] They can also delete an entire collection
+
+  [ ] Users can listen to a song individually or it can play an entire collection.
+        You must record every time a song is played by a user. You do not need to
+        actually be able toplay songs, simply mark them as played
+
 
 ----------------
 
@@ -49,15 +57,6 @@
             the length
             the listen count.
 
----------------
-
-    [ ] Users can add and delete albums, and songs from their collection
-    [ ] Users can modify the name of a collection.
-    [ ] They can also delete an entire collection
-
-    [ ] Users can listen to a song individually or it can play an entire collection.
-        You must record every time a song is played by a user. You do not need to
-        actually be able toplay songs, simply mark them as played
 
 --------------------
 

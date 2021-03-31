@@ -26,14 +26,20 @@ def add_songs():
     import sys
     import random
     import time
+    import math
     directory = 'songs'
     sep = "<sep>"
+
+    #    id:   0       1         2         3       4            5            6
+    genres ={"rap":0,"pop":1,"country":2,"R&B":3,"rock":4,"alternative":5,"indie":6}
 
     conn = get_connection()
     cur = conn.cursor()
 
     number_of_song_files_to_add = 2
     d = 0
+    b = 0
+    songid = 1
     for filename in os.listdir(directory):
         if d == number_of_song_files_to_add:
             return
@@ -46,38 +52,73 @@ def add_songs():
                 for line in f:
                     song_data = f.readline().strip().split(sep)
                     # title , artist, length,album,year, genre
+                    if len(song_data) >=5:
+                        title    = song_data[0]
+                        artist   = song_data[1]
+                        duration = song_data[2]
+                        album    = song_data[3]
+                        year     = song_data[4]
+                        gen      = song_data[5]
+                        Uid      = song_data[6]
 
-                    title =    song_data[0]
-                    artist =   song_data[1]
-                    duration = song_data[2]
-                    album =    song_data[3]
-                    year =     song_data[4]
-                    genre =    song_data[5]
-                    month = random.randint(1,12)
+                        if len(artist) > 100:
+                            artist = artist[:100]
 
-                    if month < 10:
-                        year+="-0"+str(month)
-                    else:
-                        year+="-"+str(month)
+                        if len(album) > 100:
+                            album = album[:100]
 
-
-                    day = random.randint(10,30)
-                    if month == 2:
-                        day%=27
-                        day+=1
-
-                    day = str(day)
-                    year+="-"
-                    year+=day
-                    # --- sql to add dat NOTE: year is just the year this might
-                    # be wrong in the db table ---
+                        # --- sql to add dat NOTE: year is just the year this might
+                        # be wrong in the db table ---
 
 
-                    if len(title)<50:
-                        # place new user in db
-                        sql = "insert into song(title, releasedate, length)"\
-                              "values(%s, %s, %s)"
+                        if len(title)<50:
 
-                        cur.execute(sql, (title,year,float(duration)))
-                        conn.commit()
+                            #adding songs
+                            # place new user in db
+                            # sql = "insert into song(songid,title, releasedate, length)"\
+                            #       "values(%s,%s, %s, %s)"
+                            #
+                            # cur.execute(sql, (Uid,title,year,float(duration)))
+                            #
+
+                            #adding songs
+
+                            # sql = "insert into songgenre(songid, genreid)"\
+                            # "values((select songid from song where songid = %s),"\
+                            # "(select genreid from genre where genre.genreid = %s))"
+                            # cur.execute(sql, (Uid,genres[gen.strip()]))
+
+
+
+                            sql = "insert into artist(artistname)"\
+                                  " values(%s) on conflict do nothing"
+                            cur.execute(sql, (artist.strip(),))
+
+
+                            sql = "insert into songartist(songid,artistid)"\
+                                  "values((select songid from song where songid = %s),"\
+                                  "(select artistid from artist where artist.artistname = %s)) on conflict do nothing"
+                            cur.execute(sql, (Uid, artist.strip()))
+
+
+
+                            sql = "insert into album(albumname,releasedate,artistname)"\
+                                  " values(%s,%s,%s) on conflict do nothing"
+                            cur.execute(sql, (album.strip(),year,artist.strip()))
+                            b+=1
+                            if b >9388:
+                                return
+                            # ------------------- TODO -------------------- #
+
+                            #sql = "insert into albumcontains(songid,artistid)"\
+                            #       "values((select songid from song where songid = %s),"\
+                            #       "(select artistid from artist where artist.artistname = %s))"
+                            #cur.execute(sql, (Uid, artist.strip()))
+
+
+
+                            conn.commit()
+                            # songid +=1
+                            # time.Sleep(10)
+
     cur.close()

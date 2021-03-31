@@ -56,15 +56,16 @@ TODO:
 
     [x] Users can follow a friend.
     [x] Users can search for new friends by email
-    [ ] The application must also allow an user to unfollow a friend
+    [X] The application must also allow an user to unfollow a friend
 
 * make the application look good if we make it
 
 """
 
 from website import create_app
-#from connection import add_songs
+# from connection import add_songs
 app = create_app()
-#add_songs()
+
+# add_songs()
 if __name__ == "__main__":
     app.run(debug=True)

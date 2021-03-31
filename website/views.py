@@ -41,11 +41,29 @@ def my_followers():
 '''
 function to get user a searched song
 '''
-@views.route('/searchedsong/')
+@views.route('/searchedsong/',methods = ['POST', 'GET'])
 def searched_song():
-
-    pass
-
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        # getttting form data
+        form_data = request.form
+        user_data = session['user_data']
+        sql = "select title, songid " \
+              "from song " \
+              "where title = %s"
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute(sql, (form_data["song_name"],))
+        result = cur.fetchone()
+        if(result):
+            user_data["searched_song"] = result[0]
+            user_data["searched_song_id"] = result[1]
+        else:
+            user_data["searched_song_error"] = "no song found!"
+        user_data["explore"] = True
+        cur.close()
+        return render_template('userpage.html', user_data=user_data)
 
 
 '''
@@ -102,6 +120,8 @@ def unfollow_user():
 
 
         cur.close()
+        return render_template('userpage.html', user_data=user_data)
+
 
 
 

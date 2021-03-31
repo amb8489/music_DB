@@ -196,7 +196,7 @@
             {% if user_data["searched_song"] != "None" %}
             {% for song in user_data["searched_song"] %}
 
-            <p>{{song}}</p>
+            <p class = "card" style="font-size: 14px;">{{song[0]}} by:  length: </p>
             {% endfor%}
 
             {% endif %}

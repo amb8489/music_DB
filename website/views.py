@@ -68,12 +68,12 @@ def searched_song():
 
             # DONE
         if filter_selected == "title":
-            sql = "select title, songid " \
+            sql = "select ALL title, songid " \
                   "from song " \
                   "where title = %s"
 
             cur.execute(sql, (form_data["song_name"],))
-            result = cur.fetchone()
+            result = cur.fetchall()
 
             # TODO
         elif filter_selected == "genre":
@@ -104,7 +104,7 @@ def searched_song():
 
         if(result):
             if len(result) > int(amount_of_songs):
-                result = [result[i] for i in range(amount)]
+                result = [result[i] for i in range(int(amount_of_songs))]
 
             user_data["searched_song"] = result
             # user_data["searched_song_id"] = result[1]

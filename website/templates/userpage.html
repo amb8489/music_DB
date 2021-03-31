@@ -119,7 +119,9 @@
 
             <form action="/unfollowuser/" method="POST" id="form" role="search">
               <p class="unfollow">{{ user }}</p>
-              <input type="submit" name="usr" value="{{ user }}">
+              <button class="button" style="test-align: center;" ; type="submit" name="usr" value="{{ user }}">unfollow</button>
+
+              <!-- <input type="submit" name="usr" value="{{ user }}"> -->
               <p></p>
             </form>
             {% endfor %}
@@ -154,7 +156,6 @@
             <form action="/searchedsong/" method="POST" id="form" role="search">
 
               <div>
-
                 <label class="container">Search songs by artist
                   <input type="radio" name="options" value="artist">
                   <span class="checkmark"></span>
@@ -171,8 +172,8 @@
                   <input type="radio" checked="checked" name="options" value="title">
                   <span class="checkmark"></span>
                 </label>
-                <p style="font-size: 14px;" >what the max  number of songs you want to see</p>
-                  <input class="input2" type="text" id="amount" name="amount" value="10" placeholder="max amount to show ...">
+                <p style="font-size: 14px;">what the max number of songs you want to see</p>
+                <input class="input2" type="text" id="amount" name="amount" value="10" placeholder="max amount to show ...">
                 </label>
               </div>
 

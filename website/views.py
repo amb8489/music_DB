@@ -66,7 +66,7 @@ def unfollow_user():
         cur = conn.cursor()
 
 
-        user_data["num_following"] -=1
+        user_data["num_following"] -= 1
 
         user_id = user_data["id"]
 
@@ -95,10 +95,10 @@ def unfollow_user():
         sql = "DELETE FROM userfollows WHERE useridfollower = %s and useridfollowing = %s"
 
         cur.execute(sql, (user_id,seached_user_id))
-        user_data["following"].remove(form_data["usr"])
+
+        user_data["following"].remove(form_data["usr"].strip())
 
         conn.commit()
-        # user_data["following"].append(user_data["searched_friend"])
 
 
         cur.close()

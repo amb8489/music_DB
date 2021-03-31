@@ -153,27 +153,31 @@
 
             <form action="/searchedsong/" method="POST" id="form" role="search">
 
-            <div>
+              <div>
 
-              <label class="container" >Search songs by artist
-                <input type="radio" name="options" value = "artist">
-                <span class="checkmark"></span>
-              </label>
-              <label class="container" >Search album
-                <input type="radio" name="options" value = "album">
-                <span class="checkmark"></span>
-              </label>
-              <label class="container">Search genre
-                <input type="radio" name="options" value = "genre">
-                <span class="checkmark"></span>
-              </label>
-              <label class="container" >Search songs title
-                <input type="radio" checked="checked" name="options" value = "title">
-                <span class="checkmark"></span>
-              </label>
-            </div>
-            <p></p>
+                <label class="container">Search songs by artist
+                  <input type="radio" name="options" value="artist">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container">Search album
+                  <input type="radio" name="options" value="album">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container">Search genre
+                  <input type="radio" name="options" value="genre">
+                  <span class="checkmark"></span>
+                </label>
+                <label class="container">Search songs title
+                  <input type="radio" checked="checked" name="options" value="title">
+                  <span class="checkmark"></span>
+                </label>
+                <p style="font-size: 14px;" >what the max  number of songs you want to see</p>
+                  <input class="input2" type="text" id="amount" name="amount" value="10" placeholder="max amount to show ...">
+                </label>
 
+
+              </div>
+              <p></p>
 
               <input class="input2" type="search" id="songname" name="song_name" placeholder="Search songs" aria-label="Search through site content">
               <button class="button" style="test-align: center;" ; type="submit" value=search>search</button>

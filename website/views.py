@@ -179,7 +179,9 @@ def unfollow_user():
 
 
 '''
+
 function to follow
+
 '''
 @views.route('/followuser/',methods = ['POST', 'GET'])
 def follow_user():

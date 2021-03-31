@@ -49,19 +49,55 @@ def searched_song():
         # getttting form data
         form_data = request.form
 
+
         # how we want to search for song by
         filter_selected = form_data['options']
+        amount_of_songs = form_data['amount']
 
         # TO DO
-
         user_data = session['user_data']
-        sql = "select title, songid " \
-              "from song " \
-              "where title = %s"
+
         conn = get_connection()
         cur = conn.cursor()
-        cur.execute(sql, (form_data["song_name"],))
-        result = cur.fetchone()
+
+        print(filter_selected)
+        print(amount_of_songs)
+
+        print(form_data["song_name"])
+            # DONE
+        if filter_selected == "title":
+            sql = "select title, songid " \
+                  "from song " \
+                  "where title = %s"
+
+            cur.execute(sql, (form_data["song_name"],))
+            result = cur.fetchone()
+
+            # TODO
+        elif filter_selected == "genre":
+            sql = "select ALL title from song where songid = (select ALL songid from songartist where artistid = (select artistid " \
+                      " from artist " \
+                      " where artistname = %s))"
+
+            cur.execute(sql, (form_data["song_name"],))
+            result = cur.fetchall()
+            # TODO
+        elif filter_selected == "album":
+            sql = "select ALL title from song where songid = (select ALL songid from songartist where artistid = (select artistid " \
+                      " from artist " \
+                      " where artistname = %s))"
+
+            cur.execute(sql, (form_data["song_name"],))
+            result = cur.fetchall()
+            # DONE
+        else:
+            sql = "select ALL title from song where songid = (select ALL songid from songartist where artistid = (select artistid " \
+                      " from artist " \
+                      " where artistname = %s))"
+
+            cur.execute(sql, (form_data["song_name"],))
+            result = cur.fetchall()
+            # print(result)
 
 
 
@@ -69,8 +105,11 @@ def searched_song():
 
 
         if(result):
-            user_data["searched_song"] = result[0]
-            user_data["searched_song_id"] = result[1]
+            if result > amount:
+                result = [result[i] for i in range(amount)]
+
+            user_data["searched_song"] = result
+            # user_data["searched_song_id"] = result[1]
         else:
             user_data["searched_song_error"] = "no song found!"
         user_data["explore"] = True

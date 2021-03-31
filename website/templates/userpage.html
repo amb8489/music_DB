@@ -183,8 +183,10 @@
 
 
             {% if user_data["searched_song"] != "None" %}
+            {% for song in user_data["searched_song"] %}
 
-            <p>{{user_data["searched_song"]}}</p>
+            <p>{{song}}</p>
+            {% endfor%}
 
             {% endif %}
 

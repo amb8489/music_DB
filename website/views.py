@@ -75,58 +75,56 @@ def unfollow_user():
         return render_template('login.html')
     if request.method == 'POST':
 
-        # getttting form data
-        form_data = request.form
-        user_data = session['user_data']
-        # calculating follower count
+            # getttting form data
+            form_data = request.form
+            user_data = session['user_data']
+            if int(user_data["num_following"]) > 0:
 
-        conn = get_connection()
-        cur = conn.cursor()
+                # calculating follower count
 
-
-        user_data["num_following"] -= 1
-
-        user_id = user_data["id"]
-
-        sql = "select userid " \
-              "from useraccount " \
-              "where username = %s"
-        cur.execute(sql, (form_data["usr"],))
-        result = cur.fetchone()
-
-        seached_user_id = result[0]
-
-        # add to user following count for user
-
-        sql = "update useraccount "\
-              "set numberfollowing = numberfollowing - 1 "\
-              "where username = %s"
-        cur.execute(sql, (user_data["username"],))
-
-        #updating followers count for other user
-        sql = "update useraccount"\
-              " set numberoffollowers = numberoffollowers - 1"\
-              " where username = %s"
-        cur.execute(sql, (form_data["usr"],))
-        # follow this person conection in db
-
-        sql = "DELETE FROM userfollows WHERE useridfollower = %s and useridfollowing = %s"
-
-        cur.execute(sql, (user_id,seached_user_id))
-
-        user_data["following"].remove(form_data["usr"].strip())
-
-        conn.commit()
+                conn = get_connection()
+                cur = conn.cursor()
 
 
-        cur.close()
-        return render_template('userpage.html', user_data=user_data)
+                user_data["num_following"] -= 1
+
+                user_id = user_data["id"]
+
+                sql = "select userid " \
+                      "from useraccount " \
+                      "where username = %s"
+                cur.execute(sql, (form_data["usr"],))
+                result = cur.fetchone()
+
+                seached_user_id = result[0]
+
+                # add to user following count for user
+
+                sql = "update useraccount "\
+                      "set numberfollowing = numberfollowing - 1 "\
+                      "where username = %s"
+                cur.execute(sql, (user_data["username"],))
+
+                #updating followers count for other user
+                sql = "update useraccount"\
+                      " set numberoffollowers = numberoffollowers - 1"\
+                      " where username = %s"
+                cur.execute(sql, (form_data["usr"],))
+                # follow this person conection in db
+
+                sql = "DELETE FROM userfollows WHERE useridfollower = %s and useridfollowing = %s"
+
+                cur.execute(sql, (user_id,seached_user_id))
+
+                user_data["following"].remove(form_data["usr"].strip())
+
+                conn.commit()
 
 
+                cur.close()
+                return render_template('userpage.html', user_data=user_data)
 
-
-
-    return render_template('userpage.html', user_data=user_data)
+            return render_template('userpage.html', user_data=user_data)
 
 
 

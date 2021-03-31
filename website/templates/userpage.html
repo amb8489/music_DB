@@ -83,7 +83,7 @@
 
           <form class="form" action="/searchusers/" method="POST" id="form" role="search">
             <input class="input" type="search" type="text" id="usr_email" name="usr_email" placeholder="Search users by email" aria-label="Search through site content">
-            <button  class = "button" style="test-align: center;" ; type="submit" value=search>search</button>
+            <button class="button" style="test-align: center;" ; type="submit" value=search>search</button>
           </form>
 
           {% if user_data["searched_friend"] != "None" %}
@@ -119,7 +119,7 @@
 
             <form action="/unfollowuser/" method="POST" id="form" role="search">
               <p class="unfollow">{{ user }}</p>
-              <input type="submit" name="usr" value= "{{ user }}">
+              <input type="submit" name="usr" value="{{ user }}">
               <p></p>
             </form>
             {% endfor %}
@@ -146,17 +146,30 @@
 
           <div class="explore" id="explore">
             <h2>explore</h2>
+            <label class="container">Search songs by artist
+              <input type="radio" checked="checked" name="radio">
+              <span class="checkmark"></span>
+            </label>
+            <label class="container">Search album
+              <input type="radio" name="radio">
+              <span class="checkmark"></span>
+            </label>
+            <label class="container">Search genre
+              <input type="radio" name="radio">
+              <span class="checkmark"></span>
+            </label>
+            <label class="container">Search songs title
+              <input type="radio" name="radio">
+              <span class="checkmark"></span>
+            </label>
+            </ul>
 
-            <form action="/searchedsong/" method="POST" id="form" role="search">
-              <input type="search" id="songname" name="song_name" placeholder="Search songs" aria-label="Search through site content">
-              <button><input type="submit" value="search"></button>
+
+            <form class="form" action="/searchedsong/" method="POST" id="form" role="search">
+              <input class="input" type="search" id="songname" name="song_name" placeholder="Search songs" aria-label="Search through site content">
+              <button class="button" style="test-align: center;" ; type="submit" value=search>search</button>
             </form>
 
-
-            <form action="/searchusers/" method="POST" id="form" role="search">
-              <input type="search" id="usr_email" name="q" placeholder="Search users" aria-label="Search through site content">
-              <button><input type="submit" value="search"></button>
-            </form>
 
             {% if user_data["searched_song"] != "None" %}
 
@@ -204,7 +217,9 @@
 
       }
     </script>
-    {% if user_data["explore"]%}<script>showhide('explore');</script>{% endif %}
+    {% if user_data["explore"]%}<script>
+      showhide('explore');
+    </script>{% endif %}
 
   </body>
 

@@ -28,6 +28,8 @@ TODO:
         Number of songs in the collection
         Total duration in minutes
 
+
+----------------
     [ ] •Users will be able to search for songs by:
         name
         artist
@@ -45,7 +47,7 @@ TODO:
             the length
             the listen count.
 
-
+---------------
     [ ] Users can add and delete albums, and songs from their collection
     [ ] Users can modify the name of a collection.
     [ ] They can also delete an entire collection

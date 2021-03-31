@@ -184,7 +184,7 @@
                   <span class="checkmark"></span>
                 </label>
                 <p style="font-size: 14px;">what the max number of songs you want to see</p>
-                <input class="input2" type="text" id="amount" name="amount" value="10" placeholder="max amount to show ...">
+                <input class="input2" type="text" id="amount" name="amount" value="5" placeholder="max amount to show ...">
                 </label>
               </div>
 
@@ -196,7 +196,7 @@
             {% if user_data["searched_song"] != "None" %}
             {% for song in user_data["searched_song"] %}
 
-            <p class = "card" style="font-size: 14px;">{{song[0]}} by:  length: </p>
+            <p class = "card" style="font-size: 14px;">{{song[0]}}---------by {{song[3]}}---------length {{song[2]}} seconds </p>
             {% endfor%}
 
             {% endif %}
@@ -207,7 +207,8 @@
 
             {% endif %}
 
-            <p>song recommendatios</p>
+
+            <!-- <p>song recommendatios</p> -->
             <!-- <p>the top 50 most popular songs of the month</p>
             <p>The top 50 most popular songs among my friends</p>
             <p>The top 5 most popular genres of the month</p>

@@ -68,12 +68,31 @@ def searched_song():
 
             # DONE
         if filter_selected == "title":
-            sql = "select ALL title, songid " \
+            sql = "select ALL title, songid,length " \
                   "from song " \
                   "where title = %s"
 
             cur.execute(sql, (form_data["song_name"],))
             result = cur.fetchall()
+
+            artists_id = [result[i][1] for i in range (len(result))]
+
+            sql = "select ALL artistname from artist where artistid IN (select ALL artistid " \
+                  "from songartist " \
+                  "where songid IN %s)"
+
+            cur.execute(sql, (tuple(artists_id),))
+
+            resultartists = cur.fetchall()
+            # print(resultartists)
+
+            result = [list(result[i]) for i in range (len(result))]
+            for i in range(len(result)):
+                result[i].append(resultartists[i][0])
+
+            print(result)
+
+
 
             # TODO
         elif filter_selected == "genre":

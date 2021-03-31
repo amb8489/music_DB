@@ -60,10 +60,12 @@ def searched_song():
         conn = get_connection()
         cur = conn.cursor()
 
-        print(filter_selected)
-        print(amount_of_songs)
+        print("filter type, by:",filter_selected)
+        print("only show the first:",amount_of_songs,"songs")
 
-        print(form_data["song_name"])
+        print("find songs relating to:",form_data["song_name"])
+
+
             # DONE
         if filter_selected == "title":
             sql = "select title, songid " \

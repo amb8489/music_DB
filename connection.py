@@ -90,24 +90,27 @@ def add_songs():
 
 
 
-                            sql = "insert into artist(artistname)"\
-                                  " values(%s) on conflict do nothing"
-                            cur.execute(sql, (artist.strip(),))
+                            # sql = "insert into artist(artistname)"\
+                            #       " values(%s) on conflict do nothing"
+                            # cur.execute(sql, (artist.strip(),))
+                            #
+                            #
+                            # sql = "insert into songartist(songid,artistid)"\
+                            #       "values((select songid from song where songid = %s),"\
+                            #       "(select artistid from artist where artist.artistname = %s)) on conflict do nothing"
+                            # cur.execute(sql, (Uid, artist.strip()))
+                            #
+                            #
+                            #
+                            # sql = "insert into album(albumname,releasedate,artistname)"\
+                            #       " values(%s,%s,%s) on conflict do nothing"
+                            # cur.execute(sql, (album.strip(),year,artist.strip()))
+                            # b+=1
+                            # if b >9388:
+                            #     return
 
 
-                            sql = "insert into songartist(songid,artistid)"\
-                                  "values((select songid from song where songid = %s),"\
-                                  "(select artistid from artist where artist.artistname = %s)) on conflict do nothing"
-                            cur.execute(sql, (Uid, artist.strip()))
-
-
-
-                            sql = "insert into album(albumname,releasedate,artistname)"\
-                                  " values(%s,%s,%s) on conflict do nothing"
-                            cur.execute(sql, (album.strip(),year,artist.strip()))
-                            b+=1
-                            if b >9388:
-                                return
+                            
                             # ------------------- TODO -------------------- #
 
                             #sql = "insert into albumcontains(songid,artistid)"\

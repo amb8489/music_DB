@@ -134,8 +134,8 @@ def follow_user():
 
         sql = "select numberoffollowers, numberfollowing, userid " \
               "from useraccount " \
-              "where username = %s"
-        cur.execute(sql, (user_data["username"],))
+              "where userid = %s"
+        cur.execute(sql, (user_data["id"],))
         result = cur.fetchone()
 
         user_data["num_followers"] = result[0]
@@ -154,8 +154,8 @@ def follow_user():
 
         sql = "update useraccount "\
               "set numberfollowing = numberfollowing + 1 "\
-              "where username = %s"
-        cur.execute(sql, (user_data["username"],))
+              "where userid = %s"
+        cur.execute(sql, (user_data["id"],))
 
         #updating followers count for other user
         sql = "update useraccount"\

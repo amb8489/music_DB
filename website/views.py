@@ -180,6 +180,18 @@ def follow_user():
 
 
 
+@views.route('/playsong', methods = ['POST', 'GET'])
+def play_song():
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        songid = request.args.get('songid')
+        user_data = session['user_data']
+        userid = user_data['id']
+        #TODO check for userplayssong(songid, userid)
+        #TODO increment the playcount
+        
+
 
 '''
 function to find a user by email

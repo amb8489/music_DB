@@ -41,7 +41,11 @@
 
   </head>
 
+
+
   <body>
+
+
     <!--side bar-->
 
     <div class="sidenav">
@@ -144,7 +148,7 @@
             <h2>explore</h2>
 
             <form action="/searchedsong/" method="POST" id="form" role="search">
-              <input type="search" id="usr_email" name="q" placeholder="Search songs" aria-label="Search through site content">
+              <input type="search" id="songname" name="song_name" placeholder="Search songs" aria-label="Search through site content">
               <button><input type="submit" value="search"></button>
             </form>
 
@@ -160,6 +164,12 @@
 
             {% endif %}
 
+            {% if user_data["searched_song_error"] != "None" %}
+
+            <p>{{user_data["searched_song_error"]}}</p>
+
+            {% endif %}
+
             <p>song recommendatios</p>
             <p>the top 50 most popular songs of the month</p>
             <p>The top 50 most popular songs among my friends</p>
@@ -170,7 +180,6 @@
         </div>
       </div>
     </div>
-
     <!--function to show only the page clicked on -->
     <script>
       var divState = {};
@@ -195,6 +204,13 @@
 
       }
     </script>
+    {% if user_data["explore"]%}
+    <script>
+    showhide('explore');
+    console.log("hello");
+    </script>
+    {% endif %}
+
   </body>
 
   </html>

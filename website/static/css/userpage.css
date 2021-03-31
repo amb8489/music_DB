@@ -2,7 +2,14 @@
 * {
   box-sizing: border-box;
 }
+.all{
 
+  height: 800px;
+  border-radius: 10px;
+  background-color: #f2f2f2;
+  padding: 15px;
+
+}
 .unfollow{
   margin: 0;
   display: inline-block;

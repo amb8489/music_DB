@@ -102,10 +102,6 @@ def searched_song():
             # print(result)
 
 
-
-
-
-
         if(result):
             if result > amount:
                 result = [result[i] for i in range(amount)]

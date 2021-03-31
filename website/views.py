@@ -49,7 +49,7 @@ def searched_song():
 
 
 '''
-function to get user a searched song
+function to unfollow user
 '''
 @views.route('/unfollowuser/',methods = ['POST', 'GET'])
 def unfollow_user():
@@ -134,8 +134,8 @@ def follow_user():
 
         sql = "select numberoffollowers, numberfollowing, userid " \
               "from useraccount " \
-              "where username = %s"
-        cur.execute(sql, (user_data["username"],))
+              "where userid = %s"
+        cur.execute(sql, (user_data["id"],))
         result = cur.fetchone()
 
         user_data["num_followers"] = result[0]
@@ -154,8 +154,8 @@ def follow_user():
 
         sql = "update useraccount "\
               "set numberfollowing = numberfollowing + 1 "\
-              "where username = %s"
-        cur.execute(sql, (user_data["username"],))
+              "where userid = %s"
+        cur.execute(sql, (user_data["id"],))
 
         #updating followers count for other user
         sql = "update useraccount"\
@@ -178,11 +178,25 @@ def follow_user():
 
         return render_template('userpage.html', user_data=user_data)
 
+'''
+route to "play" a song
+'''
+
+@views.route('/playsong', methods = ['POST', 'GET'])
+def play_song():
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        songid = request.args.get('songid')
+        user_data = session['user_data']
+        userid = user_data['id']
+        #TODO check for userplayssong(songid, userid)
+        #TODO increment the playcount
 
 
 
 '''
-function to get user a searched song
+function to find a user by email
 '''
 
 @views.route('/searchusers/',methods = ['POST', 'GET'])

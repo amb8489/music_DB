@@ -81,6 +81,18 @@ def confirm_new_account(form_data):
           " values(%s, %s, %s, %s, %s, %s, %s)"
     cur.execute(sql, (user_data["username"], user_data["firstName"], user_data["lastName"], user_data["emailAddress"],
                       user_data["password"], datetime.now(), datetime.now()))
+
+    # getting that users data from db
+    sql = "select email, creationdate, lastaccess,numberoffollowers,numberfollowing,userid " \
+          "from useraccount " \
+          "where username = %s"
+    cur.execute(sql, (form_data["username"],))
+    result = cur.fetchone()
+
+    # caching user data
+    user_data = {"username": form_data["username"], "emailAddress": result[0], "creationDate": result[1],
+                 "lastAccess": result[2], "searched_friend": "None", "num_followers": result[3],
+                 "num_following": result[4], "id": result[5], 'following': []}
     conn.commit()
     cur.close()
 
@@ -179,15 +191,8 @@ def login():
 
             # caching user data
             user_data = {"username": form_data["username"], "emailAddress": result[0], "creationDate": result[1],
-                         "lastAccess": result[2]}
-
-            # extra set info up on every login
-            user_data["searched_friend"] = "None"
-            user_data["num_followers"] = result[3]
-            user_data["num_following"] = result[4]
-            user_data["id"] = result[5]
-
-            user_data['following'] = []
+                         "lastAccess": result[2], "searched_friend": "None", "num_followers": result[3],
+                         "num_following": result[4], "id": result[5], 'following': []}
 
             # getting the user that they are following
             sql = "SELECT ALL useridfollowing"\

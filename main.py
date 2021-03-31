@@ -20,7 +20,7 @@ TODO:
 
    [ ] •Users will be able to create collections of music.
 
-   [ ]•Users will be to see the list of all their collections by:
+   [ ] •Users will be to see the list of all their collections by:
         name in ascending order
 
     [ ] •The list must show the following information per collection:
@@ -56,7 +56,7 @@ TODO:
 
     [x] Users can follow a friend.
     [x] Users can search for new friends by email
-    [ ] The application must also allow an user to unfollow a friend
+    [x] The application must also allow an user to unfollow a friend
 
 * make the application look good if we make it
 

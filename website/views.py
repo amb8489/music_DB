@@ -178,7 +178,9 @@ def follow_user():
 
         return render_template('userpage.html', user_data=user_data)
 
-
+'''
+route to "play" a song
+'''
 
 @views.route('/playsong', methods = ['POST', 'GET'])
 def play_song():
@@ -190,7 +192,7 @@ def play_song():
         userid = user_data['id']
         #TODO check for userplayssong(songid, userid)
         #TODO increment the playcount
-        
+
 
 
 '''

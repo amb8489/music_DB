@@ -64,13 +64,12 @@
       <!-- <p><a href="#" onclick="showhide('myAlbums');">[ X ]collections</a></p> -->
       <p><a href="#" onclick="showhide('settings');">settings</a></p>
 
-
     </div>
 
 
     <!--all content pages -->
 
-    <div class = "all" id="all_content">
+    <div class="all" id="all_content">
       <div id="logo">
         <p style="margin-left: 80%"><a href="/">log out</a></p>
       </div>
@@ -157,63 +156,67 @@
 
           <!--explore page -->
 
+
+
+
           <div class="explore" id="explore">
             <h2>explore</h2>
 
 
 
 
+                <form action="/searchedsong/" method="POST" id="form" role="search">
 
-            <form action="/searchedsong/" method="POST" id="form" role="search">
+                  <div>
+                    <label class="container">Search songs by artist
+                      <input type="radio" name="options" value="artist">
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Search by album
+                      <input type="radio" name="options" value="album">
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Search by genre
+                      <input type="radio" name="options" value="genre">
+                      <span class="checkmark"></span>
+                    </label>
+                    <label class="container">Search by songs title
+                      <input type="radio" checked="checked" name="options" value="title">
+                      <span class="checkmark"></span>
+                    </label>
+                    <p style="font-size: 14px;">what the max number of songs you want to see</p>
+                    <input class="input2" type="text" id="amount" name="amount" value="5" placeholder="max amount to show ...">
+                    </label>
 
-              <div>
-                <label class="container">Search songs by artist
-                  <input type="radio" name="options" value="artist">
-                  <span class="checkmark"></span>
-                </label>
-                <label class="container">Search by album
-                  <input type="radio" name="options" value="album">
-                  <span class="checkmark"></span>
-                </label>
-                <label class="container">Search by genre
-                  <input type="radio" name="options" value="genre">
-                  <span class="checkmark"></span>
-                </label>
-                <label class="container">Search by songs title
-                  <input type="radio" checked="checked" name="options" value="title">
-                  <span class="checkmark"></span>
-                </label>
-                <p style="font-size: 14px;">what the max number of songs you want to see</p>
-                <input class="input2" type="text" id="amount" name="amount" value="5" placeholder="max amount to show ...">
-                </label>
-              </div>
+                  </div>
 
-              <input class="input2" type="search" id="songname" name="song_name" placeholder="Search songs" aria-label="Search through site content">
-              <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>search</button>
-            </form>
-
-
-            {% if user_data["searched_song"] != "None" %}
-            {% for song in user_data["searched_song"] %}
-
-            <p class = "card" style="font-size: 14px;">{{song[0]}}---------by {{song[3]}}---------length {{song[2]}} seconds </p>
-            {% endfor%}
-
-            {% endif %}
-
-            {% if user_data["searched_song_error"] != "None" %}
-
-            <p>{{user_data["searched_song_error"]}}</p>
-
-            {% endif %}
+                  <input class="input2" type="search" id="songname" name="song_name" placeholder="Search songs" aria-label="Search through site content">
+                  <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>search</button>
+                </form>
 
 
-            <!-- <p>song recommendatios</p> -->
-            <!-- <p>the top 50 most popular songs of the month</p>
-            <p>The top 50 most popular songs among my friends</p>
-            <p>The top 5 most popular genres of the month</p>
-            <p>For you: Recommend songs to listen to based on your play history</p> -->
+                {% if user_data["searched_song"] != "None" %}
+                {% for song in user_data["searched_song"] %}
 
+                <p class="card" style="font-size: 14px;">{{song[0]}}---------by: {{song[3]}}---------length {{song[2]}} seconds </p>
+                {% endfor%}
+
+                {% endif %}
+
+                {% if user_data["searched_song_error"] != "None" %}
+
+                <p>{{user_data["searched_song_error"]}}</p>
+
+                {% endif %}
+
+
+
+
+
+                <div class="split right">
+
+                    <h2>new album</h2>
+                </div>
           </div>
         </div>
       </div>

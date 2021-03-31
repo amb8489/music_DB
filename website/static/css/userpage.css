@@ -302,14 +302,14 @@ body {
 .left {
   left: 180px;
   background-color: gray;
-  width: 35%;
+  width: 37%;
 
 }
 
 /* Control the right side */
 .right {
   right: 0;
-  background-color: light-blue;
+  background-color: #89d1fe;
 }
 
 /* If you want the content centered horizontally and vertically */

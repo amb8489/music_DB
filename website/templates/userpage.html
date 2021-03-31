@@ -166,114 +166,120 @@
             <div class="split left">
               <h2>explore</h2>
 
-                <form action="/searchedsong/" method="POST" id="form" role="search">
+              <form action="/searchedsong/" method="POST" id="form" role="search">
 
-                  <div>
-                    <label class="container">Search songs by artist
-                      <input type="radio" name="options" value="artist">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="container">Search by album
-                      <input type="radio" name="options" value="album">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="container">Search by genre
-                      <input type="radio" name="options" value="genre">
-                      <span class="checkmark"></span>
-                    </label>
-                    <label class="container">Search by songs title
-                      <input type="radio" checked="checked" name="options" value="title">
-                      <span class="checkmark"></span>
-                    </label>
-                    <p style="font-size: 14px;">what the max number of songs you want to see</p>
-                    <input class="input2" type="text" id="amount" name="amount" value="5" placeholder="max amount to show ...">
-                    </label>
+                <div>
+                  <label class="container">Search songs by artist
+                    <input type="radio" name="options" value="artist">
+                    <span class="checkmark"></span>
+                  </label>
+                  <label class="container">Search by album
+                    <input type="radio" name="options" value="album">
+                    <span class="checkmark"></span>
+                  </label>
+                  <label class="container">Search by genre
+                    <input type="radio" name="options" value="genre">
+                    <span class="checkmark"></span>
+                  </label>
+                  <label class="container">Search by songs title
+                    <input type="radio" checked="checked" name="options" value="title">
+                    <span class="checkmark"></span>
+                  </label>
+                  <p style="font-size: 14px;">what the max number of songs you want to see</p>
+                  <input class="input2" type="text" id="amount" name="amount" value="5" placeholder="max amount to show ...">
+                  </label>
 
-                  </div>
-
-                  <input class="input2" type="search" id="songname" name="song_name" placeholder="Search songs" aria-label="Search through site content">
-                  <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>search</button>
-                </form>
-
-
-                {% if user_data["searched_song"] != "None" %}
-                {% for song in user_data["searched_song"] %}
-
-                <p class="card" style="font-size: 14px;">{{song[0]}}---------by: {{song[3]}}---------length {{song[2]}} seconds </p>
-                {% endfor%}
-
-                {% endif %}
-
-                {% if user_data["searched_song_error"] != "None" %}
-
-                <p>{{user_data["searched_song_error"]}}</p>
-
-                {% endif %}
-
-              </div>
-
-
-
-
-                <div class="split right">
-
-                    <h2>new album</h2>
-                    <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new collection</button>
                 </div>
+
+                <input class="input2" type="search" id="songname" name="song_name" placeholder="Search songs" aria-label="Search through site content">
+                <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>search</button>
+              </form>
+
+
+              {% if user_data["searched_song"] != "None" %}
+              {% for song in user_data["searched_song"] %}
+
+              <p class="card" style="font-size: 14px;">{{song[0]}}---------by: {{song[3]}}---------length {{song[2]}} seconds </p>
+              {% endfor%}
+
+              {% endif %}
+
+              {% if user_data["searched_song_error"] != "None" %}
+
+              <p>{{user_data["searched_song_error"]}}</p>
+
+              {% endif %}
+
+            </div>
+
+
+
+            <!-- make new alb --->
+            <div class="split right">
+
+              <h2>new album</h2>
+              <form class="" action="index.html" method="post">
+                <p style="font-size: 14px;">album name</p>
+                <input class="input2" type="text" id="amount" name="amount" value="5" placeholder="max amount to show ...">
+                </label>
+                <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new collection</button>
+              </form>
+
+            </div>
           </div>
         </div>
-      <!-- </div> -->
-    </div>
-    <!--function to show only the page clicked on -->
-    <script>
-      var divState = {};
+        <!-- </div> -->
+      </div>
+      <!--function to show only the page clicked on -->
+      <script>
+        var divState = {};
 
-      function showhide(id) {
-        if (document.getElementById) {
-          var divid = document.getElementById(id);
-          if (divState[id] != true) {
-            divState[id] = (divState[id]) ? false : true;
-            //close others
-            divState["me"] = true
-            for (var div in divState) {
+        function showhide(id) {
+          if (document.getElementById) {
+            var divid = document.getElementById(id);
+            if (divState[id] != true) {
+              divState[id] = (divState[id]) ? false : true;
+              //close others
+              divState["me"] = true
+              for (var div in divState) {
 
-              if (divState[div] && div != id) {
-                document.getElementById(div).style.display = 'none';
-                divState[div] = false;
+                if (divState[div] && div != id) {
+                  document.getElementById(div).style.display = 'none';
+                  divState[div] = false;
+                }
+              }
+              divid.style.display = (divid.style.display == 'block' ? 'none' : 'block');
+            }
+          }
+
+        }
+      </script>
+      {% if user_data["explore"]%}<script>
+        showhide('explore');
+      </script>{% endif %}
+
+
+      <script>
+        /* When the user clicks on the button,
+toggle between hiding and showing the dropdown content */
+        function dropdownFunction() {
+          document.getElementById("myDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+          if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+            var i;
+            for (i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
               }
             }
-            divid.style.display = (divid.style.display == 'block' ? 'none' : 'block');
           }
         }
-
-      }
-    </script>
-    {% if user_data["explore"]%}<script>
-      showhide('explore');
-    </script>{% endif %}
-
-
-    <script>
-      /* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
-      function dropdownFunction() {
-        document.getElementById("myDropdown").classList.toggle("show");
-      }
-
-      // Close the dropdown if the user clicks outside of it
-      window.onclick = function(event) {
-        if (!event.target.matches('.dropbtn')) {
-          var dropdowns = document.getElementsByClassName("dropdown-content");
-          var i;
-          for (i = 0; i < dropdowns.length; i++) {
-            var openDropdown = dropdowns[i];
-            if (openDropdown.classList.contains('show')) {
-              openDropdown.classList.remove('show');
-            }
-          }
-        }
-      }
-    </script>
+      </script>
 
   </body>
 

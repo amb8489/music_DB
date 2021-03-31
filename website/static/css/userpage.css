@@ -154,10 +154,24 @@ body {
       }
 .input {
   all: unset;
+  background-color: #F2f2f2;
+
   font: 16px system-ui;
   color: black;
   height: 100%;
   width: 100%;
+  padding: 6px 10px;
+
+}
+
+.input2 {
+  all: unset;
+  background-color: #F2f2f2;
+
+  font: 16px system-ui;
+  color: black;
+  height: 100%;
+  width: 250px;
   padding: 6px 10px;
 
 }

@@ -48,6 +48,12 @@ def searched_song():
     if request.method == 'POST':
         # getttting form data
         form_data = request.form
+
+        # how we want to search for song by
+        filter_selected = form_data['options']
+
+        # TO DO 
+
         user_data = session['user_data']
         sql = "select title, songid " \
               "from song " \

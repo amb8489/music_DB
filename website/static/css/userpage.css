@@ -300,8 +300,10 @@ body {
 
 /* Control the left side */
 .left {
-  left: 0;
+  left: 180px;
   background-color: gray;
+  width: 35%;
+
 }
 
 /* Control the right side */

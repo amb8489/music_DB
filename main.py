@@ -18,6 +18,8 @@ TODO:
         The system must record the date and time an account is created.
         It must also stored the date and time an useraccess into the application
 
+----------------
+
    [ ] •Users will be able to create collections of music.
 
    [ ] •Users will be to see the list of all their collections by:
@@ -30,13 +32,14 @@ TODO:
 
 
 ----------------
-    [ ] •Users will be able to search for songs by:
+
+    [IN PROGRESS by aaron/greg] •Users will be able to search for songs by:
         name
         artist
         album
         genre
 
-    [ ] The resulting list of songs must be in alphabetical order by song's name
+    [IN PROGRESS by aaron/greg] The resulting list of songs must be in alphabetical order by song's name
         and artist's name
 
         (Users can also sort list by artist's name, genre, and released year)
@@ -48,6 +51,7 @@ TODO:
             the listen count.
 
 ---------------
+
     [ ] Users can add and delete albums, and songs from their collection
     [ ] Users can modify the name of a collection.
     [ ] They can also delete an entire collection
@@ -55,6 +59,8 @@ TODO:
     [ ] Users can listen to a song individually or it can play an entire collection.
         You must record every time a song is played by a user. You do not need to
         actually be able toplay songs, simply mark them as played
+
+--------------------
 
     [x] Users can follow a friend.
     [x] Users can search for new friends by email

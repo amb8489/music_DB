@@ -52,7 +52,7 @@ def searched_song():
         # how we want to search for song by
         filter_selected = form_data['options']
 
-        # TO DO 
+        # TO DO
 
         user_data = session['user_data']
         sql = "select title, songid " \
@@ -62,6 +62,12 @@ def searched_song():
         cur = conn.cursor()
         cur.execute(sql, (form_data["song_name"],))
         result = cur.fetchone()
+
+
+
+
+
+
         if(result):
             user_data["searched_song"] = result[0]
             user_data["searched_song_id"] = result[1]

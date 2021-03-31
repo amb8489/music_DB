@@ -3,18 +3,17 @@
 # tanner bradford
 
 """
-TODO:
+ -------- PHASE 3 requirments by ap april 2: ---------
 
-* link data base to appliction
 
-* fill data base with data sets
+[X] link data base to appliction
 
-* link functions to get the data requested from data base
-  and display data
+[X] fill data base with data sets
 
- * PHASE 3 requirments by ap april 2:
+-------- functions --------
 
-  [X] Users will be able to create new accounts and access via login.
+
+[X] Users will be able to create new accounts and access via login.
         The system must record the date and time an account is created.
         It must also stored the date and time an useraccess into the application
 
@@ -25,7 +24,7 @@ TODO:
    [ ] •Users will be to see the list of all their collections by:
         name in ascending order
 
-    [ ] •The list must show the following information per collection:
+   [ ] •The list must show the following information per collection:
         name
         Number of songs in the collection
         Total duration in minutes

@@ -143,12 +143,22 @@
           <div class="explore" id="explore">
             <h2>explore</h2>
 
-
-            <form action="/searchusers/" method="POST" id="form" role="search">
+            <form action="/searchedsong/" method="POST" id="form" role="search">
               <input type="search" id="usr_email" name="q" placeholder="Search songs" aria-label="Search through site content">
               <button><input type="submit" value="search"></button>
             </form>
 
+
+            <form action="/searchusers/" method="POST" id="form" role="search">
+              <input type="search" id="usr_email" name="q" placeholder="Search users" aria-label="Search through site content">
+              <button><input type="submit" value="search"></button>
+            </form>
+
+            {% if user_data["searched_song"] != "None" %}
+
+            <p>{{user_data["searched_song"]}}</p>
+
+            {% endif %}
 
             <p>song recommendatios</p>
             <p>the top 50 most popular songs of the month</p>

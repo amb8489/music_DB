@@ -103,7 +103,7 @@ def searched_song():
 
 
         if(result):
-            if result > amount_of_songs:
+            if len(result) > int(amount_of_songs):
                 result = [result[i] for i in range(amount)]
 
             user_data["searched_song"] = result

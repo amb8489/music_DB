@@ -1,20 +1,19 @@
-
 * {
   box-sizing: border-box;
 }
-.all{
 
+.all {
   height: 800px;
   border-radius: 10px;
   background-color: #f2f2f2;
   padding: 15px;
-
 }
-.unfollow{
+
+.unfollow {
   margin: 0;
   display: inline-block;
-
 }
+
 .user_bock {
   height: 100%;
   width: 180px;
@@ -23,14 +22,12 @@
   top: 0;
   right: 0;
   background-color: #ffffca;
-
   overflow-x: hidden;
   padding-top: 20px;
 }
 
 .user_bock a {
   text-align: left;
-
   padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 14px;
@@ -38,71 +35,64 @@
   display: block;
 }
 
-
-
-
-
 .graydiv {
   align: center;
   height: 500px;
-
   margin-right: 180px;
   margin-left: 180px;
   border-radius: 10px;
   background-color: #f2f2f2;
   padding: 15px;
-
 }
 
 .card {
-
   align: center;
   margin-top: 15px;
   margin-bottom: 1px;
-
   border-radius: 10px;
   background-color: #f2f2f2;
   padding: 6px 8px 6px 16px;
-
 }
+
 body {
   font-family: "Lato", sans-serif;
 }
+
 .myAlbums {
-
   background-color: #ABEBC6;
-
-  font-size: 28px; /* Increased text to enable scrolling */
+  font-size: 28px;
+  /* Increased text to enable scrolling */
   padding: 0px 10px;
 }
+
 .settings {
   background-color: #f4f4f4;
-
-  font-size: 28px; /* Increased text to enable scrolling */
+  font-size: 28px;
+  /* Increased text to enable scrolling */
   padding: 0px 10px;
 }
+
 .me {
   background-color: #99d6e6;
-  font-size: 28px; /* Increased text to enable scrolling */
+  font-size: 28px;
+  /* Increased text to enable scrolling */
   padding: 0px 10px;
   height: 100%;
-
 }
+
 .following {
   background-color: #C39BD3;
   font-size: 28px;
   height: 100%;
-
-
   padding: 0px 10px;
-
 }
-.explore{
+
+.explore {
   background-color: #7FB3D5;
   font-size: 28px;
   padding: 0px 10px;
-
 }
+
 .sidenav {
   height: 100%;
   width: 180px;
@@ -126,16 +116,12 @@ body {
 .sidenav a:hover {
   color: #ffffca;
 }
-#content > div {display:none;}
 
-
-
-
-
-
+#content>div {
+  display: none;
+}
 
 /* search bar */
-
 .form {
   background-color: #F2f2f2;
   width: 300px;
@@ -144,43 +130,48 @@ body {
   display: flex;
   flex-direction: row;
   align-items: center;
-
 }
+
 .button {
-        all: unset;
+  all: unset;
+  background-color: #ffffca;
+  /* border-radius: 12px; */
+  border-color: black cursor: pointer;
+  width: 90px;
+  height: 56px;
+  font-size: 12px;
+  text-align: center;
+}
 
-        background-color: #ffffca;
-        /* border-radius: 12px; */
-        border-color: black
-        cursor: pointer;
-        width: 90px;
-        height: 44px;
-        font-size: 12px;
-        text-align: center;
+.buttonEXP {
+  all: unset;
+  background-color: #ffffca;
+  /* border-radius: 12px; */
+  border-color: black cursor: pointer;
+  width: 90px;
+  height: 35px;
+  font-size: 12px;
+  text-align: center;
+}
 
-      }
 .input {
   all: unset;
   background-color: #F2f2f2;
-
   font: 16px system-ui;
   color: black;
   height: 100%;
   width: 100%;
   padding: 6px 10px;
-
 }
 
 .input2 {
   all: unset;
   background-color: #F2f2f2;
-
   font: 16px system-ui;
   color: black;
   height: 100%;
   width: 250px;
   padding: 6px 10px;
-
 }
 
 /* The container */
@@ -216,12 +207,12 @@ body {
 }
 
 /* On mouse-over, add a grey background color */
-.container:hover input ~ .checkmark {
+.container:hover input~.checkmark {
   background-color: #ccc;
 }
 
 /* When the radio button is checked, add a blue background */
-.container input:checked ~ .checkmark {
+.container input:checked~.checkmark {
   background-color: #2196F3;
 }
 
@@ -233,23 +224,21 @@ body {
 }
 
 /* Show the indicator (dot/circle) when checked */
-.container input:checked ~ .checkmark:after {
+.container input:checked~.checkmark:after {
   display: block;
 }
 
 /* Style the indicator (dot/circle) */
 .container .checkmark:after {
- 	top: 9px;
-	left: 9px;
-	width: 8px;
-	height: 8px;
-	border-radius: 50%;
-	background: white;
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
 }
 
-
 /*drop down */
-
 .dropbtn {
   background-color: #4CAF50;
   color: white;
@@ -275,7 +264,7 @@ body {
   background-color: #f1f1f1;
   min-width: 160px;
   overflow: auto;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   right: 0;
   z-index: 1;
 }
@@ -287,6 +276,10 @@ body {
   display: block;
 }
 
-.dropdown a:hover {background-color: #ddd;}
+.dropdown a:hover {
+  background-color: #ddd;
+}
 
-.show {display: block;}
+.show {
+  display: block;
+}

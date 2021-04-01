@@ -150,7 +150,7 @@ def searched_song():
     if request.method == 'GET':
         return render_template('userpage.html')
     if request.method == 'POST':
-        # getttting form data
+        # getting form data
         form_data = request.form
         search_text = form_data["song_name"]
 
@@ -170,7 +170,7 @@ def searched_song():
         # FILTER_SELECTED IS USED TO GET THE SONGS (in 'result'), THEN THE SHARED 'IF' BELOW IS USED
         if filter_selected == "title":
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                  "album.albumname, genre.genrename, userplayssong.playcount " \
+                  "album.albumname, genre.genrename, song.releasedate, userplayssong.playcount" \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "and song.title = %s " \
                   "inner join artist on songartist.artistid = artist.artistid " \
@@ -186,7 +186,7 @@ def searched_song():
 
         elif filter_selected == "genre":
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                  "album.albumname, genre.genrename, userplayssong.playcount " \
+                  "album.albumname, genre.genrename, song.releasedate, userplayssong.playcount " \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "inner join artist on songartist.artistid = artist.artistid " \
                   "inner join albumcontains on song.songid = albumcontains.songid " \
@@ -203,7 +203,7 @@ def searched_song():
             # TODO
         elif filter_selected == "album":
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                  "album.albumname, genre.genrename, userplayssong.playcount " \
+                  "album.albumname, genre.genrename, song.releasedate, userplayssong.playcount " \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "inner join artist on songartist.artistid = artist.artistid " \
                   "inner join albumcontains on song.songid = albumcontains.songid " \
@@ -219,7 +219,7 @@ def searched_song():
 
         else:
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                  "album.albumname, genre.genrename, userplayssong.playcount " \
+                  "album.albumname, genre.genrename, song.releasedate, userplayssong.playcount " \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "inner join artist on songartist.artistid = artist.artistid " \
                   "and artist.artistname = %s " \

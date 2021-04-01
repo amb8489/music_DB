@@ -137,11 +137,13 @@
             <div class="dropdown">
               <button onclick="dropdownFunction()" class="dropbtn">Albums</button>
               <div id="myDropdown" class="dropdown-content">
-
                 <!--  for albums in ...<a href="#album name">Home</a> ---->
-                <a href="#home">album1</a>
-                <a href="#about">album2</a>
-                <a href="#contact">album3</a>
+                {% for album in user_data["my_albums"] %}
+                <p>{{album}}</p>
+
+                {% endfor %}
+
+
               </div>
             </div>
 

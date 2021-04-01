@@ -68,10 +68,14 @@ def make_new_album():
     if request.method == 'POST':
         # getttting form data
         form_data = request.form
+        user_data = session['user_data']
+
         new_album_name = form_data["album_name"]
+        user_data["my_albums"].append(new_album_name)
 
         print("*****************",new_album_name)
-
+        session['user_data'] = user_data
+        return render_template('userpage.html', user_data=user_data)
 
 
 

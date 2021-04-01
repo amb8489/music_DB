@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session
+from flask import Blueprint, render_template, request, session, jsonify
 from connection import get_connection
 views = Blueprint('views', __name__)
 
@@ -131,9 +131,21 @@ def searched_song():
                 resultartists = cur.fetchall()
                 # print(resultartists)
 
+                sql = "select ALL playcount from userplayssong where (userid, songid) IN (select ALL (userid, songid) " \
+                      "from userplayssong " \
+                      "where userid = %s and songid IN %s)"
+
+                cur.execute(sql, (user_data["id"], tuple(artists_id),))
+
+                resultplays = cur.fetchall()
+
                 result = [list(result[i]) for i in range (len(result))]
                 for i in range(len(result)):
                     result[i].append(resultartists[i][0])
+                    if resultplays[i][0] is None:
+                        result[i].append(0)
+                    else:
+                        result[i].append(resultplays[i][0])
             # print(result)
 
 
@@ -286,17 +298,29 @@ def follow_user():
 route to "play" a song
 '''
 
-@views.route('/playsong', methods = ['POST', 'GET'])
+@views.route('/playsong/', methods = ['POST', 'GET'])
 def play_song():
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
-        songid = request.args.get('songid')
+        songid = request.form["songid"]
+        print(songid)
         user_data = session['user_data']
         userid = user_data['id']
-        #TODO check for userplayssong(songid, userid)
-        #TODO increment the playcount
 
+        conn = get_connection()
+        cur = conn.cursor()
+
+        sql = "insert into userplayssong(userid, songid, playcount) " \
+              "values(%s, %s, 1)" \
+              "on conflict(userid, songid) do update " \
+              "set playcount = userplayssong.playcount + 1"
+        cur.execute(sql, (userid, int(songid)))
+        cur.fetchone()
+        conn.commit()
+        cur.close()
+
+        return jsonify("playcount: %s", ())
 
 
 '''

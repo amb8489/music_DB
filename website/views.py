@@ -23,8 +23,8 @@ def userpage():
     return render_template("userpage.html", user_data=user_data)
 
 
-@views.route('/addtoalbum/', methods=['POST', 'GET'])
-def my_albums():
+@views.route('/addtoplaylist/', methods=['POST', 'GET'])
+def add_to_my_playlist():
     """
     function to get a users albums (collections
     :return:
@@ -38,7 +38,7 @@ def my_albums():
 
         user_data = session['user_data']
         print(form_data)
-        user_data["new_album"].append(form_data[7:-2].replace('\'', '').split(","))
+        user_data["new_playlist"].append(form_data[7:-2].replace('\'', '').split(","))
         user_data["explore"] = True
         session['user_data'] = user_data
     return render_template('userpage.html', user_data=user_data)
@@ -53,8 +53,8 @@ def my_albums():
 
 
 
-@views.route('/makenewalbum/', methods=['POST', 'GET'])
-def make_new_album():
+@views.route('/makenewplaylists/', methods=['POST', 'GET'])
+def make_new_playlist():
     """
     function to get the user's followers
     :return:
@@ -70,10 +70,10 @@ def make_new_album():
         form_data = request.form
         user_data = session['user_data']
 
-        new_album_name = form_data["album_name"]
-        user_data["my_albums"].append(new_album_name)
-        user_data["my_albums"] = sorted(user_data["my_albums"])
-        print("*****************",new_album_name)
+        new_playlist_name = form_data["playlist_name"]
+        user_data["playlist_name"].append(new_playlist_name)
+        user_data["playlist_name"] = sorted(user_data["playlist_name"])
+        print("*****************",new_playlist_name)
         session['user_data'] = user_data
         return render_template('userpage.html', user_data=user_data)
 

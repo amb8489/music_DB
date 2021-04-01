@@ -138,8 +138,8 @@
               <button onclick="dropdownFunction()" class="dropbtn">my playlists</button>
               <div id="myDropdown" class="dropdown-content">
                 <!--  for albums in ...<a href="#album name">Home</a> ---->
-                {% for album in user_data["my_albums"] %}
-                <p>{{album}}</p>
+                {% for playlist in user_data["playlist_name"] %}
+                <p>{{playlist}}</p>
 
                 {% endfor %}
 
@@ -223,7 +223,7 @@
               <!-- <p>play count: {{ song[6] }}</p> -->
 
 
-              <form action="/addtoalbum/" method="post">
+              <form action="/addtoplaylist/" method="post">
                 <button class="buttonEXP" style="test-align: center; right:100px;" ;id="song_" name="song_" type="submit" value="array({{ song }})">add to new playlists
                 </button>
 
@@ -249,16 +249,16 @@
             <div class="split right">
 
               <h2>new playlists</h2>
-              <form class="" action="/makenewalbum/" method="post">
-                <p style="font-size: 14px;">album name</p>
-                <input class="input2" type="text" id="album_name" name="album_name" value="new playlists name" placeholder="name here...">
+              <form class="" action="/makenewplaylists/" method="post">
+                <p style="font-size: 14px;">playlists name</p>
+                <input class="input2" type="text" id="playlists_name" name="playlists_name" value="new playlists name" placeholder="name here...">
                 </label>
                 <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new
                   playlists
                 </button>
               </form>
 
-              {% for song in user_data["new_album"] %}
+              {% for song in user_data["new_playlist"] %}
               <p class="card">{{ song[1] }}</p>
               <button class="buttonEXP" style="test-align: center; background-color: #f00e0e;" ; type="submit" value=search>remove
               </button>

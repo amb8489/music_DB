@@ -73,6 +73,8 @@ def get_playlist():
         print(songs)
 
         user_data["current_playlist"] = songs
+        user_data["current_playlist_name"]=playlist_name
+
         user_data["myAlbum"] = True
         session['user_data'] = user_data
     return render_template('userpage.html', user_data=user_data)

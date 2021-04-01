@@ -148,6 +148,8 @@
             <div style="right:180px" class="split right">
               {%if user_data["current_playlist"]%}
 
+              <h3>{{user_data["current_playlist_name"]}}</h3>
+              <hr class="rounded">
 
               {% for song in user_data["current_playlist"] %}
               <p class="card">{{ song[0] }}</p>

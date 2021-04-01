@@ -74,13 +74,13 @@ def make_new_playlist():
 
         conn = get_connection()
         cur = conn.cursor()
-
+# making new collection in db
         sql = "insert into collection(name,userid) " \
               "values(%s, %s) RETURNING collectionid"
         cur.execute(sql, (new_playlist_name,usrID))
         playlistID = cur.fetchone()[0]
 
-
+# adding songs to collection --better way to do this ?
 
         songs_in_playlist = user_data["new_playlist"]
         songIDs = [song[0] for song in songs_in_playlist]
@@ -88,7 +88,7 @@ def make_new_playlist():
             sql = "insert into collectionsong(collectionid,songid)" \
                   "values(%s, %s)"
             cur.execute(sql, (playlistID,songid))
-            
+
         conn.commit()
         cur.close()
 

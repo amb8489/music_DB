@@ -139,7 +139,14 @@
               <div id="myDropdown" class="dropdown-content">
                 <!--  for albums in ...<a href="#album name">Home</a> ---->
                 {% for playlist in user_data["playlist_name"] %}
-                <p>{{playlist}}</p>
+
+                <!-- buton to show songs in that alb-->
+
+                <form class="dropdown-content" action="html" method="post">
+                  <button style="buttonEXP" type="submit" value={{playlist}}>{{playlist}}
+                </form>
+
+
 
                 {% endfor %}
 

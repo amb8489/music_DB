@@ -47,12 +47,6 @@ def add_to_my_playlist():
 
 
 
-
-
-
-
-
-
 @views.route('/makenewplaylists/', methods=['POST', 'GET'])
 def make_new_playlist():
     """
@@ -71,23 +65,38 @@ def make_new_playlist():
         user_data = session['user_data']
 
         new_playlist_name = form_data["playlist_name"]
+
         user_data["playlist_name"].append(new_playlist_name)
         user_data["playlist_name"] = sorted(user_data["playlist_name"])
+        session['user_data'] = user_data
+
+        usrID = user_data["id"]
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        sql = "insert into collection(name,userid) " \
+              "values(%s, %s) RETURNING collectionid"
+        cur.execute(sql, (new_playlist_name,usrID))
+        playlistID = cur.fetchone()[0]
+
+
+
+        songs_in_playlist = user_data["new_playlist"]
+        songIDs = [song[0] for song in songs_in_playlist]
+        for songid in songIDs:
+            sql = "insert into collectionsong(collectionid,songid)" \
+                  "values(%s, %s)"
+            cur.execute(sql, (playlistID,songid))
+            
+        conn.commit()
+        cur.close()
+
+
+
         user_data["new_playlist"] = []
 
-        session['user_data'] = user_data
         return render_template('userpage.html', user_data=user_data)
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -119,10 +128,6 @@ def searched_song():
         conn = get_connection()
         cur = conn.cursor()
 
-        print("filter type, by:", filter_selected)
-        print("only show the first:", amount_of_songs, "songs")
-
-        print("find songs relating to:", form_data["song_name"])
 
         result = None  # get outer scope
 

@@ -44,14 +44,50 @@ def my_albums():
     return render_template('userpage.html', user_data=user_data)
 
 
-@views.route('/myfollowers/')
-def my_followers():
+
+
+
+
+
+
+
+
+
+@views.route('/makenewalbum/', methods=['POST', 'GET'])
+def make_new_album():
     """
     function to get the user's followers
     :return:
     """
 
-    pass
+
+
+
+    if request.method == 'GET':
+        return render_template('userpage.html')
+    if request.method == 'POST':
+        # getttting form data
+        form_data = request.form
+        new_album_name = form_data["album_name"]
+
+        print("*****************",new_album_name)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 @views.route('/searchedsong/', methods=['POST', 'GET'])
@@ -62,7 +98,7 @@ def searched_song():
     """
 
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('userpage.html')
     if request.method == 'POST':
         # getttting form data
         form_data = request.form

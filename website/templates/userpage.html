@@ -199,8 +199,8 @@
               {% if user_data["searched_song"] != "None" %}
               {% for song in user_data["searched_song"] %}
               <form class="form2" action="/addtoalbum/" method="post">
-                <p class="card" style="font-size: 14px;">{{song[0]}} by: {{song[3]}} length {{song[2]}} seconds [add to new album] </p>
-                <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>add to new album</button>
+                <p class="card" style="font-size: 14px;">{{song[0]}} by: {{song[3]}} length {{song[2]}} seconds</p>
+                <button class="buttonEXP" style="test-align: center; right:100px;";id="song_" name="song_" type="submit" value= "array({{ song}})" >add to new album</button>
 
 
               </form>
@@ -231,6 +231,9 @@
                 <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new collection</button>
               </form>
 
+              {% for song in user_data["new_album"] %}
+                  <p>{{ song[0]}}</p>
+              {% endfor%}
             </div>
           </div>
         </div>
@@ -257,13 +260,12 @@
               divid.style.display = (divid.style.display == 'block' ? 'none' : 'block');
             }
           }
-
         }
       </script>
+
       {% if user_data["explore"]%}<script>
         showhide('explore');
       </script>{% endif %}
-
 
       <script>
         /* When the user clicks on the button,

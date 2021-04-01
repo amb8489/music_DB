@@ -162,7 +162,8 @@ body {
 .buttonEXP {
   all: unset;
   background-color: #ffffca;
-  /* border-radius: 12px; */
+
+  border-radius: 12px;
   border-color: black cursor: pointer;
   width: 100px;
   height: 35px;

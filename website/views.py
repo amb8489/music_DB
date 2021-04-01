@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, request, session, jsonify
+
 from connection import get_connection
+
 views = Blueprint('views', __name__)
 
 
@@ -18,145 +20,138 @@ def userpage():
     session['user_data'] = user_data
     user_data["searched_friend"] = "None"
 
-    return render_template("userpage.html",user_data = user_data)
+    return render_template("userpage.html", user_data=user_data)
 
 
 '''
 function to get user albums
 '''
+
+
 @views.route('/myalbums/')
 def my_albums():
-
     pass
+
 
 '''
 function to get user followers
 '''
+
+
 @views.route('/myfollowers/')
 def my_followers():
-
     pass
 
 
 '''
 function to get user a searched song
 '''
-@views.route('/searchedsong/',methods = ['POST', 'GET'])
+
+
+@views.route('/searchedsong/', methods=['POST', 'GET'])
 def searched_song():
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
         # getttting form data
         form_data = request.form
-
+        search_text = form_data["song_name"]
 
         # how we want to search for song by
         filter_selected = form_data['options']
         amount_of_songs = form_data['amount']
 
-        # TO DO
         user_data = session['user_data']
+        user_id = user_data["id"]
 
         conn = get_connection()
         cur = conn.cursor()
 
-        print("filter type, by:",filter_selected)
-        print("only show the first:",amount_of_songs,"songs")
+        print("filter type, by:", filter_selected)
+        print("only show the first:", amount_of_songs, "songs")
 
-        print("find songs relating to:",form_data["song_name"])
+        print("find songs relating to:", form_data["song_name"])
 
+        result = None  # get outer scope
 
-            # DONE
+        # FILTER_SELECTED IS USED TO GET THE SONGS (in 'result'), THEN THE SHARED 'IF' BELOW IS USED
         if filter_selected == "title":
-            sql = "select ALL title, songid,length " \
-                  "from song " \
-                  "where title = %s"
+            sql = "select song.songid, song.title, song.length, artist.artistname, " \
+                        "album.albumname, genre.genrename, userplayssong.playcount " \
+                  "from song inner join songartist on song.songid = songartist.songid " \
+                  "and song.title = %s " \
+                  "inner join artist on songartist.artistid = artist.artistid " \
+                  "inner join albumcontains on song.songid = albumcontains.songid " \
+                  "inner join album on albumcontains.albumid = album.albumid " \
+                  "inner join songgenre on song.songid = songgenre.songid " \
+                  "inner join genre on songgenre.genreid = genre.genreid " \
+                  "left outer join userplayssong on song.songid = userplayssong.songid " \
+                  "and userplayssong.userid = %s"
 
-            cur.execute(sql, (form_data["song_name"],))
+            cur.execute(sql, (search_text, user_id))
             result = cur.fetchall()
-            if len(result) >0:
-                artists_id = [result[i][1] for i in range (len(result))]
 
-                sql = "select ALL artistname from artist where artistid IN (select ALL artistid " \
-                      "from songartist " \
-                      "where songid IN %s)"
-
-                cur.execute(sql, (tuple(artists_id),))
-
-                resultartists = cur.fetchall()
-                # print(resultartists)
-
-                result = [list(result[i]) for i in range (len(result))]
-                for i in range(len(result)):
-                    result[i].append(resultartists[i][0])
-
-
-
-
-            # TODO
         elif filter_selected == "genre":
-            sql = "select ALL title from song where songid = (select ALL songid from songartist where artistid = (select artistid " \
-                      " from artist " \
-                      " where artistname = %s))"
+            sql = "select song.songid, song.title, song.length, artist.artistname, " \
+                        "album.albumname, genre.genrename, userplayssong.playcount " \
+                  "from song inner join songartist on song.songid = songartist.songid " \
+                  "inner join artist on songartist.artistid = artist.artistid " \
+                  "inner join albumcontains on song.songid = albumcontains.songid " \
+                  "inner join album on albumcontains.albumid = album.albumid " \
+                  "inner join songgenre on song.songid = songgenre.songid " \
+                  "inner join genre on songgenre.genreid = genre.genreid " \
+                  "and genre.genrename = %s " \
+                  "left outer join userplayssong on song.songid = userplayssong.songid " \
+                  "and userplayssong.userid = %s"
 
-            cur.execute(sql, (form_data["song_name"],))
+            cur.execute(sql, (search_text, user_id))
             result = cur.fetchall()
+
             # TODO
         elif filter_selected == "album":
-            sql = "select ALL title from song where songid = (select ALL songid from songartist where artistid = (select artistid " \
-                      " from artist " \
-                      " where artistname = %s))"
+            sql = "select song.songid, song.title, song.length, artist.artistname, " \
+                        "album.albumname, genre.genrename, userplayssong.playcount " \
+                  "from song inner join songartist on song.songid = songartist.songid " \
+                  "inner join artist on songartist.artistid = artist.artistid " \
+                  "inner join albumcontains on song.songid = albumcontains.songid " \
+                  "inner join album on albumcontains.albumid = album.albumid " \
+                  "and album.albumname = %s " \
+                  "inner join songgenre on song.songid = songgenre.songid " \
+                  "inner join genre on songgenre.genreid = genre.genreid " \
+                  "left outer join userplayssong on song.songid = userplayssong.songid " \
+                  "and userplayssong.userid = %s"
 
-            cur.execute(sql, (form_data["song_name"],))
+            cur.execute(sql, (search_text, user_id))
             result = cur.fetchall()
-            # DONE
+
         else:
-            sql = "select ALL title, songid,length from song where songid = (select ALL songid from songartist where artistid = (select artistid " \
-                      " from artist " \
-                      " where artistname = %s))"
+            sql = "select song.songid, song.title, song.length, artist.artistname, " \
+                        "album.albumname, genre.genrename, userplayssong.playcount " \
+                  "from song inner join songartist on song.songid = songartist.songid " \
+                  "inner join artist on songartist.artistid = artist.artistid " \
+                  "and artist.artistname = %s " \
+                  "inner join albumcontains on song.songid = albumcontains.songid " \
+                  "inner join album on albumcontains.albumid = album.albumid " \
+                  "inner join songgenre on song.songid = songgenre.songid " \
+                  "inner join genre on songgenre.genreid = genre.genreid " \
+                  "left outer join userplayssong on song.songid = userplayssong.songid " \
+                  "and userplayssong.userid = %s"
 
-            cur.execute(sql, (form_data["song_name"],))
+            cur.execute(sql, (search_text, user_id))
             result = cur.fetchall()
 
-
-            if len(result) >0:
-                artists_id = [result[i][1] for i in range (len(result))]
-
-                sql = "select ALL artistname from artist where artistid IN (select ALL artistid " \
-                      "from songartist " \
-                      "where songid IN %s)"
-
-                cur.execute(sql, (tuple(artists_id),))
-
-                resultartists = cur.fetchall()
-                # print(resultartists)
-
-                sql = "select ALL playcount from userplayssong where (userid, songid) IN (select ALL (userid, songid) " \
-                      "from userplayssong " \
-                      "where userid = %s and songid IN %s)"
-
-                cur.execute(sql, (user_data["id"], tuple(artists_id),))
-
-                resultplays = cur.fetchall()
-
-                result = [list(result[i]) for i in range (len(result))]
-                for i in range(len(result)):
-                    result[i].append(resultartists[i][0])
-                    if resultplays[i][0] is None:
-                        result[i].append(0)
-                    else:
-                        result[i].append(resultplays[i][0])
-            # print(result)
-
-
-        if(result):
+        if (result):
             if len(result) > int(amount_of_songs):
-                result = [result[i] for i in range(int(amount_of_songs))]
+                result = result[:int(amount_of_songs)]
 
-            user_data["searched_song"] = result
+            for i in range(len(result)):
+                if result[i][6] is None:
+                    result[i] = (result[i][0], result[i][1], result[i][2], result[i][3], result[i][4], result[i][5], 0)
+
+            user_data["searched_songs"] = result
             # user_data["searched_song_id"] = result[1]
         else:
-            user_data["searched_song_error"] = "no song found!"
+            user_data["searched_song_errors"] = "no song found!"
         user_data["explore"] = True
         cur.close()
         return render_template('userpage.html', user_data=user_data)
@@ -165,64 +160,61 @@ def searched_song():
 '''
 function to unfollow user
 '''
-@views.route('/unfollowuser/',methods = ['POST', 'GET'])
+
+
+@views.route('/unfollowuser/', methods=['POST', 'GET'])
 def unfollow_user():
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
 
-            # getttting form data
-            form_data = request.form
-            user_data = session['user_data']
-            if int(user_data["num_following"]) > 0:
+        # getttting form data
+        form_data = request.form
+        user_data = session['user_data']
+        if int(user_data["num_following"]) > 0:
+            # calculating follower count
 
-                # calculating follower count
+            conn = get_connection()
+            cur = conn.cursor()
 
-                conn = get_connection()
-                cur = conn.cursor()
+            user_data["num_following"] -= 1
 
+            user_id = user_data["id"]
 
-                user_data["num_following"] -= 1
+            sql = "select userid " \
+                  "from useraccount " \
+                  "where username = %s"
+            cur.execute(sql, (form_data["usr"],))
+            result = cur.fetchone()
 
-                user_id = user_data["id"]
+            seached_user_id = result[0]
 
-                sql = "select userid " \
-                      "from useraccount " \
-                      "where username = %s"
-                cur.execute(sql, (form_data["usr"],))
-                result = cur.fetchone()
+            # add to user following count for user
 
-                seached_user_id = result[0]
+            sql = "update useraccount " \
+                  "set numberfollowing = numberfollowing - 1 " \
+                  "where username = %s"
+            cur.execute(sql, (user_data["username"],))
 
-                # add to user following count for user
+            # updating followers count for other user
+            sql = "update useraccount" \
+                  " set numberoffollowers = numberoffollowers - 1" \
+                  " where username = %s"
+            cur.execute(sql, (form_data["usr"],))
+            # follow this person conection in db
 
-                sql = "update useraccount "\
-                      "set numberfollowing = numberfollowing - 1 "\
-                      "where username = %s"
-                cur.execute(sql, (user_data["username"],))
+            sql = "DELETE FROM userfollows WHERE useridfollower = %s and useridfollowing = %s"
 
-                #updating followers count for other user
-                sql = "update useraccount"\
-                      " set numberoffollowers = numberoffollowers - 1"\
-                      " where username = %s"
-                cur.execute(sql, (form_data["usr"],))
-                # follow this person conection in db
+            cur.execute(sql, (user_id, seached_user_id))
 
-                sql = "DELETE FROM userfollows WHERE useridfollower = %s and useridfollowing = %s"
+            user_data["following"].remove(form_data["usr"].strip())
 
-                cur.execute(sql, (user_id,seached_user_id))
+            conn.commit()
 
-                user_data["following"].remove(form_data["usr"].strip())
-
-                conn.commit()
-
-
-                cur.close()
-                return render_template('userpage.html', user_data=user_data)
-
+            cur.close()
             return render_template('userpage.html', user_data=user_data)
 
-
+        return render_template('userpage.html', user_data=user_data)
 
 
 '''
@@ -230,14 +222,13 @@ def unfollow_user():
 function to follow
 
 '''
-@views.route('/followuser/',methods = ['POST', 'GET'])
-def follow_user():
 
+
+@views.route('/followuser/', methods=['POST', 'GET'])
+def follow_user():
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
-
-
         # getttting form data
 
         form_data = request.form
@@ -255,7 +246,7 @@ def follow_user():
         result = cur.fetchone()
 
         user_data["num_followers"] = result[0]
-        user_data["num_following"] = result[1]+1
+        user_data["num_following"] = result[1] + 1
         user_id = result[2]
 
         sql = "select userid " \
@@ -268,37 +259,38 @@ def follow_user():
 
         # add to user following count for user
 
-        sql = "update useraccount "\
-              "set numberfollowing = numberfollowing + 1 "\
+        sql = "update useraccount " \
+              "set numberfollowing = numberfollowing + 1 " \
               "where userid = %s"
         cur.execute(sql, (user_data["id"],))
 
-        #updating followers count for other user
-        sql = "update useraccount"\
-              " set numberoffollowers = numberoffollowers + 1"\
+        # updating followers count for other user
+        sql = "update useraccount" \
+              " set numberoffollowers = numberoffollowers + 1" \
               " where username = %s"
         cur.execute(sql, (user_data["searched_friend"],))
         # follow this person conection in db
 
         sql = "insert into userfollows(useridfollower, useridfollowing)" \
               " values(%s, %s)"
-        cur.execute(sql, (user_id,seached_user_id))
+        cur.execute(sql, (user_id, seached_user_id))
         user_data["following"].append(user_data["searched_friend"])
 
         user_data["searched_friend"] = "None"
         conn.commit()
         # user_data["following"].append(user_data["searched_friend"])
 
-
         cur.close()
 
         return render_template('userpage.html', user_data=user_data)
+
 
 '''
 route to "play" a song
 '''
 
-@views.route('/playsong/', methods = ['POST', 'GET'])
+
+@views.route('/playsong/', methods=['POST', 'GET'])
 def play_song():
     if request.method == 'GET':
         return render_template('login.html')
@@ -327,14 +319,13 @@ def play_song():
 function to find a user by email
 '''
 
-@views.route('/searchusers/',methods = ['POST', 'GET'])
-def search_users():
 
+@views.route('/searchusers/', methods=['POST', 'GET'])
+def search_users():
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
         form_data = request.form
-
 
         # getting user data
         user_data = session['user_data']
@@ -351,10 +342,10 @@ def search_users():
 
         # if user not found
         if result is None:
-            user_data["searched_friend"] ="None"
+            user_data["searched_friend"] = "None"
             return render_template('userpage.html', user_data=user_data)
 
-        #saving some data
+        # saving some data
         user_data["searched_friend"] = result[0]
         session['user_data'] = user_data
         cur.close()

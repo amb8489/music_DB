@@ -164,6 +164,10 @@
                     <form action="/searchedsong/" method="POST" id="form" role="search">
 
                         <div>
+                            <label class="container">Search by songs title
+                                <input type="radio" checked="checked" name="options" value="title">
+                                <span class="checkmark"></span>
+                            </label>
                             <label class="container">Search songs by artist
                                 <input type="radio" name="options" value="artist">
                                 <span class="checkmark"></span>
@@ -174,10 +178,6 @@
                             </label>
                             <label class="container">Search by genre
                                 <input type="radio" name="options" value="genre">
-                                <span class="checkmark"></span>
-                            </label>
-                            <label class="container">Search by songs title
-                                <input type="radio" checked="checked" name="options" value="title">
                                 <span class="checkmark"></span>
                             </label>
                             <p style="font-size: 14px;">what's the max number of songs you want to see</p>
@@ -194,6 +194,7 @@
                     </form>
                     <script>
                         var updatedPlayCount = 0;
+
                         function ajax_play_song(songid) {
                             $.ajax({
                                 type: "POST",
@@ -211,11 +212,14 @@
                         }
                     </script>
 
-                    {% if user_data["searched_song"] != "None" %}
-                        {% for song in user_data["searched_song"] %}
+                    {% if user_data["searched_songs"] != "None" %}
+                        {% for song in user_data["searched_songs"] %}
 
-                            <p class="card" style="font-size: 14px;">{{ song[0] }} by: {{ song[3] }}
-                                length {{ song[2] }} seconds [add to new album]</p>
+                            <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on
+                                album '{{ song[4] }}' <br>
+                                genre: {{ song[5] }} <br>
+                                length: {{ song[2] }} seconds <br>
+                                [add to new collection]</p>
 
 
 
@@ -223,7 +227,7 @@
                                     type="submit" name="songid"
                                     value={{ song[1] }}>play song
                             </button>
-                            <p>play count: {{ song[4] }}</p>
+                            <p>play count: {{ song[6] }}</p>
 
                         {% endfor %}
 

@@ -134,28 +134,29 @@
           <div class="myAlbums" id="myAlbums">
             <h2>my playlists</h2>
 
-            <div class="dropdown">
-              <button onclick="dropdownFunction()" class="dropbtn">my playlists</button>
-              <div id="myDropdown" class="dropdown-content">
-                <!--  for albums in ...<a href="#album name">Home</a> ---->
-                {% for playlist in user_data["playlist_name"] %}
+            <!--  for albums in ...<a href="#album name">Home</a> ---->
+            {% for playlist in user_data["playlist_name"] %}
 
-                <!-- buton to show songs in that alb-->
+            <!-- buton to show songs in that alb-->
 
-                <form class="dropdown-content" action="html" method="post">
-                  <button style="buttonEXP" type="submit" value={{playlist}}>{{playlist}}
-                </form>
+            <form action="/getplaylist/" method="post">
+              <!-- <p>{{playlist}}</p> -->
+              <p><input id = "playlist" name = "playlist" type="submit" value="{{playlist}}"></p>
+            </form>
+            {% endfor %}
 
-
-
-                {% endfor %}
+            <div style="right:180px" class="split right">
+              {%if user_data["current_playlist"]%}
 
 
-              </div>
+              {% for song in user_data["current_playlist"] %}
+              <p class="card">{{ song }}</p>
+              {% endfor %}
+              {%endif%}
+
             </div>
-
-
           </div>
+
 
 
           <!--explore page -->
@@ -301,6 +302,11 @@
         {% if user_data["explore"] %}
         <script>
           showhide('explore');
+        </script>{% endif %}
+
+        {% if user_data["mymusic"] == True %}
+        <script>
+          showhide('myAlbum');
         </script>{% endif %}
 
 

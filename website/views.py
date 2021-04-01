@@ -40,9 +40,42 @@ def add_to_my_playlist():
         print(form_data)
         user_data["new_playlist"].append(form_data[7:-2].replace('\'', '').split(","))
         user_data["explore"] = True
+        user_data["myAlbums"] = False
         session['user_data'] = user_data
+
     return render_template('userpage.html', user_data=user_data)
 
+
+
+
+@views.route('/getplaylist/', methods=['POST', 'GET'])
+def get_playlist():
+    if request.method == 'GET':
+        return render_template('userpage.html')
+    if request.method == 'POST':
+        # getttting form data
+        playlist_name = request.form["playlist"]
+        print("playlist_name:---------",playlist_name)
+
+
+        user_data = session['user_data']
+        userID = user_data["id"]
+
+
+        conn = get_connection()
+        cur = conn.cursor()
+        sql = " SELECT ALL title FROM song WHERE songid IN "\
+              "(SELECT ALL songid FROM collectionsong WHERE collectionid IN "\
+              "(SELECT ALL collectionid FROM collection where name = %s AND userid = %s)) "
+        cur.execute(sql, (playlist_name,userID))
+        songs = cur.fetchall()
+
+        print(songs)
+
+        user_data["current_playlist"] = songs
+        user_data["myAlbum"] = True
+        session['user_data'] = user_data
+    return render_template('userpage.html', user_data=user_data)
 
 
 
@@ -53,8 +86,6 @@ def make_new_playlist():
     function to get the user's followers
     :return:
     """
-
-
 
 
     if request.method == 'GET':
@@ -95,6 +126,10 @@ def make_new_playlist():
 
 
         user_data["new_playlist"] = []
+        user_data["explore"] = True
+        user_data["myAlbums"] = False
+
+        session['user_data'] = user_data
 
         return render_template('userpage.html', user_data=user_data)
 
@@ -210,6 +245,8 @@ def searched_song():
         else:
             user_data["searched_song_errors"] = "no song found!"
         user_data["explore"] = True
+        user_data["myAlbums"] = False
+        session['user_data'] = user_data
         cur.close()
         return render_template('userpage.html', user_data=user_data)
 
@@ -271,6 +308,7 @@ def follow_user():
         conn.commit()
         cur.close()
         user_data["explore"] = False
+        session['user_data'] = user_data
 
         return render_template('userpage.html', user_data=user_data)
 
@@ -327,7 +365,7 @@ def unfollow_user():
 
             conn.commit()
             cur.close()
-
+            session['user_data'] = user_data
             return render_template('userpage.html', user_data=user_data)
 
         return render_template('userpage.html', user_data=user_data)
@@ -364,8 +402,9 @@ def search_users():
         if result:
             user_data["searched_friend"] = result[0]
 
-        session['user_data'] = user_data
+
         user_data["explore"] = False
+        session['user_data'] = user_data
         cur.close()
 
         return render_template('userpage.html', user_data=user_data)

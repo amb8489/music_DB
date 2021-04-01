@@ -221,15 +221,21 @@
                                 length: {{ song[2] }} seconds <br>
                                 [add to new collection]</p>
 
-
-
                             <button onclick="ajax_play_song({{ song[1] }})" class="button" style="test-align: center;" ;
                                     type="submit" name="songid"
                                     value={{ song[1] }}>play song
                             </button>
                             <p>play count: {{ song[6] }}</p>
 
-                        {% endfor %}
+
+              <form class="form2" action="/addtoalbum/" method="post">
+                <button class="buttonEXP" style="test-align: center; right:100px;";id="song_" name="song_" type="submit" value= "array({{ song}})" >add to new album</button>
+
+
+              </form>
+
+
+              {% endfor%}
 
                     {% endif %}
 
@@ -245,18 +251,18 @@
                 <!-- make new alb --->
                 <div class="split right">
 
-                    <h2>new album</h2>
-                    <form class="" action="index.html" method="post">
-                        <p style="font-size: 14px;">album name</p>
-                        <input class="input2" type="text" id="amount" name="amount" value="my album name"
-                               placeholder="max amount to show ...">
-                        </label>
-                        <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new
-                            collection
-                        </button>
-                    </form>
+              <h2>new album</h2>
+              <form class="" action="index.html" method="post">
+                <p style="font-size: 14px;">album name</p>
+                <input class="input2" type="text" id="amount" name="amount" value="my album name" placeholder="name...">
+                </label>
+                <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new collection</button>
+              </form>
 
-                </div>
+              {% for song in user_data["new_album"] %}
+                  <p>{{ song[0]}}</p>
+              {% endfor%}
+  
             </div>
         </div>
         <!-- </div> -->
@@ -282,7 +288,6 @@
                     divid.style.display = (divid.style.display == 'block' ? 'none' : 'block');
                 }
             }
-
         }
     </script>
     {% if user_data["explore"] %}

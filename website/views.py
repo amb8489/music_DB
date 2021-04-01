@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, session, jsonify
 
 from connection import get_connection
 
+import re
 views = Blueprint('views', __name__)
 
 
@@ -26,11 +27,20 @@ def userpage():
 '''
 function to get user albums
 '''
-
-
-@views.route('/myalbums/')
+@views.route('/addtoalbum/',methods = ['POST', 'GET'])
 def my_albums():
-    pass
+    if request.method == 'GET':
+        return render_template('userpage.html')
+    if request.method == 'POST':
+        # geting form data
+        form_data = request.form['song_']
+
+        user_data = session['user_data']
+        print(form_data)
+        user_data["new_album"].append(form_data[7:-2].replace('\'', '').split(","))
+        user_data["explore"]=True
+        session['user_data'] = user_data
+    return render_template('userpage.html', user_data=user_data)
 
 
 '''
@@ -281,6 +291,8 @@ def follow_user():
         # user_data["following"].append(user_data["searched_friend"])
 
         cur.close()
+        user_data["explore"] = False
+
 
         return render_template('userpage.html', user_data=user_data)
 
@@ -348,6 +360,8 @@ def search_users():
         # saving some data
         user_data["searched_friend"] = result[0]
         session['user_data'] = user_data
+        user_data["explore"] = False
+
         cur.close()
 
         return render_template('userpage.html', user_data=user_data)

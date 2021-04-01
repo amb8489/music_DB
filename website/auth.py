@@ -23,7 +23,10 @@ def signup():
         if allowed:
             user_data["num_followers"] = "0"
             user_data["num_following"] = "0"
+            user_data["new_album"] = []
+
             user_data["my_albums"] = "None"
+
 
             user_data.update(form_data)
 
@@ -198,6 +201,7 @@ def login():
 
             # TODO LOAD USER ALBUMS
             user_data["my_albums"] = "None"
+            user_data["new_album"] = []
 
             # getting the user that they are following
             sql = "SELECT ALL useridfollowing"\

@@ -150,7 +150,7 @@
 
 
               {% for song in user_data["current_playlist"] %}
-              <p class="card">{{ song }}</p>
+              <p class="card">{{ song[0] }}</p>
               {% endfor %}
               {%endif%}
 

@@ -2,7 +2,6 @@ from flask import Blueprint, render_template, request, session, jsonify
 
 from connection import get_connection
 
-import re
 views = Blueprint('views', __name__)
 
 
@@ -24,11 +23,13 @@ def userpage():
     return render_template("userpage.html", user_data=user_data)
 
 
-'''
-function to get user albums
-'''
-@views.route('/addtoalbum/',methods = ['POST', 'GET'])
+@views.route('/addtoalbum/', methods=['POST', 'GET'])
 def my_albums():
+    """
+    function to get a users albums (collections
+    :return:
+    """
+
     if request.method == 'GET':
         return render_template('userpage.html')
     if request.method == 'POST':
@@ -38,28 +39,28 @@ def my_albums():
         user_data = session['user_data']
         print(form_data)
         user_data["new_album"].append(form_data[7:-2].replace('\'', '').split(","))
-        user_data["explore"]=True
+        user_data["explore"] = True
         session['user_data'] = user_data
     return render_template('userpage.html', user_data=user_data)
 
 
-'''
-function to get user followers
-'''
-
-
 @views.route('/myfollowers/')
 def my_followers():
+    """
+    function to get the user's followers
+    :return:
+    """
+
     pass
-
-
-'''
-function to get user a searched song
-'''
 
 
 @views.route('/searchedsong/', methods=['POST', 'GET'])
 def searched_song():
+    """
+    function to get a searched song
+    :return:
+    """
+
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
@@ -87,7 +88,7 @@ def searched_song():
         # FILTER_SELECTED IS USED TO GET THE SONGS (in 'result'), THEN THE SHARED 'IF' BELOW IS USED
         if filter_selected == "title":
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                        "album.albumname, genre.genrename, userplayssong.playcount " \
+                  "album.albumname, genre.genrename, userplayssong.playcount " \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "and song.title = %s " \
                   "inner join artist on songartist.artistid = artist.artistid " \
@@ -103,7 +104,7 @@ def searched_song():
 
         elif filter_selected == "genre":
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                        "album.albumname, genre.genrename, userplayssong.playcount " \
+                  "album.albumname, genre.genrename, userplayssong.playcount " \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "inner join artist on songartist.artistid = artist.artistid " \
                   "inner join albumcontains on song.songid = albumcontains.songid " \
@@ -120,7 +121,7 @@ def searched_song():
             # TODO
         elif filter_selected == "album":
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                        "album.albumname, genre.genrename, userplayssong.playcount " \
+                  "album.albumname, genre.genrename, userplayssong.playcount " \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "inner join artist on songartist.artistid = artist.artistid " \
                   "inner join albumcontains on song.songid = albumcontains.songid " \
@@ -136,7 +137,7 @@ def searched_song():
 
         else:
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                        "album.albumname, genre.genrename, userplayssong.playcount " \
+                  "album.albumname, genre.genrename, userplayssong.playcount " \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "inner join artist on songartist.artistid = artist.artistid " \
                   "and artist.artistname = %s " \
@@ -167,143 +168,170 @@ def searched_song():
         return render_template('userpage.html', user_data=user_data)
 
 
-'''
-function to unfollow user
-'''
-
-
-@views.route('/unfollowuser/', methods=['POST', 'GET'])
-def unfollow_user():
-    if request.method == 'GET':
-        return render_template('login.html')
-    if request.method == 'POST':
-
-        # getttting form data
-        form_data = request.form
-        user_data = session['user_data']
-        if int(user_data["num_following"]) > 0:
-            # calculating follower count
-
-            conn = get_connection()
-            cur = conn.cursor()
-
-            user_data["num_following"] -= 1
-
-            user_id = user_data["id"]
-
-            sql = "select userid " \
-                  "from useraccount " \
-                  "where username = %s"
-            cur.execute(sql, (form_data["usr"],))
-            result = cur.fetchone()
-
-            seached_user_id = result[0]
-
-            # add to user following count for user
-
-            sql = "update useraccount " \
-                  "set numberfollowing = numberfollowing - 1 " \
-                  "where username = %s"
-            cur.execute(sql, (user_data["username"],))
-
-            # updating followers count for other user
-            sql = "update useraccount" \
-                  " set numberoffollowers = numberoffollowers - 1" \
-                  " where username = %s"
-            cur.execute(sql, (form_data["usr"],))
-            # follow this person conection in db
-
-            sql = "DELETE FROM userfollows WHERE useridfollower = %s and useridfollowing = %s"
-
-            cur.execute(sql, (user_id, seached_user_id))
-
-            user_data["following"].remove(form_data["usr"].strip())
-
-            conn.commit()
-
-            cur.close()
-            return render_template('userpage.html', user_data=user_data)
-
-        return render_template('userpage.html', user_data=user_data)
-
-
-'''
-
-function to follow
-
-'''
-
-
 @views.route('/followuser/', methods=['POST', 'GET'])
 def follow_user():
+    """
+    function to follow another user
+    :return:
+    """
+
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
-        # getttting form data
+        # getting form data
 
         form_data = request.form
         user_data = session['user_data']
+        user_id = user_data["id"]
 
         # calculating follower count
 
         conn = get_connection()
         cur = conn.cursor()
 
-        sql = "select numberoffollowers, numberfollowing, userid " \
-              "from useraccount " \
-              "where userid = %s"
-        cur.execute(sql, (user_data["id"],))
-        result = cur.fetchone()
-
-        user_data["num_followers"] = result[0]
-        user_data["num_following"] = result[1] + 1
-        user_id = result[2]
-
         sql = "select userid " \
               "from useraccount " \
               "where username = %s"
         cur.execute(sql, (user_data["searched_friend"],))
-        result = cur.fetchone()
-
-        seached_user_id = result[0]
-
-        # add to user following count for user
-
-        sql = "update useraccount " \
-              "set numberfollowing = numberfollowing + 1 " \
-              "where userid = %s"
-        cur.execute(sql, (user_data["id"],))
-
-        # updating followers count for other user
-        sql = "update useraccount" \
-              " set numberoffollowers = numberoffollowers + 1" \
-              " where username = %s"
-        cur.execute(sql, (user_data["searched_friend"],))
-        # follow this person conection in db
+        searched_user_id = cur.fetchone()[0]
 
         sql = "insert into userfollows(useridfollower, useridfollowing)" \
-              " values(%s, %s)"
-        cur.execute(sql, (user_id, seached_user_id))
-        user_data["following"].append(user_data["searched_friend"])
+              " values(%s, %s) on conflict do nothing returning null"
+        cur.execute(sql, (user_id, searched_user_id))
+        result = cur.fetchone()
+
+        # TODO: display a message if the user is already following that user instead of just skipping
+        if result:
+            user_data["following"].append(user_data["searched_friend"].strip())
+            session.modified = True
+
+            sql = "select count(useridfollower) " \
+                  "from userfollows " \
+                  "where useridfollower = %s"
+            cur.execute(sql, (user_id,))
+            num_following = cur.fetchone()[0]
+
+            sql = "select count(useridfollowing) " \
+                  "from userfollows " \
+                  "where useridfollowing = %s"
+            cur.execute(sql, (user_id,))
+            num_followers = cur.fetchone()[0]
+
+            user_data["num_followers"] = num_followers
+            user_data["num_following"] = num_following
 
         user_data["searched_friend"] = "None"
-        conn.commit()
-        # user_data["following"].append(user_data["searched_friend"])
 
+        conn.commit()
         cur.close()
         user_data["explore"] = False
-
 
         return render_template('userpage.html', user_data=user_data)
 
 
-'''
-route to "play" a song
-'''
+@views.route('/unfollowuser/', methods=['POST', 'GET'])
+def unfollow_user():
+    """
+    function to unfollow another user
+    :return:
+    """
+
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+
+        # getting form data
+        form_data = request.form
+        user_data = session['user_data']
+        user_id = user_data["id"]
+
+        if int(user_data["num_following"]) > 0:
+            # calculating follower count
+
+            conn = get_connection()
+            cur = conn.cursor()
+
+            sql = "select userid " \
+                  "from useraccount " \
+                  "where username = %s"
+            cur.execute(sql, (form_data["usr"],))
+            searched_user_id = cur.fetchone()[0]
+
+            sql = "DELETE FROM userfollows " \
+                  "WHERE useridfollower = %s and useridfollowing = %s"
+            cur.execute(sql, (user_id, searched_user_id))
+
+            user_data["following"].remove(form_data["usr"].strip())
+            session.modified = True
+
+            sql = "select count(useridfollower) " \
+                  "from userfollows " \
+                  "where useridfollower = %s"
+            cur.execute(sql, (user_data["id"],))
+            num_following = cur.fetchone()[0]
+
+            sql = "select count(useridfollowing) " \
+                  "from userfollows " \
+                  "where useridfollowing = %s"
+            cur.execute(sql, (user_data["id"],))
+            num_followers = cur.fetchone()[0]
+
+            user_data["num_followers"] = num_followers
+            user_data["num_following"] = num_following
+
+            conn.commit()
+            cur.close()
+
+            return render_template('userpage.html', user_data=user_data)
+
+        return render_template('userpage.html', user_data=user_data)
+
+
+@views.route('/searchusers/', methods=['POST', 'GET'])
+def search_users():
+    """
+    function to find a user by email
+    :return:
+    """
+
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        form_data = request.form
+
+        # getting user data
+        user_data = session['user_data']
+        email = form_data["usr_email"]
+
+        # searching for user in db
+        conn = get_connection()
+        cur = conn.cursor()
+        sql = "select username " \
+              "from useraccount " \
+              "where email = %s"
+        cur.execute(sql, (email.strip(),))
+        result = cur.fetchone()
+
+        user_data["searched_friend"] = "None"
+        # if user not found
+        # TODO: show a message that says user not found
+        if result:
+            user_data["searched_friend"] = result[0]
+
+        session['user_data'] = user_data
+        user_data["explore"] = False
+        cur.close()
+
+        return render_template('userpage.html', user_data=user_data)
 
 
 @views.route('/playsong/', methods=['POST', 'GET'])
 def play_song():
+    """
+    route to play a song
+
+    :return:
+    """
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
@@ -325,43 +353,3 @@ def play_song():
         cur.close()
 
         return jsonify("playcount: %s", ())
-
-
-'''
-function to find a user by email
-'''
-
-
-@views.route('/searchusers/', methods=['POST', 'GET'])
-def search_users():
-    if request.method == 'GET':
-        return render_template('login.html')
-    if request.method == 'POST':
-        form_data = request.form
-
-        # getting user data
-        user_data = session['user_data']
-        email = form_data["usr_email"]
-
-        # searching for user in db
-        conn = get_connection()
-        cur = conn.cursor()
-        sql = "select username " \
-              "from useraccount " \
-              "where email = %s"
-        cur.execute(sql, (email.strip(),))
-        result = cur.fetchone()
-
-        # if user not found
-        if result is None:
-            user_data["searched_friend"] = "None"
-            return render_template('userpage.html', user_data=user_data)
-
-        # saving some data
-        user_data["searched_friend"] = result[0]
-        session['user_data'] = user_data
-        user_data["explore"] = False
-
-        cur.close()
-
-        return render_template('userpage.html', user_data=user_data)

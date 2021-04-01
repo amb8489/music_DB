@@ -6,6 +6,7 @@ from connection import get_connection
 
 auth = Blueprint('auth', __name__)
 
+
 # new user sign up page
 @auth.route("/signup", methods=['POST', 'GET'])
 def signup():
@@ -27,10 +28,9 @@ def signup():
 
             user_data["my_albums"] = "None"
 
-
             user_data.update(form_data)
 
-            #saving user data into session
+            # saving user data into session
             session['user_data'] = user_data
 
             return redirect(url_for('views.userpage', user_data=user_data))
@@ -38,13 +38,7 @@ def signup():
         return render_template('signup.html', error=error)
 
 
-
-
-
-
-
 def confirm_new_account(form_data):
-
     """
     confirm new account's data is valid
     :param form_data:
@@ -87,7 +81,7 @@ def confirm_new_account(form_data):
                       user_data["password"], datetime.now(), datetime.now()))
 
     # getting that users data from db
-    sql = "select email, creationdate, lastaccess,numberoffollowers,numberfollowing,userid " \
+    sql = "select email, creationdate, lastaccess, userid " \
           "from useraccount " \
           "where username = %s"
     cur.execute(sql, (form_data["username"],))
@@ -95,8 +89,8 @@ def confirm_new_account(form_data):
 
     # caching user data
     user_data = {"username": form_data["username"], "emailAddress": result[0], "creationDate": result[1],
-                 "lastAccess": result[2], "searched_friend": "None", "num_followers": result[3],
-                 "num_following": result[4], "id": result[5], 'following': []}
+                 "lastAccess": result[2], "searched_friend": "None", "num_followers": 0,
+                 "num_following": 0, "id": result[3], 'following': []}
     conn.commit()
     cur.close()
 
@@ -104,7 +98,6 @@ def confirm_new_account(form_data):
 
 
 def email_taken(email):
-
     conn = get_connection()
     cur = conn.cursor()
     sql = "select 1 from useraccount " \
@@ -121,7 +114,6 @@ def email_taken(email):
 
 
 def username_taken(username):
-
     conn = get_connection()
     cur = conn.cursor()
     sql = "select 1 from useraccount " \
@@ -187,46 +179,56 @@ def login():
             # getting that users data from db
             conn = get_connection()
             cur = conn.cursor()
-            sql = "select email, creationdate, lastaccess,numberoffollowers,numberfollowing,userid " \
+            sql = "select email, creationdate, lastaccess, userid " \
                   "from useraccount " \
                   "where username = %s"
             cur.execute(sql, (form_data["username"],))
             result = cur.fetchone()
 
+            sql = "select count(useridfollower) " \
+                  "from userfollows " \
+                  "where useridfollower = %s"
+            cur.execute(sql, (result[3],))
+            num_following = cur.fetchone()[0]
+
+            sql = "select count(useridfollowing) " \
+                  "from userfollows " \
+                  "where useridfollowing = %s"
+            cur.execute(sql, (result[3],))
+            num_followers = cur.fetchone()[0]
+
             # caching user data
             user_data = {"username": form_data["username"], "emailAddress": result[0], "creationDate": result[1],
-                         "lastAccess": result[2], "searched_friend": "None", "num_followers": result[3],
-                         "num_following": result[4], "id": result[5], 'following': []}
-
+                         "lastAccess": result[2], "searched_friend": "None", "num_followers": num_followers,
+                         "num_following": num_following, "id": result[3], 'following': []}
 
             # TODO LOAD USER ALBUMS
             user_data["my_albums"] = "None"
             user_data["new_album"] = []
 
             # getting the user that they are following
-            sql = "SELECT ALL useridfollowing"\
-                  " FROM userfollows"\
+            sql = "SELECT ALL useridfollowing" \
+                  " FROM userfollows" \
                   " WHERE useridfollower = %s"
 
             cur.execute(sql, (user_data["id"],))
             result = cur.fetchall()
 
             # if users follow nobody
-            if len(result)>0:
-                sql = "SELECT All username "\
-                      "FROM useraccount "\
+            if len(result) > 0:
+                sql = "SELECT All username " \
+                      "FROM useraccount " \
                       "WHERE userid IN %s"
 
                 cur.execute(sql, (tuple(result),))
                 result = cur.fetchall()
 
-                # formating names
+                # formatting names
                 names = []
                 for name in result:
                     name = name[0]
                     names.append(name)
                 user_data['following'] = names
-
 
             # saving user details into the session for global use
             session['user_data'] = user_data

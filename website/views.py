@@ -55,7 +55,6 @@ def get_playlist():
     if request.method == 'POST':
         # getttting form data
         playlist_name = request.form["playlist"]
-        print("playlist_name:---------",playlist_name)
 
 
         user_data = session['user_data']

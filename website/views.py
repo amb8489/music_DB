@@ -73,7 +73,8 @@ def make_new_playlist():
         new_playlist_name = form_data["playlist_name"]
         user_data["playlist_name"].append(new_playlist_name)
         user_data["playlist_name"] = sorted(user_data["playlist_name"])
-        print("*****************",new_playlist_name)
+        user_data["new_playlist"] = []
+
         session['user_data'] = user_data
         return render_template('userpage.html', user_data=user_data)
 

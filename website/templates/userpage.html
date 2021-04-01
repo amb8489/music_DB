@@ -210,6 +210,7 @@
 
               {% if user_data["searched_songs"] != "None" %}
               {% for song in user_data["searched_songs"] %}
+              <hr class="rounded">
 
               <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on
                 album '{{ song[4] }}'
@@ -230,7 +231,6 @@
 
               </form>
 
-              <hr class="rounded">
 
               {% endfor %}
 

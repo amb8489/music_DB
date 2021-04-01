@@ -198,8 +198,14 @@
 
               {% if user_data["searched_song"] != "None" %}
               {% for song in user_data["searched_song"] %}
+              <form class="form2" action="/addtoalbum/" method="post">
+                <p class="card" style="font-size: 14px;">{{song[0]}} by: {{song[3]}} length {{song[2]}} seconds [add to new album] </p>
+                <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>add to new album</button>
 
-              <p class="card" style="font-size: 14px;">{{song[0]}}  by: {{song[3]}}  length {{song[2]}} seconds [add to new album] </p>
+
+              </form>
+
+
               {% endfor%}
 
               {% endif %}
@@ -220,7 +226,7 @@
               <h2>new album</h2>
               <form class="" action="index.html" method="post">
                 <p style="font-size: 14px;">album name</p>
-                <input class="input2" type="text" id="amount" name="amount" value="my album name" placeholder="max amount to show ...">
+                <input class="input2" type="text" id="amount" name="amount" value="my album name" placeholder="name...">
                 </label>
                 <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new collection</button>
               </form>

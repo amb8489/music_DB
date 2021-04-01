@@ -32,6 +32,7 @@ def add_songs():
 
     #    id:   0       1         2         3       4            5            6
     genres ={"rap":0,"pop":1,"country":2,"R&B":3,"rock":4,"alternative":5,"indie":6}
+    album_hist_seen = {}
 
     conn = get_connection()
     cur = conn.cursor()
@@ -102,22 +103,41 @@ def add_songs():
                             #
                             #
                             #
+
+
+
+
+
+
+
                             # sql = "insert into album(albumname,releasedate,artistname)"\
                             #       " values(%s,%s,%s) on conflict do nothing"
                             # cur.execute(sql, (album.strip(),year,artist.strip()))
-                            # b+=1
-                            # if b >9388:
-                            #     return
 
 
-                            
-                            # ------------------- TODO -------------------- #
 
-                            #sql = "insert into albumcontains(songid,artistid)"\
-                            #       "values((select songid from song where songid = %s),"\
-                            #       "(select artistid from artist where artist.artistname = %s))"
-                            #cur.execute(sql, (Uid, artist.strip()))
 
+                            # name = album + artist.strip()
+                            # if name in album_hist_seen:
+                            #     album_hist_seen[name] += 1
+                            # else:
+                            #     album_hist_seen[name] = 1
+                            #
+                            #
+                            #
+                            # sql = "insert into albumcontains(albumid,songid,tracknumber)"\
+                            #       " values((select albumid from album where albumname = %s and artistname = %s),"\
+                            #       " (select songid from song where song.songid = %s),"\
+                            #       " (%s))"
+                            # cur.execute(sql, (album.strip(),artist.strip(),Uid, album_hist_seen[name]))
+
+
+
+
+
+                            b+=1
+                            if b >9388:
+                                return
 
 
                             conn.commit()

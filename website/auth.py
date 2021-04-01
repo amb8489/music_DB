@@ -234,7 +234,7 @@ def login():
             all_playlists = cur.fetchall()
 
             if len(all_playlists)>0:
-                user_data["playlist_name"] = [name for name in all_playlists]
+                user_data["playlist_name"] = [name[0] for name in all_playlists]
 
             else:
                 user_data["playlist_name"] = []

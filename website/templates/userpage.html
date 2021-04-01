@@ -216,19 +216,20 @@
                         {% for song in user_data["searched_songs"] %}
 
                             <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on
-                                album '{{ song[4] }}' <br>
-                                genre: {{ song[5] }} <br>
-                                length: {{ song[2] }} seconds <br>
-                                [add to new collection]</p>
+                                album '{{ song[4] }}'
+                                genre: {{ song[5] }}
+                                length: {{ song[2] }} seconds
+                                play count: {{ song[6] }}
+                            </p>
 
-                            <button onclick="ajax_play_song({{ song[1] }})" class="button" style="test-align: center;" ;
+                            <button class="buttonEXP"  onclick="ajax_play_song({{ song[1] }})" class="button" style="test-align: center;" ;
                                     type="submit" name="songid"
                                     value={{ song[1] }}>play song
                             </button>
-                            <p>play count: {{ song[6] }}</p>
+                            <!-- <p>play count: {{ song[6] }}</p> -->
 
 
-                            <form class="form2" action="/addtoalbum/" method="post">
+                            <form  action="/addtoalbum/" method="post">
                                 <button class="buttonEXP" style="test-align: center; right:100px;" ;id="song_"
                                         name="song_" type="submit" value="array({{ song }})">add to new album
                                 </button>
@@ -236,6 +237,7 @@
 
                             </form>
 
+                            <hr class="rounded">
 
                         {% endfor %}
 
@@ -256,7 +258,7 @@
                     <h2>new album</h2>
                     <form class="" action="index.html" method="post">
                         <p style="font-size: 14px;">album name</p>
-                        <input class="input2" type="text" id="amount" name="amount" value="my album name"
+                        <input class="input2" type="text" id="amount" name="amount" value="new album name"
                                placeholder="name...">
                         </label>
                         <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new
@@ -265,7 +267,9 @@
                     </form>
 
                     {% for song in user_data["new_album"] %}
-                        <p>{{ song[1] }}</p>
+                        <p class="card">{{ song[1] }}</p>
+                        <button class="buttonEXP" style="test-align: center; background-color: #f00e0e;" ; type="submit" value=search>remove
+                        </button>
                     {% endfor %}
 
                 </div>

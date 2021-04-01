@@ -52,7 +52,9 @@
   border-radius: 10px;
   background-color: #f2f2f2;
   padding: 6px 8px 6px 16px;
-  height: 50px;
+  height:8%;
+  width: 75%;
+  display:inline-block;
 
 }
 
@@ -157,9 +159,17 @@ body {
   height: 56px;
   font-size: 12px;
   text-align: center;
-}
+  display:inline-block;
 
+}
+/* Rounded border */
+hr.rounded {
+  border-top: 8px solid #bbb;
+  border-radius: 5px;
+}
 .buttonEXP {
+  display:inline-block;
+
   all: unset;
   background-color: #ffffca;
 
@@ -169,6 +179,8 @@ body {
   height: 35px;
   font-size: 12px;
   text-align: center;
+  display:inline-block;
+
 }
 
 .input {

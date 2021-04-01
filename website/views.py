@@ -72,7 +72,7 @@ def make_new_album():
 
         new_album_name = form_data["album_name"]
         user_data["my_albums"].append(new_album_name)
-
+        user_data["my_albums"] = sorted(user_data["my_albums"])
         print("*****************",new_album_name)
         session['user_data'] = user_data
         return render_template('userpage.html', user_data=user_data)
@@ -199,7 +199,7 @@ def searched_song():
                 if result[i][6] is None:
                     result[i] = (result[i][0], result[i][1], result[i][2], result[i][3], result[i][4], result[i][5], 0)
 
-            user_data["searched_songs"] = result
+            user_data["searched_songs"] = sortd(result)
             # user_data["searched_song_id"] = result[1]
         else:
             user_data["searched_song_errors"] = "no song found!"

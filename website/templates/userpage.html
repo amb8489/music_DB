@@ -135,7 +135,7 @@
             <h2>my playlists</h2>
 
             <div class="dropdown">
-              <button onclick="dropdownFunction()" class="dropbtn">Albums</button>
+              <button onclick="dropdownFunction()" class="dropbtn">my playlists</button>
               <div id="myDropdown" class="dropdown-content">
                 <!--  for albums in ...<a href="#album name">Home</a> ---->
                 {% for album in user_data["my_albums"] %}
@@ -224,7 +224,7 @@
 
 
               <form action="/addtoalbum/" method="post">
-                <button class="buttonEXP" style="test-align: center; right:100px;" ;id="song_" name="song_" type="submit" value="array({{ song }})">add to new album
+                <button class="buttonEXP" style="test-align: center; right:100px;" ;id="song_" name="song_" type="submit" value="array({{ song }})">add to new playlists
                 </button>
 
 
@@ -248,13 +248,13 @@
             <!-- make new alb --->
             <div class="split right">
 
-              <h2>new album</h2>
+              <h2>new playlists</h2>
               <form class="" action="/makenewalbum/" method="post">
                 <p style="font-size: 14px;">album name</p>
-                <input class="input2" type="text" id="album_name" name="album_name" value="new album name" placeholder="name here...">
+                <input class="input2" type="text" id="album_name" name="album_name" value="new playlists name" placeholder="name here...">
                 </label>
                 <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new
-                  collection
+                  playlists
                 </button>
               </form>
 

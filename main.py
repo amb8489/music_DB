@@ -19,34 +19,34 @@
 
 ----------------
 
-   [ ] •Users will be able to create collections of music.
+   [IN PROGRESS by aaron] •Users will be able to create collections of music.
 
-   [ ] •Users will be to see the list of all their collections by:
+   [X] •Users will be to see the list of all their collections by:
         name in ascending order
 
-   [ ] •The list must show the following information per collection:
+   [IN PROGRESS by aaron] •The list must show the following information per collection:
         name
         Number of songs in the collection
         Total duration in minutes
 
-  [ ] Users can add and delete albums, and songs from their collection
-  [ ] Users can modify the name of a collection.
-  [ ] They can also delete an entire collection
+  [IN PROGRESS by aaron] Users can add and delete albums, and songs from their collection
+  [IN PROGRESS by aaron] Users can modify the name of a collection.
+  [IN PROGRESS by aaron] They can also delete an entire collection
 
-  [ ] Users can listen to a song individually or it can play an entire collection.
+  [IN PROGRESS by tanner] Users can listen to a song individually or it can play an entire collection.
         You must record every time a song is played by a user. You do not need to
         actually be able toplay songs, simply mark them as played
 
 
 ----------------
 
-    [IN PROGRESS by aaron/greg] •Users will be able to search for songs by:
+    [X] •Users will be able to search for songs by:
         name
         artist
         album
         genre
 
-    [IN PROGRESS by aaron/greg] The resulting list of songs must be in alphabetical order by song's name
+    [ ] The resulting list of songs must be in alphabetical order by song's name
         and artist's name
 
         (Users can also sort list by artist's name, genre, and released year)

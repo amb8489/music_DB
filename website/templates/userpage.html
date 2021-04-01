@@ -3,203 +3,232 @@
 
 <head>
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- style stuff -->
-  <link rel="stylesheet" href="{{ url_for('static', filename='/css/userpage.css') }}" />
+    <!-- style stuff -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/userpage.css') }}"/>
 
-  <style>
-    @media screen and (max-height: 450px) {
-      .sidenav {
-        padding-top: 15px;
-      }
+    <style>
+        @media screen and (max-height: 450px) {
+            .sidenav {
+                padding-top: 15px;
+            }
 
-      .sidenav a {
-        font-size: 18px;
-      }
-    }
-  </style>
+            .sidenav a {
+                font-size: 18px;
+            }
+        }
+    </style>
 </head>
 
 <body>
-  <!DOCTYPE html>
-  <html>
+<!DOCTYPE html>
+<html>
 
-  <head>
+<head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <style>
-      @media screen and (max-height: 450px) {
-        .sidenav {
-          padding-top: 15px;
-        }
+        @media screen and (max-height: 450px) {
+            .sidenav {
+                padding-top: 15px;
+            }
 
-        .sidenav a {
-          font-size: 18px;
+            .sidenav a {
+                font-size: 18px;
+            }
         }
-      }
     </style>
 
-  </head>
+</head>
 
 
-
-  <body>
-
-
-    <!--side bar-->
-
-    <div class="sidenav">
-      <h1><a style="color: #ffffca;" href="#" onclick="showhide('me');">terrible spotify</a></h1>
-
-      <a href="#" onclick="showhide('me');">me</a>
-      <a href="#" onclick="showhide('myAlbums');">my music</a>
-      <a href="#" onclick="showhide('explore');">explore</a>
-    </div>
-
-    <!--- user profile side -->
-    <div class="user_bock" id="usrblk">
-      <h2 style="text-align: center"> {{ user_data['username'] }}</h2>
-      <p><a href="#" onclick="showhide('following');">{{user_data["num_followers"]}} followers</a></p>
-      <p><a href="#" onclick="showhide('following');">{{user_data["num_following"]}} following</a></p>
-      <!-- <p><a href="#" onclick="showhide('myAlbums');">[ X ]collections</a></p> -->
-      <p><a href="#" onclick="showhide('settings');">settings</a></p>
-      <p><a href="/">log out</a></p>
+<body>
 
 
-    </div>
+<!--side bar-->
+
+<div class="sidenav">
+    <h1><a style="color: #ffffca;" href="#" onclick="showhide('me');">terrible spotify</a></h1>
+
+    <a href="#" onclick="showhide('me');">me</a>
+    <a href="#" onclick="showhide('myAlbums');">my music</a>
+    <a href="#" onclick="showhide('explore');">explore</a>
+</div>
+
+<!--- user profile side -->
+<div class="user_bock" id="usrblk">
+    <h2 style="text-align: center"> {{ user_data['username'] }}</h2>
+    <p><a href="#" onclick="showhide('following');">{{ user_data["num_followers"] }} followers</a></p>
+    <p><a href="#" onclick="showhide('following');">{{ user_data["num_following"] }} following</a></p>
+    <!-- <p><a href="#" onclick="showhide('myAlbums');">[ X ]collections</a></p> -->
+    <p><a href="#" onclick="showhide('settings');">settings</a></p>
+    <p><a href="/">log out</a></p>
 
 
-    <!--all content pages -->
+</div>
 
-    <div class="all" id="all_content">
 
-      <div id="info" class="graydiv">
+<!--all content pages -->
+
+<div class="all" id="all_content">
+
+    <div id="info" class="graydiv">
 
         <!--user home page -->
 
         <div class="me" id="me">
-          <h3>find friends</h3>
+            <h3>find friends</h3>
 
-          <form class="form" action="/searchusers/" method="POST" id="form" role="search">
-            <input class="input" type="search" type="text" id="usr_email" name="usr_email" placeholder="Search users by email" aria-label="Search through site content">
-            <button class="button" style="test-align: center;" ; type="submit" value=search>search</button>
-          </form>
-
-          {% if user_data["searched_friend"] != "None" %}
-          <div class="card">
-            <form class="form" action="/followuser/" method="POST" id="form" role="search">
-              <p>{{user_data["searched_friend"]}}</p>
-              <button style="text-align: center; align: right;" id="usr_email" name="usr_email" type="submit" value=user_data["searched_friend"]>follow</button></p>
+            <form class="form" action="/searchusers/" method="POST" id="form" role="search">
+                <input class="input" type="search" type="text" id="usr_email" name="usr_email"
+                       placeholder="Search users by email" aria-label="Search through site content">
+                <button class="button" style="test-align: center;" ; type="submit" value=search>search</button>
             </form>
-          </div>
-          {%endif%}
+
+            {% if user_data["searched_friend"] != "None" %}
+                <div class="card">
+                    <form class="form" action="/followuser/" method="POST" id="form" role="search">
+                        <p>{{ user_data["searched_friend"] }}</p>
+                        <button style="text-align: center; align: right;" id="usr_email" name="usr_email" type="submit"
+                                value=user_data["searched_friend"]>follow
+                        </button>
+                        </p>
+                    </form>
+                </div>
+            {% endif %}
         </div>
 
         <div id="content">
 
-          <!--settings page -->
+            <!--settings page -->
 
-          <div class="settings" id="settings">
-            <h2>your user settings</h2>
-            {% for key,value in user_data.items() %}
-            <p>{{ key }} : {{ value }}</p>
-            {% endfor %}
-          </div>
-
-
-          <!--following page -->
-
-
-
-
-          <div class="following" id="following">
-            <h2>following</h2>
-            {% for user in user_data["following"] %}
-
-            <form action="/unfollowuser/" method="POST" id="form" role="search">
-              <p class="unfollow">{{ user }}</p>
-              <button class="button" style="test-align: center;" ; type="submit" name="usr" value="{{ user }}">unfollow</button>
-
-              <!-- <input type="submit" name="usr" value="{{ user }}"> -->
-              <p></p>
-            </form>
-            {% endfor %}
-
-
-
-          </div>
-
-
-
-          <!--myAlbums page -->
-
-          <div class="myAlbums" id="myAlbums">
-            <h2>my playlists</h2>
-
-            <div class="dropdown">
-              <button onclick="dropdownFunction()" class="dropbtn">Albums</button>
-              <div id="myDropdown" class="dropdown-content">
-
-                <!--  for albums in ...<a href="#album name">Home</a> ---->
-                <a href="#home">album1</a>
-                <a href="#about">album2</a>
-                <a href="#contact">album3</a>
-              </div>
+            <div class="settings" id="settings">
+                <h2>your user settings</h2>
+                {% for key,value in user_data.items() %}
+                    <p>{{ key }} : {{ value }}</p>
+                {% endfor %}
             </div>
 
 
+            <!--following page -->
 
 
+            <div class="following" id="following">
+                <h2>following</h2>
+                {% for user in user_data["following"] %}
 
-          </div>
+                    <form action="/unfollowuser/" method="POST" id="form" role="search">
+                        <p class="unfollow">{{ user }}</p>
+                        <button class="button" style="test-align: center;" ; type="submit" name="usr"
+                                value="{{ user }}">unfollow
+                        </button>
+
+                        <!-- <input type="submit" name="usr" value="{{ user }}"> -->
+                        <p></p>
+                    </form>
+                {% endfor %}
 
 
-          <!--explore page -->
+            </div>
 
 
+            <!--myAlbums page -->
 
+            <div class="myAlbums" id="myAlbums">
+                <h2>my playlists</h2>
 
-          <div class="explore" id="explore">
+                <div class="dropdown">
+                    <button onclick="dropdownFunction()" class="dropbtn">Albums</button>
+                    <div id="myDropdown" class="dropdown-content">
 
-
-
-            <div class="split left">
-              <h2>explore</h2>
-
-              <form action="/searchedsong/" method="POST" id="form" role="search">
-
-                <div>
-                  <label class="container">Search songs by artist
-                    <input type="radio" name="options" value="artist">
-                    <span class="checkmark"></span>
-                  </label>
-                  <label class="container">Search by album
-                    <input type="radio" name="options" value="album">
-                    <span class="checkmark"></span>
-                  </label>
-                  <label class="container">Search by genre
-                    <input type="radio" name="options" value="genre">
-                    <span class="checkmark"></span>
-                  </label>
-                  <label class="container">Search by songs title
-                    <input type="radio" checked="checked" name="options" value="title">
-                    <span class="checkmark"></span>
-                  </label>
-                  <p style="font-size: 14px;">what the max number of songs you want to see</p>
-                  <input class="input2" type="text" id="amount" name="amount" value="5" placeholder="max amount to show ...">
-                  </label>
-
+                        <!--  for albums in ...<a href="#album name">Home</a> ---->
+                        <a href="#home">album1</a>
+                        <a href="#about">album2</a>
+                        <a href="#contact">album3</a>
+                    </div>
                 </div>
 
-                <input class="input2" type="search" id="songname" name="song_name" placeholder="Search songs" aria-label="Search through site content">
-                <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>search</button>
-              </form>
+
+            </div>
 
 
-              {% if user_data["searched_song"] != "None" %}
-              {% for song in user_data["searched_song"] %}
+            <!--explore page -->
+
+
+            <div class="explore" id="explore">
+
+
+                <div class="split left">
+                    <h2>explore</h2>
+
+                    <form action="/searchedsong/" method="POST" id="form" role="search">
+
+                        <div>
+                            <label class="container">Search by songs title
+                                <input type="radio" checked="checked" name="options" value="title">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">Search songs by artist
+                                <input type="radio" name="options" value="artist">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">Search by album
+                                <input type="radio" name="options" value="album">
+                                <span class="checkmark"></span>
+                            </label>
+                            <label class="container">Search by genre
+                                <input type="radio" name="options" value="genre">
+                                <span class="checkmark"></span>
+                            </label>
+                            <p style="font-size: 14px;">what's the max number of songs you want to see</p>
+                            <input class="input2" type="text" id="amount" name="amount" value="5"
+                                   placeholder="max amount to show ...">
+                            </label>
+
+                        </div>
+
+                        <input class="input2" type="search" id="songname" name="song_name" placeholder="Search songs"
+                               aria-label="Search through site content">
+                        <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>search
+                        </button>
+                    </form>
+                    <script>
+                        var updatedPlayCount = 0;
+
+                        function ajax_play_song(songid) {
+                            $.ajax({
+                                type: "POST",
+                                url: '/playsong/',
+                                dataType: "json",
+                                data: JSON.stringify({songid: songid}),
+                                contentType:
+                                    'application/json;charset=UTF-8',
+                                success:
+                                    function (data) {
+                                        updatedPlayCount = data["playCount"];
+                                    }
+                            })
+                            ;
+                        }
+                    </script>
+
+                    {% if user_data["searched_songs"] != "None" %}
+                        {% for song in user_data["searched_songs"] %}
+
+                            <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on
+                                album '{{ song[4] }}' <br>
+                                genre: {{ song[5] }} <br>
+                                length: {{ song[2] }} seconds <br>
+                                [add to new collection]</p>
+
+                            <button onclick="ajax_play_song({{ song[1] }})" class="button" style="test-align: center;" ;
+                                    type="submit" name="songid"
+                                    value={{ song[1] }}>play song
+                            </button>
+                            <p>play count: {{ song[6] }}</p>
+
+
               <form class="form2" action="/addtoalbum/" method="post">
-                <p class="card" style="font-size: 14px;">{{song[0]}} by: {{song[3]}} length {{song[2]}} seconds</p>
                 <button class="buttonEXP" style="test-align: center; right:100px;";id="song_" name="song_" type="submit" value= "array({{ song}})" >add to new album</button>
 
 
@@ -208,20 +237,19 @@
 
               {% endfor%}
 
-              {% endif %}
+                    {% endif %}
 
-              {% if user_data["searched_song_error"] != "None" %}
+                    {% if user_data["searched_song_error"] != "None" %}
 
-              <p>{{user_data["searched_song_error"]}}</p>
+                        <p>{{ user_data["searched_song_error"] }}</p>
 
-              {% endif %}
+                    {% endif %}
 
-            </div>
+                </div>
 
 
-
-            <!-- make new alb --->
-            <div class="split right">
+                <!-- make new alb --->
+                <div class="split right">
 
               <h2>new album</h2>
               <form class="" action="index.html" method="post">
@@ -234,61 +262,63 @@
               {% for song in user_data["new_album"] %}
                   <p>{{ song[0]}}</p>
               {% endfor%}
+  
             </div>
-          </div>
         </div>
         <!-- </div> -->
-      </div>
-      <!--function to show only the page clicked on -->
-      <script>
+    </div>
+    <!--function to show only the page clicked on -->
+    <script>
         var divState = {};
 
         function showhide(id) {
-          if (document.getElementById) {
-            var divid = document.getElementById(id);
-            if (divState[id] != true) {
-              divState[id] = (divState[id]) ? false : true;
-              //close others
-              divState["me"] = true
-              for (var div in divState) {
+            if (document.getElementById) {
+                var divid = document.getElementById(id);
+                if (divState[id] != true) {
+                    divState[id] = (divState[id]) ? false : true;
+                    //close others
+                    divState["me"] = true
+                    for (var div in divState) {
 
-                if (divState[div] && div != id) {
-                  document.getElementById(div).style.display = 'none';
-                  divState[div] = false;
+                        if (divState[div] && div != id) {
+                            document.getElementById(div).style.display = 'none';
+                            divState[div] = false;
+                        }
+                    }
+                    divid.style.display = (divid.style.display == 'block' ? 'none' : 'block');
                 }
-              }
-              divid.style.display = (divid.style.display == 'block' ? 'none' : 'block');
             }
-          }
         }
-      </script>
+    </script>
+    {% if user_data["explore"] %}
+        <script>
+            showhide('explore');
+        </script>{% endif %}
 
-      {% if user_data["explore"]%}<script>
-        showhide('explore');
-      </script>{% endif %}
 
-      <script>
+    <script>
         /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
         function dropdownFunction() {
-          document.getElementById("myDropdown").classList.toggle("show");
+            document.getElementById("myDropdown").classList.toggle("show");
         }
 
         // Close the dropdown if the user clicks outside of it
-        window.onclick = function(event) {
-          if (!event.target.matches('.dropbtn')) {
-            var dropdowns = document.getElementsByClassName("dropdown-content");
-            var i;
-            for (i = 0; i < dropdowns.length; i++) {
-              var openDropdown = dropdowns[i];
-              if (openDropdown.classList.contains('show')) {
-                openDropdown.classList.remove('show');
-              }
+        window.onclick = function (event) {
+            if (!event.target.matches('.dropbtn')) {
+                var dropdowns = document.getElementsByClassName("dropdown-content");
+                var i;
+                for (i = 0; i < dropdowns.length; i++) {
+                    var openDropdown = dropdowns[i];
+                    if (openDropdown.classList.contains('show')) {
+                        openDropdown.classList.remove('show');
+                    }
+                }
             }
-          }
         }
-      </script>
+    </script>
 
-  </body>
 
-  </html>
+</body>
+
+</html>

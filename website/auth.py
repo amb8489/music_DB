@@ -229,7 +229,7 @@ def login():
                     names.append(name)
                 user_data['following'] = names
 
-            sql = "SELECT ALL name FROM collection where userid = %s)"
+            sql = "SELECT ALL name FROM collection where userid = %s"
             cur.execute(sql, (user_data["id"],))
             all_playlists = cur.fetchall()
 

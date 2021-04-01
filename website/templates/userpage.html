@@ -228,14 +228,16 @@
                             <p>play count: {{ song[6] }}</p>
 
 
-              <form class="form2" action="/addtoalbum/" method="post">
-                <button class="buttonEXP" style="test-align: center; right:100px;";id="song_" name="song_" type="submit" value= "array({{ song}})" >add to new album</button>
+                            <form class="form2" action="/addtoalbum/" method="post">
+                                <button class="buttonEXP" style="test-align: center; right:100px;" ;id="song_"
+                                        name="song_" type="submit" value="array({{ song }})">add to new album
+                                </button>
 
 
-              </form>
+                            </form>
 
 
-              {% endfor%}
+                        {% endfor %}
 
                     {% endif %}
 
@@ -251,72 +253,75 @@
                 <!-- make new alb --->
                 <div class="split right">
 
-              <h2>new album</h2>
-              <form class="" action="index.html" method="post">
-                <p style="font-size: 14px;">album name</p>
-                <input class="input2" type="text" id="amount" name="amount" value="my album name" placeholder="name...">
-                </label>
-                <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new collection</button>
-              </form>
+                    <h2>new album</h2>
+                    <form class="" action="index.html" method="post">
+                        <p style="font-size: 14px;">album name</p>
+                        <input class="input2" type="text" id="amount" name="amount" value="my album name"
+                               placeholder="name...">
+                        </label>
+                        <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new
+                            collection
+                        </button>
+                    </form>
 
-              {% for song in user_data["new_album"] %}
-                  <p>{{ song[0]}}</p>
-              {% endfor%}
-  
+                    {% for song in user_data["new_album"] %}
+                        <p>{{ song[1] }}</p>
+                    {% endfor %}
+
+                </div>
             </div>
+            <!-- </div> -->
         </div>
-        <!-- </div> -->
-    </div>
-    <!--function to show only the page clicked on -->
-    <script>
-        var divState = {};
+        <!--function to show only the page clicked on -->
+        <script>
+            var divState = {};
 
-        function showhide(id) {
-            if (document.getElementById) {
-                var divid = document.getElementById(id);
-                if (divState[id] != true) {
-                    divState[id] = (divState[id]) ? false : true;
-                    //close others
-                    divState["me"] = true
-                    for (var div in divState) {
+            function showhide(id) {
+                if (document.getElementById) {
+                    var divid = document.getElementById(id);
+                    if (divState[id] != true) {
+                        divState[id] = (divState[id]) ? false : true;
+                        //close others
+                        divState["me"] = true
+                        for (var div in divState) {
 
-                        if (divState[div] && div != id) {
-                            document.getElementById(div).style.display = 'none';
-                            divState[div] = false;
+                            if (divState[div] && div != id) {
+                                document.getElementById(div).style.display = 'none';
+                                divState[div] = false;
+                            }
+                        }
+                        divid.style.display = (divid.style.display == 'block' ? 'none' : 'block');
+                    }
+                }
+            }
+        </script>
+        {% if user_data["explore"] %}
+            <script>
+                showhide('explore');
+            </script>{% endif %}
+
+
+        <script>
+            /* When the user clicks on the button,
+    toggle between hiding and showing the dropdown content */
+            function dropdownFunction() {
+                document.getElementById("myDropdown").classList.toggle("show");
+            }
+
+            // Close the dropdown if the user clicks outside of it
+            window.onclick = function (event) {
+                if (!event.target.matches('.dropbtn')) {
+                    var dropdowns = document.getElementsByClassName("dropdown-content");
+                    var i;
+                    for (i = 0; i < dropdowns.length; i++) {
+                        var openDropdown = dropdowns[i];
+                        if (openDropdown.classList.contains('show')) {
+                            openDropdown.classList.remove('show');
                         }
                     }
-                    divid.style.display = (divid.style.display == 'block' ? 'none' : 'block');
                 }
             }
-        }
-    </script>
-    {% if user_data["explore"] %}
-        <script>
-            showhide('explore');
-        </script>{% endif %}
-
-
-    <script>
-        /* When the user clicks on the button,
-toggle between hiding and showing the dropdown content */
-        function dropdownFunction() {
-            document.getElementById("myDropdown").classList.toggle("show");
-        }
-
-        // Close the dropdown if the user clicks outside of it
-        window.onclick = function (event) {
-            if (!event.target.matches('.dropbtn')) {
-                var dropdowns = document.getElementsByClassName("dropdown-content");
-                var i;
-                for (i = 0; i < dropdowns.length; i++) {
-                    var openDropdown = dropdowns[i];
-                    if (openDropdown.classList.contains('show')) {
-                        openDropdown.classList.remove('show');
-                    }
-                }
-            }
-        }
-    </script>
+        </script>
 
 
 </body>

@@ -229,10 +229,8 @@ def login():
                     names.append(name)
                 user_data['following'] = names
 
-            sql = " SELECT ALL title FROM song WHERE songid IN "\
-                  "(SELECT ALL songid FROM collectionsong WHERE collectionid IN "\
-                  "(SELECT ALL collectionid FROM collection where userid = %s)) "
-            cur.execute(sql, (user_data["id"]))
+            sql = "SELECT ALL name FROM collection where userid = %s)"
+            cur.execute(sql, (user_data["id"],))
             all_playlists = cur.fetchall()
 
             if len(all_playlists)>0:
@@ -242,8 +240,6 @@ def login():
                 user_data["playlist_name"] = []
 
 
-
-        user_data["current_playlist"] = songs
             # saving user details into the session for global use
             session['user_data'] = user_data
             return render_template('userpage.html', user_data=user_data)

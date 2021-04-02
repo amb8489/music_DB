@@ -1,5 +1,5 @@
 # music_DB-master
-names: aaron berghash, tanner bradford
+names: aaron berghash, tanner bradford,GREG
 
 
 usage:

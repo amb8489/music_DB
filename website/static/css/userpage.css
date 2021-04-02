@@ -182,7 +182,23 @@ hr.rounded {
   display:inline-block;
 
 }
+.buttonremove{
+  display:inline-block;
 
+  all: unset;
+  background-color: #ffffca;
+  font-size: 12px;
+  border-radius: 12px;
+  border-color: black cursor: pointer;
+  width: 120px;
+  height: 20px;
+  font-size: 12px;
+  text-align: center;
+  display:inline-block;
+
+
+
+}
 .input {
   all: unset;
   background-color: #F2f2f2;

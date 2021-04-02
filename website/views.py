@@ -47,6 +47,51 @@ def add_to_my_playlist():
 
 
 
+@views.route('/removeplaylist/', methods=['POST', 'GET'])
+def remove_playlist():
+    if request.method == 'GET':
+        return render_template('userpage.html')
+    if request.method == 'POST':
+        rmplaylist_name = request.form["rmplaylist"]
+
+        print("----+++++++++++++",rmplaylist_name)
+        user_data = session['user_data']
+        user_data["playlist_name"].remove(rmplaylist_name)
+        user_data["current_playlist_length"] = 0
+        user_data["current_playlist_number"] = 0
+
+        conn = get_connection()
+        cur = conn.cursor()
+        sql = "SELECT collectionid FROM collection WHERE name = %s "
+        cur.execute(sql, (rmplaylist_name,))
+        collectionID = cur.fetchone()[0]
+
+
+        sql = "DELETE FROM collectionsong WHERE collectionid = %s "
+        cur.execute(sql, (collectionID,))
+
+
+        sql = "DELETE FROM collection WHERE collectionid = %s "
+        cur.execute(sql, (collectionID,))
+
+
+
+        conn.commit()
+        cur.close()
+
+        session['user_data'] = user_data
+        return render_template('userpage.html', user_data=user_data)
+
+
+
+
+
+
+
+
+
+
+
 
 @views.route('/getplaylist/', methods=['POST', 'GET'])
 def get_playlist():
@@ -63,9 +108,9 @@ def get_playlist():
 
         conn = get_connection()
         cur = conn.cursor()
-        sql = " SELECT ALL title,length FROM song WHERE songid IN "\
-              "(SELECT ALL songid FROM collectionsong WHERE collectionid IN "\
-              "(SELECT ALL collectionid FROM collection where name = %s AND userid = %s)) "
+        sql = " SELECT songid,title,length FROM song WHERE songid IN "\
+              "(SELECT songid FROM collectionsong WHERE collectionid IN "\
+              "(SELECT collectionid FROM collection where name = %s AND userid = %s)) "
         cur.execute(sql, (playlist_name,userID))
         songs = cur.fetchall()
 
@@ -74,7 +119,7 @@ def get_playlist():
         user_data["current_playlist"] = songs
         user_data["current_playlist_name"]=playlist_name
 
-        user_data["current_playlist_length"] = round(sum([song[1] for song in songs])/60,2)
+        user_data["current_playlist_length"] = round(sum([song[2] for song in songs])/60,2)
         user_data["current_playlist_number"] = len(songs)
 
         user_data["myAlbum"] = True
@@ -469,6 +514,42 @@ def play_song():
 
         print(user_data['searched_songs'])
 
+        session['user_data'] = user_data
+
+        return render_template('userpage.html', user_data=user_data)
+
+
+@views.route('/playcollection/', methods=['POST', 'GET'])
+def play_collection():
+    """
+    route to play a collection of songs
+
+    :return:
+    """
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+
+        user_data = session['user_data']
+        userid = user_data['id']
+        songs = user_data["current_playlist"]
+        print(songs)
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        for song in songs:
+            sql = "insert into userplayssong(userid, songid, playcount) " \
+                    "values(%s, %s, 1)" \
+                    "on conflict(userid, songid) do update " \
+                    "set playcount = userplayssong.playcount + 1"
+            cur.execute(sql, (userid, int(song[0])))
+
+        conn.commit()
+        cur.close()
+
+        user_data["explore"] = True
+        user_data["myAlbums"] = False
         session['user_data'] = user_data
 
         return render_template('userpage.html', user_data=user_data)

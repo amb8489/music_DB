@@ -1,12 +1,13 @@
 # aaron berghash
 # greg mockler
 # tanner bradford
+# ranen mirot
 
 """
- -------- PHASE 3 requirments by ap april 2: ---------
+ -------- PHASE 3 requirements by ap april 2: ---------
 
 
-[X] link data base to appliction
+[X] link data base to application
 
 [X] fill data base with data sets
 

@@ -1,0 +1,40 @@
+.body{
+
+  background-color: #ffffca;
+
+
+}
+
+.centerDiv {
+  background-color: #ffffca;
+  border-radius: 12px;
+  margin-top: 20%;
+  margin-bottom: 20%;
+
+  margin-right: 25%;
+  margin-left: 25%;
+  width: 50%;
+  height: 250px;
+  text-align: center;
+}
+
+
+
+.button {
+  border: none;
+  background-color: #35baf6;  /* Blue */
+  border-radius: 20px;
+  color: black;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  transition-duration: 0.4s;
+
+
+}
+.button1:hover {
+  background-color: #FFFFFF;  /* whitw */
+  border-radius: 12px;
+}

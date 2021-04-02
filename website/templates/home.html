@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>home</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/home.css') }}"/>
+
+</head>
+
+<body class="body">
+<!-- sign in / sign up buttons-->
+<div class="centerDiv">
+    <h1> terrible spotify </h1>
+    <p> a music database</p>
+    <p>create playlists and find new songs and friends </p>
+    <p>signup for free to start exploring </p>
+    <!-- sign in / sign up buttons goes to main.py/signup()-->
+    <a href=signup>
+        <button class="button button1">sign up</button>
+    </a>
+
+    <!-- sign in / sign up buttons goes to main.py/login()-->
+    <a href=login>
+        <button class="button button1">log in</button>
+    </a>
+
+</div>
+
+</body>
+
+</html>

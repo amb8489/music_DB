@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>signup</title>
+    <!-- style  -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='/css/signup.css') }}"/>
+
+</head>
+<body>
+<!-- logo link to bring you to home page  -->
+<a href="/">
+    <h1 style="text-align: center">spotify </h1>
+</a>
+<!-- text for create account  -->
+<h2 style="text-align: center ; margin-top: 5%;">create an account </h2>
+
+<div id="loginp1" class="graydiv">
+
+    <!-- log in form  goes through main.py/ userpage()-->
+    <form action="/signup" method="POST">
+
+        <p><label style="font-size:14px" id="fnamel" for="fname">First Name</label></p>
+        <p><input type="text" id="fname" name="firstName" placeholder="Your name.."></p>
+
+        <label style="font-size:14px" id="lnamel" for="lname">Last Name</label>
+        <p><input type="text" id="lname" name="lastName" placeholder="Your last name.."></p>
+
+        <label style="font-size:14px" id="unl" for="username">Create Username</label>
+        <p><input type="text" id="username" name="username" placeholder="New username.."></p>
+
+        <label style="font-size:14px" id="enamel" for="email">Email</label>
+        <p><input type="text" id="email" name="emailAddress" placeholder="Your email.."></p>
+
+        <label style="font-size:14px" id="pwl" for="password">Create Password</label>
+        <p><input type="password" id="password" name="password" placeholder="New password.."></p>
+
+        <p><input style="margin-left: 35%" ; id="sb" type="submit" value="create account"></p>
+
+    </form>
+
+    <!-- if error in log in display error msg error message comes from main.py/ userpage() -->
+    {% if error %}
+        <p class="error"><strong>Error:</strong> {{ error }}</p>
+    {% endif %}
+
+    <p><label style="font-size:12px; margin-left: 25%" for="already_account">already have an account? <a href=login>sign
+        in</a></label></p>
+
+</div>
+
+
+</body>
+
+</html>

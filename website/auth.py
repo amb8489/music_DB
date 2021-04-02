@@ -227,7 +227,7 @@ def login():
             user_data["new_playlist"] = []
 
             # getting the user that they are following
-            sql = "SELECT ALL useridfollowing" \
+            sql = "SELECT useridfollowing" \
                   " FROM userfollows" \
                   " WHERE useridfollower = %s"
 
@@ -236,7 +236,7 @@ def login():
 
             # if users follow nobody
             if len(result) > 0:
-                sql = "SELECT All username " \
+                sql = "SELECT username " \
                       "FROM useraccount " \
                       "WHERE userid IN %s"
 
@@ -250,7 +250,7 @@ def login():
                     names.append(name)
                 user_data['following'] = names
 
-            sql = "SELECT ALL name FROM collection where userid = %s"
+            sql = "SELECT name FROM collection where userid = %s"
             cur.execute(sql, (user_data["id"],))
             all_playlists = cur.fetchall()
 
@@ -259,19 +259,12 @@ def login():
 
             userID = user_data["id"]
 
-            if len(all_playlists)>0:
+            if len(all_playlists) > 0:
                 user_data["playlist_name"] = [name[0] for name in all_playlists]
 
             else:
                 user_data["playlist_name"] = []
 
-            for playlist_name in user_data["playlist_name"]:
-                sql = " SELECT songid,title,length FROM song WHERE songid IN " \
-                      "(SELECT songid FROM collectionsong WHERE collectionid IN " \
-                      "(SELECT collectionid FROM collection where name = %s AND userid = %s)) "
-                cur.execute(sql, (playlist_name, userID))
-                songs = cur.fetchall()
-                user_data[playlist_name] = [round(sum([song[2] for song in songs]) / 60, 2), len(songs)]
             cur.close()
 
             # saving user details into the session for global use

@@ -106,16 +106,6 @@ def add_song_to_playlist():
                   "values(%s, %s) on conflict do nothing"
             cur.execute(sql, (playlistid, songid[0]))
             conn.commit()
-
-            for playlist_name in user_data["playlist_name"]:
-                sql = " SELECT songid,title,length FROM song WHERE songid IN " \
-                      "(SELECT songid FROM collectionsong WHERE collectionid IN " \
-                      "(SELECT collectionid FROM collection where name = %s AND userid = %s)) "
-                cur.execute(sql, (playlist_name, userid))
-                songs = cur.fetchall()
-                user_data[playlist_name] = [round(sum([song[2] for song in songs]) / 60, 2), len(songs)]
-
-            conn.commit()
             cur.close()
 
             user_data["explore"] = True
@@ -154,15 +144,6 @@ def delete_song_from_playlist():
               "where collectionid = %s and songid = %s"
         cur.execute(sql, (playlistid, songid))
         conn.commit()
-
-        for playlist_name in user_data["playlist_name"]:
-            sql = " SELECT songid,title,length FROM song WHERE songid IN " \
-                  "(SELECT songid FROM collectionsong WHERE collectionid IN " \
-                  "(SELECT collectionid FROM collection where name = %s AND userid = %s)) "
-            cur.execute(sql, (playlist_name, userid))
-            songs = cur.fetchall()
-            user_data[playlist_name] = [round(sum([song[2] for song in songs]) / 60, 2), len(songs)]
-
         cur.close()
 
         user_data["explore"] = False
@@ -498,7 +479,6 @@ def follow_user():
         cur.execute(sql, (user_id, searched_user_id))
         result = cur.fetchone()
 
-        # TODO: display a message if the user is already following that user instead of just skipping
         if result:
             user_data["following"].append(user_data["searched_friend"].strip())
             session.modified = True

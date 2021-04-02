@@ -6,11 +6,11 @@
 """
  TODO:
 
-    [ ] rename collections
+    [X] rename collections
 
     [X] delete songs from collections
 
-    [ ] add albums to collections
+    [ ] (in progress) add albums to collections
             -> do this by adding a button to each song search result
 
     [ ] delete albums from collections
@@ -18,12 +18,11 @@
     [X] play album from search
             -> do this by adding a button to each song search result
 
-
     [ ] display this in the playlist list view:
         total length: 8.8 minutes
         number of songs: 2
 
-    [ ] remove 'Playlist' part of explore tab
+    [X] remove 'Playlist' part of explore tab
 
   Quality of life stuff:
 

@@ -139,7 +139,15 @@
                   <!--  for albums in ...<a href="#album name">Home</a> ---->
                   {% for playlist in user_data["playlist_name"] %}
 
-                  <!-- buton to show songs in that alb-->
+              <h3>{{ user_data["current_playlist_name"] }}</h3>
+              <p style="font-size: 12px;">total length: {{ user_data["current_playlist_length"] }} minutes</p>
+              <p style="font-size: 12px;">number of songs: {{ user_data["current_playlist_number"] }}</p>
+              <form action="/playcollection/" method="post">
+                <button class="buttonEXP" class="button" style="test-align: center;" ; type="submit" name="songs">
+                  play whole playlist
+                </button>
+              </form>
+                <hr class="rounded">
 
                   <form action="/getplaylist/" method="post">
                      <!-- <p>{{playlist}}</p> -->

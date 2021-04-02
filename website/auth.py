@@ -173,6 +173,7 @@ def confirm_login(form_data):
           " set lastaccess = %s" \
           " where username = %s"
     cur.execute(sql, (datetime.now(), username))
+    conn.commit()
     cur.close()
 
     return True

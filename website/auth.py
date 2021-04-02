@@ -202,7 +202,6 @@ def login():
                          "lastAccess": result[2], "searched_friend": "None", "num_followers": num_followers,
                          "num_following": num_following, "id": result[3], 'following': []}
 
-            # TODO LOAD USER ALBUMS
             user_data["new_playlist"] = []
 
             # getting the user that they are following

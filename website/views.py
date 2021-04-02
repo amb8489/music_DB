@@ -73,7 +73,7 @@ def remove_playlist():
 
         sql = "DELETE FROM collection WHERE collectionid = %s "
         cur.execute(sql, (collectionID,))
-
+        user_data["current_playlist"] = []
 
 
         conn.commit()
@@ -502,7 +502,7 @@ def play_song():
 
         user_data["explore"] = True
         user_data["myAlbums"] = False
-        
+
         i = 0
         for song in user_data['searched_songs']:
             if int(song[0]) == int(songid):

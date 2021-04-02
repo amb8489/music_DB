@@ -508,7 +508,6 @@ def play_album():
                     "WHERE songid = %s)"
         cur.execute(sql, (songID,))
         result  = cur.fetchall()
-        print("!@#$%^&*()(*&^%$%^&*)   ",result)
 
         for songid in result:
             print()
@@ -522,7 +521,12 @@ def play_album():
             cur.execute(sql, (userid, int(songid[0])))
         conn.commit()
         cur.close()
-
+    i = 0
+    for song in user_data['searched_songs']:
+        if int(song[0]) ==songID:
+            song = song[0:7] + (song[7] + 1,)
+            user_data['searched_songs'][i] = song
+        i += 1
     session['user_data'] = user_data
 
     return render_template('userpage.html', user_data=user_data)

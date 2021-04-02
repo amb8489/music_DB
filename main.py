@@ -19,7 +19,7 @@
 
 ----------------
 
-   [IN PROGRESS by aaron] •Users will be able to create collections of music.
+   [X] •Users will be able to create collections of music.
 
    [X] •Users will be to see the list of all their collections by:
         name in ascending order

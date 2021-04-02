@@ -181,9 +181,15 @@
                     {% if user_data["current_playlist"] %}
 
 
-
-
                         <h3>{{ user_data["current_playlist_name"] }}</h3>
+                        <form action="/renamecollection/" method="post">
+                            <input class="input2" type="text" id="newname" name="new_name"
+                                   placeholder="new playlist name...">
+                            <button class="buttonEXP" class="button" style="test-align: center;" ; type="submit"
+                                    name="rename" value=text>
+                                rename playlist
+                            </button>
+                        </form>
                         <p style="font-size: 12px;">total length: {{ user_data["current_playlist_length"] }} minutes</p>
                         <p style="font-size: 12px;">number of songs: {{ user_data["current_playlist_number"] }}</p>
                         <form action="/playcollection/" method="post">
@@ -300,10 +306,10 @@
                             </form>
 
                             <form action="/playentirealbum/" method="post">
-                              <button class="buttonEXP" class="button" style="test-align: center;" ; type="submit"
-                                      name="songid" value={{ song[0] }}>
-                                  play album
-                              </button>
+                                <button class="buttonEXP" class="button" style="test-align: center;" ; type="submit"
+                                        name="songid" value={{ song[0] }}>
+                                    play album
+                                </button>
                             </form>
 
 

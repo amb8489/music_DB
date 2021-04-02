@@ -238,6 +238,7 @@ def login():
             else:
                 user_data["playlist_name"] = []
 
+            cur.close()
 
             # saving user details into the session for global use
             session['user_data'] = user_data

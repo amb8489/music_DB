@@ -26,7 +26,7 @@
 
   Quality of life stuff:
 
-    [ ] display a message if the user is already following that user instead of just skipping
+    [x] display a message if the user is already following that user instead of just skipping
 
 * make the application look good if we make it...
 

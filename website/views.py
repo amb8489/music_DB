@@ -418,6 +418,9 @@ def follow_user():
 
             user_data["num_followers"] = num_followers
             user_data["num_following"] = num_following
+            user_data['error'] = None
+        else:
+            user_data['error'] = 'You already follow this user'
 
         user_data["searched_friend"] = "None"
 
@@ -519,6 +522,7 @@ def search_users():
             user_data["searched_friend"] = result[0]
 
         user_data["explore"] = False
+        user_data['error'] = None
         session['user_data'] = user_data
         cur.close()
 

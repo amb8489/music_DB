@@ -79,6 +79,13 @@
         <div class="me" id="me">
             <h3>find friends</h3>
 
+            {% if user_data['error'] != None %}
+
+            <p style="color:Tomato;">{{ user_data['error'] }}</p>
+
+            {% endif %}
+
+
             <form class="form" action="/searchusers/" method="POST" id="form" role="search">
                 <input class="input" type="search" type="text" id="usr_email" name="usr_email"
                        placeholder="Search users by email" aria-label="Search through site content">

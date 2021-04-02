@@ -30,8 +30,8 @@
         Total duration in minutes
 
   [IN PROGRESS by aaron] Users can add and delete albums, and songs from their collection
-  [IN PROGRESS by aaron] Users can modify the name of a collection.
-  [IN PROGRESS by aaron] They can also delete an entire collection
+  [  ] Users can modify the name of a collection.
+  [  ] They can also delete an entire collection
 
   [X] Users can listen to a song individually or it can play an entire collection.
         You must record every time a song is played by a user. You do not need to

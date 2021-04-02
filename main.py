@@ -18,7 +18,7 @@
     [X] play album from search
             -> do this by adding a button to each song search result
 
-    [ ] display this in the playlist list view:
+    [X] display this in the playlist list view:
         total length: 8.8 minutes
         number of songs: 2
 

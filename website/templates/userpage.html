@@ -232,16 +232,16 @@
               {% for song in user_data["searched_songs"] %}
               <hr class="rounded">
 
-              <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on
-                album '{{ song[4] }}'
-                genre: {{ song[5] }}
-                length: {{ song[2] }} seconds
-                play count: {{ song[6] }}
+              <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album '{{ song[4] }}' <br>
+                genre: {{ song[5] }},
+                length: {{ song[2] }} seconds,
+                release year: {{ song[6] }} <br>
+                your play count: {{ song[7] }}
               </p>
 
               <button class="buttonEXP" onclick="ajax_play_song({{ song[1] }})" class="button" style="test-align: center;" ; type="submit" name="songid" value={{ song[1] }}>play song
               </button>
-              <!-- <p>play count: {{ song[6] }}</p> -->
+              <!-- <p>play count: {{ song[7] }}</p> -->
 
 
               <form action="/addtoplaylist/" method="post">

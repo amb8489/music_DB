@@ -243,8 +243,9 @@ def searched_song():
                 result = result[:int(amount_of_songs)]
 
             for i in range(len(result)):
-                if result[i][6] is None:
-                    result[i] = (result[i][0], result[i][1], result[i][2], result[i][3], result[i][4], result[i][5], 0)
+                if result[i][7] is None:
+                    result[i] = (result[i][0], result[i][1], result[i][2], result[i][3],
+                                 result[i][4], result[i][5], result[i][6], 0)
 
             user_data["searched_songs"] = sorted(result)
             # user_data["searched_song_id"] = result[1]

@@ -34,6 +34,8 @@ def add_song_to_playlist():
         return render_template('userpage.html')
     if request.method == 'POST':
         # geting form data
+        conn = get_connection()
+        cur = conn.cursor()
         user_data = session['user_data']
 
         songid = request.form["songid"].split("<sep>")

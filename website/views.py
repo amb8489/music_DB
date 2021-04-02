@@ -98,10 +98,6 @@ def delete_song_from_playlist():
     return render_template('userpage.html', user_data=user_data)
 
 
-
-
-
-
 @views.route('/removeplaylist/', methods=['POST', 'GET'])
 def remove_playlist():
     if request.method == 'GET':
@@ -205,6 +201,43 @@ def make_new_playlist():
         user_data["explore"] = True
         user_data["myAlbums"] = False
 
+        session['user_data'] = user_data
+
+        return render_template('userpage.html', user_data=user_data)
+
+
+@views.route('/renamecollection/', methods=['POST', 'GET'])
+def rename_collection():
+    """
+    route to rename a collection
+    :return:
+    """
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        form_data = request.form
+
+        user_data = session['user_data']
+        playlist = user_data['current_playlist_name']
+        new_name = form_data['new_name']
+        userid = user_data["id"]
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        sql = "update collection " \
+              "set name = %s " \
+              "where name = %s and userid = %s"
+        cur.execute(sql, (new_name, playlist, userid))
+        user_data["current_playlist_name"] = new_name
+        conn.commit()
+
+        sql = "SELECT ALL name FROM collection where userid = %s"
+        cur.execute(sql, (user_data["id"],))
+        all_playlists = cur.fetchall()
+        user_data["playlist_name"] = [name[0] for name in all_playlists]
+
+        cur.close()
         session['user_data'] = user_data
 
         return render_template('userpage.html', user_data=user_data)
@@ -491,6 +524,7 @@ def search_users():
 
         return render_template('userpage.html', user_data=user_data)
 
+
 @views.route('/playentirealbum/', methods=['POST', 'GET'])
 def play_album():
     if request.method == 'GET':
@@ -500,14 +534,14 @@ def play_album():
 
         user_data = session['user_data']
         userid = user_data['id']
-        print("+++++____+_+_+_+_+_+_+_+_+_+_",songID)
+        print("+++++____+_+_+_+_+_+_+_+_+_+_", songID)
         conn = get_connection()
         cur = conn.cursor()
 
-        sql = "SELECT songid from albumcontains WHERE albumid = (SELECT albumid FROM albumcontains "\
-                    "WHERE songid = %s)"
+        sql = "SELECT songid from albumcontains WHERE albumid = (SELECT albumid FROM albumcontains " \
+              "WHERE songid = %s)"
         cur.execute(sql, (songID,))
-        result  = cur.fetchall()
+        result = cur.fetchall()
 
         for songid in result:
             print()
@@ -523,13 +557,15 @@ def play_album():
         cur.close()
     i = 0
     for song in user_data['searched_songs']:
-        if int(song[0]) ==songID:
+        if int(song[0]) == songID:
             song = song[0:7] + (song[7] + 1,)
             user_data['searched_songs'][i] = song
         i += 1
     session['user_data'] = user_data
 
     return render_template('userpage.html', user_data=user_data)
+
+
 @views.route('/playsong/', methods=['POST', 'GET'])
 def play_song():
     """

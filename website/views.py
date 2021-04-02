@@ -273,7 +273,6 @@ def searched_song():
             cur.execute(sql, (search_text, user_id))
             result = cur.fetchall()
 
-            # TODO
         elif filter_selected == "album":
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
                   "album.albumname, genre.genrename, song.releasedate, userplayssong.playcount " \

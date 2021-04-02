@@ -33,7 +33,7 @@
   [IN PROGRESS by aaron] Users can modify the name of a collection.
   [IN PROGRESS by aaron] They can also delete an entire collection
 
-  [IN PROGRESS by tanner] Users can listen to a song individually or it can play an entire collection.
+  [X] Users can listen to a song individually or it can play an entire collection.
         You must record every time a song is played by a user. You do not need to
         actually be able toplay songs, simply mark them as played
 

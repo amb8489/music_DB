@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, session, jsonify
+from flask import Blueprint, render_template, request, session
 
 from connection import get_connection
 
@@ -37,16 +37,14 @@ def add_song_to_playlist():
         user_data = session['user_data']
         songid = request.form["songid"]
         playlistname = request.form['currentplaylist']
-        print(songid)
-        print(playlistname)
-
+        userid = user_data["id"]
         conn = get_connection()
         cur = conn.cursor()
 
         sql = "select collectionid " \
               "from collection " \
-              "where name = %s"
-        cur.execute(sql, (playlistname,))
+              "where name = %s and userid = %s"
+        cur.execute(sql, (playlistname, userid))
         playlistid = cur.fetchone()
 
         sql = "insert into collectionsong(collectionid,songid)" \
@@ -74,19 +72,27 @@ def delete_song_from_playlist():
     if request.method == 'POST':
         # geting form data
         user_data = session['user_data']
+        userid = user_data["id"]
         songid = request.form["songid"]
-        playlistid = user_data["selected_playlist"]
+        playlistname = user_data["current_playlist_name"]
 
         conn = get_connection()
         cur = conn.cursor()
+
+        sql = "select collectionid " \
+              "from collection " \
+              "where name = %s and userid = %s"
+        cur.execute(sql, (playlistname, userid))
+        playlistid = cur.fetchone()
+
         sql = "delete from collectionsong " \
               "where collectionid = %s and songid = %s"
         cur.execute(sql, (playlistid, songid))
         conn.commit()
         cur.close()
 
-        user_data["explore"] = True
-        user_data["myAlbums"] = False
+        user_data["explore"] = False
+        user_data["myAlbums"] = True
         session['user_data'] = user_data
 
     return render_template('userpage.html', user_data=user_data)
@@ -99,7 +105,7 @@ def remove_playlist():
     if request.method == 'POST':
         rmplaylist_name = request.form["rmplaylist"]
 
-        print("----+++++++++++++",rmplaylist_name)
+        print("----+++++++++++++", rmplaylist_name)
         user_data = session['user_data']
         user_data["playlist_name"].remove(rmplaylist_name)
         user_data["current_playlist_length"] = 0
@@ -134,15 +140,13 @@ def get_playlist():
         # getttting form data
         playlist_name = request.form["playlist"]
 
-
         user_data = session['user_data']
         userID = user_data["id"]
 
-
         conn = get_connection()
         cur = conn.cursor()
-        sql = " SELECT songid,title,length FROM song WHERE songid IN "\
-              "(SELECT songid FROM collectionsong WHERE collectionid IN "\
+        sql = " SELECT songid,title,length FROM song WHERE songid IN " \
+              "(SELECT songid FROM collectionsong WHERE collectionid IN " \
               "(SELECT collectionid FROM collection where name = %s AND userid = %s)) "
         cur.execute(sql, (playlist_name, userID))
         songs = cur.fetchall()
@@ -152,7 +156,7 @@ def get_playlist():
         user_data["current_playlist"] = songs
         user_data["current_playlist_name"] = playlist_name
 
-        user_data["current_playlist_length"] = round(sum([song[2] for song in songs])/60,2)
+        user_data["current_playlist_length"] = round(sum([song[2] for song in songs]) / 60, 2)
         user_data["current_playlist_number"] = len(songs)
 
         user_data["myAlbums"] = True
@@ -227,7 +231,6 @@ def searched_song():
 
         conn = get_connection()
         cur = conn.cursor()
-
 
         result = None  # get outer scope
 
@@ -478,7 +481,6 @@ def search_users():
         if result:
             user_data["searched_friend"] = result[0]
 
-
         user_data["explore"] = False
         session['user_data'] = user_data
         cur.close()
@@ -519,8 +521,7 @@ def play_song():
             if int(song[0]) == int(songid):
                 song = song[0:7] + (song[7] + 1,)
                 user_data['searched_songs'][i] = song
-            i+=1
-
+            i += 1
 
         session['user_data'] = user_data
 
@@ -548,9 +549,9 @@ def play_collection():
 
         for song in songs:
             sql = "insert into userplayssong(userid, songid, playcount) " \
-                    "values(%s, %s, 1)" \
-                    "on conflict(userid, songid) do update " \
-                    "set playcount = userplayssong.playcount + 1"
+                  "values(%s, %s, 1)" \
+                  "on conflict(userid, songid) do update " \
+                  "set playcount = userplayssong.playcount + 1"
             cur.execute(sql, (userid, int(song[0])))
 
         conn.commit()

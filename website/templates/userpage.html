@@ -201,6 +201,12 @@
                                     play song
                                 </button>
                             </form>
+                            <form action="/deletefromplaylist/" method="post">
+                                <button class="buttonEXP" class="button" style="test-align: center;" ; type="submit"
+                                        name="songid" value={{ song[0] }}>
+                                    delete song from playlist
+                                </button>
+                            </form>
                         {% endfor %}
                     {% endif %}
 

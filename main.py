@@ -8,7 +8,7 @@
 
     [ ] rename collections
 
-    [ ] delete songs from collections
+    [X] delete songs from collections
 
     [ ] add albums to collections
             -> do this by adding a button to each song search result

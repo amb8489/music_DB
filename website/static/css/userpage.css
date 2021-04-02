@@ -67,6 +67,7 @@ body {
   font-size: 28px;
   /* Increased text to enable scrolling */
   padding: 0px 10px;
+  width: 450px;
 }
 
 .settings {
@@ -355,6 +356,13 @@ hr.rounded {
 .right {
   right: 0;
   background-color: #89d1fe;
+}
+
+.right2{
+  right: 180;
+  width:600px;
+  background-color: #89d1fe;
+
 }
 
 /* If you want the content centered horizontally and vertically */

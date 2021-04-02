@@ -155,10 +155,21 @@
                         <h3>{{ user_data["current_playlist_name"] }}</h3>
                         <p style="font-size: 12px;">total length: {{ user_data["current_playlist_length"] }} minutes</p>
                         <p style="font-size: 12px;">number of songs: {{ user_data["current_playlist_number"] }}</p>
+                        <form action="/playcollection/" method="post">
+                                <button class="buttonEXP" class="button"
+                                        style="test-align: center;" ; type="submit" name="songs" >
+                                    play whole playlist
+                                </button>
                         <hr class="rounded">
 
                         {% for song in user_data["current_playlist"] %}
-                            <p class="card">{{ song[0] }}</p>
+                            <p class="card">{{ song[1] }}</p>
+                            <form action="/playsong/" method="post">
+                                <button class="buttonEXP" class="button"
+                                        style="test-align: center;" ; type="submit" name="songid" value={{ song[0] }}>
+                                    play song
+                                </button>
+                            </form>
                         {% endfor %}
                     {% endif %}
 

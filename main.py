@@ -10,7 +10,7 @@
 
     [X] delete songs from collections
 
-    [ ] (in progress) add albums to collections
+    [X] add albums to collections
             -> do this by adding a button to each song search result
 
     [ ] delete albums from collections
@@ -26,7 +26,7 @@
 
   Quality of life stuff:
 
-    [ ] display a message if the user is already following that user instead of just skipping
+    [x] display a message if the user is already following that user instead of just skipping
 
 * make the application look good if we make it...
 

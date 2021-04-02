@@ -153,6 +153,52 @@ def delete_song_from_playlist():
     return render_template('userpage.html', user_data=user_data)
 
 
+@views.route('/deletealbumfromplaylist/', methods=['POST', 'GET'])
+def delete_album_from_playlist():
+    """
+    function to delete album from playlist
+    :return: render template
+    """
+
+    if request.method == 'GET':
+        return render_template('userpage.html')
+    if request.method == 'POST':
+        # geting form data
+        user_data = session['user_data']
+        userid = user_data["id"]
+        albumname = request.form["album"]
+        playlistname = user_data["current_playlist_name"]
+
+        conn = get_connection()
+        cur = conn.cursor()
+
+        sql = "select collectionid " \
+              "from collection " \
+              "where name = %s and userid = %s"
+        cur.execute(sql, (playlistname, userid))
+        playlistid = cur.fetchone()
+
+        sql = "select album.albumid " \
+              "from album " \
+              "inner join collectionalbum c2 " \
+              "on album.albumid = c2.albumid " \
+              "and album.albumname = 'Over My Head'"
+        cur.execute(sql, (playlistname, userid))
+        albumid = cur.fetchone()
+
+        sql = "delete from collectionalbum " \
+              "where collectionid = %s and albumid = %s"
+        cur.execute(sql, (playlistid, albumid))
+        conn.commit()
+        cur.close()
+
+        user_data["explore"] = False
+        user_data["myAlbums"] = True
+        session['user_data'] = user_data
+
+    return render_template('userpage.html', user_data=user_data)
+
+
 @views.route('/removeplaylist/', methods=['POST', 'GET'])
 def remove_playlist():
     """

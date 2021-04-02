@@ -6,7 +6,7 @@
 """
  TODO:
 
-    [ ] rename collections
+    [X] rename collections
 
     [X] delete songs from collections
 
@@ -18,16 +18,15 @@
     [X] play album from search
             -> do this by adding a button to each song search result
 
-
     [ ] display this in the playlist list view:
         total length: 8.8 minutes
         number of songs: 2
 
-    [ ] remove 'Playlist' part of explore tab
+    [X] remove 'Playlist' part of explore tab
 
   Quality of life stuff:
 
-    [ ] display a message if the user is already following that user instead of just skipping
+    [x] display a message if the user is already following that user instead of just skipping
 
 * make the application look good if we make it...
 

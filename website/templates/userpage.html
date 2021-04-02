@@ -79,10 +79,18 @@
             <div class="me" id="me">
                <h3>find friends</h3>
 
-               <form class="form" action="/searchusers/" method="POST" id="form" role="search">
-                  <input class="input" type="search" type="text" id="usr_email" name="usr_email" placeholder="Search users by email" aria-label="Search through site content">
-                  <button class="button" style="test-align: center;" ; type="submit" value=search>search</button>
-               </form>
+            {% if user_data['error'] != None %}
+
+            <p style="color:Tomato;">{{ user_data['error'] }}</p>
+
+            {% endif %}
+
+
+            <form class="form" action="/searchusers/" method="POST" id="form" role="search">
+                <input class="input" type="search" type="text" id="usr_email" name="usr_email"
+                       placeholder="Search users by email" aria-label="Search through site content">
+                <button class="button" style="test-align: center;" ; type="submit" value=search>search</button>
+            </form>
 
                {% if user_data["searched_friend"] != "None" %}
                <div class="card">
@@ -179,15 +187,21 @@
 
                   <div style="right:170px" class="split right2">
 
-
-                     {% if user_data["current_playlist"] %}
-
-                     <h3>{{ user_data["current_playlist_name"] }}</h3>
-                     <p style="font-size: 12px;">total length: {{ user_data["current_playlist_length"] }} minutes</p>
-                     <p style="font-size: 12px;">number of songs: {{ user_data["current_playlist_number"] }}</p>
-                     <form action="/playcollection/" method="post">
-                        <button class="buttonEXP" class="button" style="test-align: center;" ; type="submit" name="songs">
-                           play whole playlist
+                        <h3>{{ user_data["current_playlist_name"] }}</h3>
+                        <form action="/renamecollection/" method="post">
+                            <input class="input2" type="text" id="newname" name="new_name"
+                                   placeholder="new playlist name...">
+                            <button class="buttonEXP" class="button" style="test-align: center;" ; type="submit"
+                                    name="rename" value=text>
+                                rename playlist
+                            </button>
+                        </form>
+                        <p style="font-size: 12px;">total length: {{ user_data["current_playlist_length"] }} minutes</p>
+                        <p style="font-size: 12px;">number of songs: {{ user_data["current_playlist_number"] }}</p>
+                        <form action="/playcollection/" method="post">
+                        <button class="buttonEXP" class="button" style="test-align: center;" ; type="submit"
+                                name="songs">
+                            play whole playlist
                         </button>
                         <hr class="rounded">
 

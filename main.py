@@ -15,7 +15,7 @@
 
     [ ] delete albums from collections
 
-    [ ] play album from search
+    [X] play album from search
             -> do this by adding a button to each song search result
 
 

@@ -142,12 +142,20 @@
 
                     <!-- buton to show songs in that alb-->
 
-                    <form action="/getplaylist/" method="post">
-                        <!-- <p>{{playlist}}</p> -->
-                        <p><input id="playlist" name="playlist" type="submit" value="{{ playlist }}"></p>
+            <form action="/getplaylist/" method="post">
+              <!-- <p>{{playlist}}</p> -->
+              <p><input id = "playlist" name = "playlist" type="submit" value="{{playlist}}">
 
-                    </form>
-                {% endfor %}
+              </p>
+
+
+
+            </form>
+            <form action="/removeplaylist/" method="post">
+            <button class="buttonremove" style="test-align: center; background-color: #f00e0e;" ; id = "rmplaylist" name = "rmplaylist" type="submit" value="{{playlist}}">remove playlist
+            </button>
+          </form>
+            {% endfor %}
 
                 <div style="right:180px" class="split right">
                     {% if user_data["current_playlist"] %}
@@ -300,12 +308,31 @@
                         </button>
                     </form>
 
-                    {% for song in user_data["new_playlist"] %}
-                        <p class="card">{{ song[1] }}</p>
-                        <button class="buttonEXP" style="test-align: center; background-color: #f00e0e;" ; type="submit"
-                                value=search>remove
-                        </button>
-                    {% endfor %}
+              <p>{{ user_data["searched_song_error"] }}</p>
+
+              {% endif %}
+
+            </div>
+
+
+            <!-- make new alb --->
+            <div class="split right">
+
+              <h2>new playlists</h2>
+              <form class="" action="/makenewplaylists/" method="post">
+                <p style="font-size: 14px;">playlists name</p>
+                <input class="input2" type="text" id="playlist_name" name="playlist_name" value="new playlists name" placeholder="name here...">
+                </label>
+                <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new
+                  playlists
+                </button>
+              </form>
+
+              {% for song in user_data["new_playlist"] %}
+              <p class="card">{{ song[1] }}</p>
+              <button class="buttonremove" style="test-align: center; background-color: #f00e0e;" ; type="submit" value=search>remove song
+              </button>
+              {% endfor %}
 
                 </div>
             </div>

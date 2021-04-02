@@ -47,6 +47,51 @@ def add_to_my_playlist():
 
 
 
+@views.route('/removeplaylist/', methods=['POST', 'GET'])
+def remove_playlist():
+    if request.method == 'GET':
+        return render_template('userpage.html')
+    if request.method == 'POST':
+        rmplaylist_name = request.form["rmplaylist"]
+
+        print("----+++++++++++++",rmplaylist_name)
+        user_data = session['user_data']
+        user_data["playlist_name"].remove(rmplaylist_name)
+        user_data["current_playlist_length"] = 0
+        user_data["current_playlist_number"] = 0
+
+        conn = get_connection()
+        cur = conn.cursor()
+        sql = "SELECT collectionid FROM collection WHERE name = %s "
+        cur.execute(sql, (rmplaylist_name,))
+        collectionID = cur.fetchone()[0]
+
+
+        sql = "DELETE FROM collectionsong WHERE collectionid = %s "
+        cur.execute(sql, (collectionID,))
+
+
+        sql = "DELETE FROM collection WHERE collectionid = %s "
+        cur.execute(sql, (collectionID,))
+
+
+
+        conn.commit()
+        cur.close()
+
+        session['user_data'] = user_data
+        return render_template('userpage.html', user_data=user_data)
+
+
+
+
+
+
+
+
+
+
+
 
 @views.route('/getplaylist/', methods=['POST', 'GET'])
 def get_playlist():

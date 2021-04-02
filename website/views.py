@@ -170,7 +170,7 @@ def searched_song():
         # FILTER_SELECTED IS USED TO GET THE SONGS (in 'result'), THEN THE SHARED 'IF' BELOW IS USED
         if filter_selected == "title":
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                  "album.albumname, genre.genrename, song.releasedate, userplayssong.playcount" \
+                  "album.albumname, genre.genrename, song.releasedate, userplayssong.playcount " \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "and song.title = %s " \
                   "inner join artist on songartist.artistid = artist.artistid " \

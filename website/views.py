@@ -221,7 +221,7 @@ def searched_song():
         result = None  # get outer scope
 
         if sort_by == "song":
-            sort_sql = " order by song.title"
+            sort_sql = " order by song.title, artist.artistname"
         elif sort_by == "genre":
             sort_sql = "  order by genre.genrename"
         elif sort_by == "artist":

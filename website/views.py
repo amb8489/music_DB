@@ -181,7 +181,7 @@ def searched_song():
         elif sort_by == "artist":
             sort_sql = "  order by artist.artistname"
         else:
-            sort_sql = "  order by album.albumname"
+            sort_sql = "  order by song.releasedate"
 
         # FILTER_SELECTED IS USED TO GET THE SONGS (in 'result'), THEN THE SHARED 'IF' BELOW IS USED
         if filter_selected == "title":

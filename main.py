@@ -46,7 +46,7 @@
         album
         genre
 
-    [IN PROGRESS by ranen] The resulting list of songs must be in alphabetical order by song's name
+    [x] The resulting list of songs must be in alphabetical order by song's name
         and artist's name
 
         (Users can also sort list by artist's name, genre, and released year)

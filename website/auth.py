@@ -10,6 +10,11 @@ auth = Blueprint('auth', __name__)
 # new user sign up page
 @auth.route("/signup", methods=['POST', 'GET'])
 def signup():
+    """
+    signup signs a new user up
+    :return: the template render
+    """
+
     if request.method == 'GET':
         return render_template('signup.html')
     if request.method == 'POST':
@@ -41,8 +46,8 @@ def signup():
 def confirm_new_account(form_data):
     """
     confirm new account's data is valid
-    :param form_data:
-    :return:
+    :param form_data: the data entered into the signup form
+    :return: the render template
     """
 
     user_data = {}
@@ -98,6 +103,12 @@ def confirm_new_account(form_data):
 
 
 def email_taken(email):
+    """
+    check if an email is already taken
+    :param email: the email address string
+    :return: True if taken, else False
+    """
+
     conn = get_connection()
     cur = conn.cursor()
     sql = "select 1 from useraccount " \
@@ -114,6 +125,12 @@ def email_taken(email):
 
 
 def username_taken(username):
+    """
+    checks if a username is already taken
+    :param username: the username string
+    :return: True if taken else False
+    """
+
     conn = get_connection()
     cur = conn.cursor()
     sql = "select 1 from useraccount " \
@@ -164,6 +181,11 @@ def confirm_login(form_data):
 # sign in page
 @auth.route("/login", methods=['POST', 'GET'])
 def login():
+    """
+    log a user in
+    :return: the render template
+    """
+
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':

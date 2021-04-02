@@ -8,12 +8,20 @@ views = Blueprint('views', __name__)
 # the home page
 @views.route("/")
 def home():
+    """
+    :return: homepage render template
+    """
     return render_template("home.html")
 
 
 # the user page
 @views.route("/userpage")
 def userpage():
+    """
+    show the userpage
+    :return: render template
+    """
+
     # getting and saving new data
     user_data = request.args['user_data']
     user_data = session['user_data']
@@ -27,7 +35,7 @@ def userpage():
 def add_song_to_playlist():
     """
     function to add song to playlist
-    :return:
+    :return: render template
     """
 
     if request.method == 'GET':
@@ -47,10 +55,9 @@ def add_song_to_playlist():
 
             albumInfo = request.form["songid"].split("<sep>")
 
-            print("ALBUM INFO:",albumInfo)
+            print("ALBUM INFO:", albumInfo)
             user_data = session['user_data']
             userid = user_data['id']
-
 
             conn = get_connection()
             cur = conn.cursor()
@@ -63,17 +70,21 @@ def add_song_to_playlist():
             cur.execute(sql, (playlistname, userid))
             playlistid = cur.fetchone()
 
-            sql = "select albumid " \
+            sql = "select album.albumid " \
                   "from album " \
-                  "where albumname = %s and artistname = %s"
-            cur.execute(sql, (albumInfo[0],albumInfo[2]))
+                  "inner join albumcontains on album.albumid = albumcontains.albumid " \
+                  "and album.albumname = %s " \
+                  "inner join song on albumcontains.songid = song.songid " \
+                  "inner join songartist on song.songid = songartist.songid " \
+                  "inner join artist on songartist.artistid = artist.artistid " \
+                  "and artist.artistname = %s"
+            cur.execute(sql, (albumInfo[0], albumInfo[2]))
 
             albumID = cur.fetchone()
 
-
             sql = "insert into collectionalbum(collectionid,albumid)" \
-                      "values(%s, %s)"
-            cur.execute(sql, (playlistid,albumID))
+                  "values(%s, %s) on conflict do nothing"
+            cur.execute(sql, (playlistid, albumID))
             conn.commit()
             cur.close()
 
@@ -118,7 +129,7 @@ def add_song_to_playlist():
 def delete_song_from_playlist():
     """
     function to delete song from playlist
-    :return:
+    :return: render template
     """
 
     if request.method == 'GET':
@@ -163,6 +174,11 @@ def delete_song_from_playlist():
 
 @views.route('/removeplaylist/', methods=['POST', 'GET'])
 def remove_playlist():
+    """
+    remove a playlist from the database
+    :return: the render template
+    """
+
     if request.method == 'GET':
         return render_template('userpage.html')
     if request.method == 'POST':
@@ -197,6 +213,11 @@ def remove_playlist():
 
 @views.route('/getplaylist/', methods=['POST', 'GET'])
 def get_playlist():
+    """
+    get a user the playlist requested
+    :return: render template
+    """
+
     if request.method == 'GET':
         return render_template('userpage.html')
     if request.method == 'POST':
@@ -214,26 +235,23 @@ def get_playlist():
         cur.execute(sql, (playlist_name, userID))
         songs = cur.fetchall()
 
-
-
         sql = "SELECT collectionid FROM collection WHERE name = %s AND userid = %s"
         cur.execute(sql, (playlist_name, userID))
         collectionid = cur.fetchone()
 
-
-        #getting all albums
-        sql = "SELECT albumname FROM album WHERE albumid = (SELECT albumid FROM collectionalbum WHERE collectionid = %s)"
+        # getting all albums
+        sql = "SELECT albumname " \
+              "FROM album " \
+              "WHERE albumid " \
+              "IN (SELECT albumid FROM collectionalbum WHERE collectionid = %s)"
 
         cur.execute(sql, (collectionid,))
-        albumnames  = cur.fetchall()
-
+        albumnames = cur.fetchall()
 
         albumnames = [name[0] for name in albumnames]
 
-
         user_data["current_albums"] = albumnames
         user_data["current_playlist"] = songs
-
 
         user_data["current_playlist_name"] = playlist_name
 
@@ -251,7 +269,7 @@ def get_playlist():
 def make_new_playlist():
     """
     function to make a new empty playlist
-    :return:
+    :return: render template
     """
 
     if request.method == 'GET':
@@ -291,7 +309,7 @@ def make_new_playlist():
 def rename_collection():
     """
     route to rename a collection
-    :return:
+    :return: render template
     """
     if request.method == 'GET':
         return render_template('login.html')
@@ -328,7 +346,7 @@ def rename_collection():
 def searched_song():
     """
     function to get a searched song
-    :return:
+    :return: render template
     """
 
     if request.method == 'GET':
@@ -452,7 +470,7 @@ def searched_song():
 def follow_user():
     """
     function to follow another user
-    :return:
+    :return: render template
     """
 
     if request.method == 'GET':
@@ -517,7 +535,7 @@ def follow_user():
 def unfollow_user():
     """
     function to unfollow another user
-    :return:
+    :return: render template
     """
 
     if request.method == 'GET':
@@ -575,7 +593,7 @@ def unfollow_user():
 def search_users():
     """
     function to find a user by email
-    :return:
+    :return: render template
     """
 
     if request.method == 'GET':
@@ -612,6 +630,11 @@ def search_users():
 
 @views.route('/playentirealbum/', methods=['POST', 'GET'])
 def play_album():
+    """
+    adds 1 to the playcount of all songs on an album
+    :return: render template
+    """
+
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
@@ -654,9 +677,9 @@ def play_album():
 def play_song():
     """
     route to play a song
-
-    :return:
+    :return: render template
     """
+
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
@@ -693,9 +716,9 @@ def play_song():
 def play_collection():
     """
     route to play a collection of songs
-
-    :return:
+    :return: render template
     """
+
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':

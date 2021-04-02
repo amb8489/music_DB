@@ -35,27 +35,73 @@ def add_song_to_playlist():
     if request.method == 'POST':
         # geting form data
         user_data = session['user_data']
-        songid = request.form["songid"]
-        playlistname = request.form['currentplaylist']
-        userid = user_data["id"]
-        conn = get_connection()
-        cur = conn.cursor()
 
-        sql = "select collectionid " \
-              "from collection " \
-              "where name = %s and userid = %s"
-        cur.execute(sql, (playlistname, userid))
-        playlistid = cur.fetchone()
+        songid = request.form["songid"].split("<sep>")
 
-        sql = "insert into collectionsong(collectionid,songid)" \
-              "values(%s, %s)"
-        cur.execute(sql, (playlistid, songid))
-        conn.commit()
-        cur.close()
 
-        user_data["explore"] = True
-        user_data["myAlbums"] = False
-        session['user_data'] = user_data
+        add_album = songid[1]
+        if add_album == "True" :
+
+            playlistname = request.form['currentplaylist']
+
+
+
+            albumInfo = request.form["songid"].split("<sep>")
+
+            print("ALBUM INFO:",albumInfo)
+            user_data = session['user_data']
+            userid = user_data['id']
+
+
+            conn = get_connection()
+            cur = conn.cursor()
+
+            # getting getting album id
+
+            sql = "select collectionid " \
+                  "from collection " \
+                  "where name = %s and userid = %s"
+            cur.execute(sql, (playlistname, userid))
+            playlistid = cur.fetchone()
+
+            sql = "select albumid " \
+                  "from album " \
+                  "where albumname = %s and artistname = %s"
+            cur.execute(sql, (albumInfo[0],albumInfo[2]))
+
+            albumID = cur.fetchone()
+
+
+            sql = "insert into collectionalbum(collectionid,albumid)" \
+                      "values(%s, %s)"
+            cur.execute(sql, (playlistid,albumID))
+            conn.commit()
+            cur.close()
+
+            session['user_data'] = user_data
+
+        else:
+
+            playlistname = request.form['currentplaylist']
+            userid = user_data["id"]
+            conn = get_connection()
+            cur = conn.cursor()
+
+            sql = "select collectionid " \
+                  "from collection " \
+                  "where name = %s and userid = %s"
+            cur.execute(sql, (playlistname, userid))
+            playlistid = cur.fetchone()
+
+            sql = "insert into collectionsong(collectionid,songid)" \
+                  "values(%s, %s)"
+            cur.execute(sql, (playlistid, songid))
+            conn.commit()
+            cur.close()
+
+            user_data["explore"] = True
+            user_data["myAlbums"] = False
+            session['user_data'] = user_data
 
     return render_template('userpage.html', user_data=user_data)
 
@@ -155,9 +201,27 @@ def get_playlist():
         cur.execute(sql, (playlist_name, userID))
         songs = cur.fetchall()
 
-        print(songs)
 
+
+        sql = "SELECT collectionid FROM collection WHERE name = %s AND userid = %s"
+        cur.execute(sql, (playlist_name, userID))
+        collectionid = cur.fetchone()
+
+
+        #getting all albums
+        sql = "SELECT albumname FROM album WHERE albumid = (SELECT albumid FROM collectionalbum WHERE collectionid = %s)"
+
+        cur.execute(sql, (collectionid,))
+        albumnames  = cur.fetchall()
+
+
+        albumnames = [name[0] for name in albumnames]
+
+
+        user_data["current_albums"] = albumnames
         user_data["current_playlist"] = songs
+
+
         user_data["current_playlist_name"] = playlist_name
 
         user_data["current_playlist_length"] = round(sum([song[2] for song in songs]) / 60, 2)
@@ -523,13 +587,18 @@ def play_album():
         cur.close()
     i = 0
     for song in user_data['searched_songs']:
-        if int(song[0]) ==songID:
-            song = song[0:7] + (song[7] + 1,)
-            user_data['searched_songs'][i] = song
+        song = song[0:7] + (song[7] + 1,)
+        user_data['searched_songs'][i] = song
         i += 1
     session['user_data'] = user_data
 
     return render_template('userpage.html', user_data=user_data)
+
+
+
+
+
+
 @views.route('/playsong/', methods=['POST', 'GET'])
 def play_song():
     """
@@ -566,7 +635,6 @@ def play_song():
             i += 1
 
         session['user_data'] = user_data
-
         return render_template('userpage.html', user_data=user_data)
 
 

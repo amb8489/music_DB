@@ -374,6 +374,19 @@ hr.rounded {
   text-align: center;
 }
 
+.btn-group button {
+  background-color: #4CAF50; /* Green background */
+  border: 1px solid green; /* Green border */
+  color: white; /* White text */
+  padding: 2px 6px; /* Some padding */
+  cursor: pointer; /* Pointer/hand icon */
+  float: left; /* Float the buttons side by side */
+}
+
+.btn-group button:not(:last-child) {
+  border-right: none; /* Prevent double borders */
+}
+
 /* Style the image inside the centered container, if needed */
 .centered img {
   width: 150px;

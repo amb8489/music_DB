@@ -506,13 +506,10 @@ def play_song():
         i = 0
         for song in user_data['searched_songs']:
             if int(song[0]) == int(songid):
-                print(song)
                 song = song[0:7] + (song[7] + 1,)
                 user_data['searched_songs'][i] = song
             i+=1
 
-
-        print(user_data['searched_songs'])
 
         session['user_data'] = user_data
 

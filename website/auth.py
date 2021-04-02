@@ -232,12 +232,24 @@ def login():
             cur.execute(sql, (user_data["id"],))
             all_playlists = cur.fetchall()
 
+            for each in all_playlists:
+                user_data[each[0]] = ''
+
+            userID = user_data["id"]
+
             if len(all_playlists)>0:
                 user_data["playlist_name"] = [name[0] for name in all_playlists]
 
             else:
                 user_data["playlist_name"] = []
 
+            for playlist_name in user_data["playlist_name"]:
+                sql = " SELECT songid,title,length FROM song WHERE songid IN " \
+                      "(SELECT songid FROM collectionsong WHERE collectionid IN " \
+                      "(SELECT collectionid FROM collection where name = %s AND userid = %s)) "
+                cur.execute(sql, (playlist_name, userID))
+                songs = cur.fetchall()
+                user_data[playlist_name] = [round(sum([song[2] for song in songs]) / 60, 2), len(songs)]
             cur.close()
 
             # saving user details into the session for global use

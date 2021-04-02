@@ -63,7 +63,7 @@ def get_playlist():
 
         conn = get_connection()
         cur = conn.cursor()
-        sql = " SELECT ALL title FROM song WHERE songid IN "\
+        sql = " SELECT ALL title,length FROM song WHERE songid IN "\
               "(SELECT ALL songid FROM collectionsong WHERE collectionid IN "\
               "(SELECT ALL collectionid FROM collection where name = %s AND userid = %s)) "
         cur.execute(sql, (playlist_name,userID))
@@ -74,7 +74,7 @@ def get_playlist():
         user_data["current_playlist"] = songs
         user_data["current_playlist_name"]=playlist_name
 
-        user_data["current_playlist_length"] = "still neesd to be done"
+        user_data["current_playlist_length"] = round(sum([song[1] for song in songs])/60,2)
         user_data["current_playlist_number"] = len(songs)
 
         user_data["myAlbum"] = True

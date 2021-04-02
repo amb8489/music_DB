@@ -24,7 +24,7 @@
    [X] •Users will be to see the list of all their collections by:
         name in ascending order
 
-   [IN PROGRESS by aaron] •The list must show the following information per collection:
+   [X] •The list must show the following information per collection:
         name
         Number of songs in the collection
         Total duration in minutes

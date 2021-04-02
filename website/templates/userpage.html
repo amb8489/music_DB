@@ -150,8 +150,8 @@
               {%if user_data["current_playlist"]%}
 
               <h3>{{user_data["current_playlist_name"]}}</h3>
-              <p>total length: {{user_data["current_playlist_length"]}}</p>
-              <p>number of songs: {{user_data["current_playlist_number"]}}</p>
+              <p style="font-size: 12px;">total length: {{user_data["current_playlist_length"]}} minutes</p>
+              <p style="font-size: 12px;">number of songs: {{user_data["current_playlist_number"]}}</p>
               <hr class="rounded">
 
               {% for song in user_data["current_playlist"] %}

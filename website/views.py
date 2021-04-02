@@ -40,27 +40,10 @@ def add_song_to_playlist():
 
         songid = request.form["songid"].split("<sep>")
 
-        sql = "insert into collectionsong(collectionid,songid)" \
-              "values(%s, %s)"
-        cur.execute(sql, (playlistid, songid))
-        conn.commit()
-
-        for playlist_name in user_data["playlist_name"]:
-            sql = " SELECT songid,title,length FROM song WHERE songid IN " \
-                  "(SELECT songid FROM collectionsong WHERE collectionid IN " \
-                  "(SELECT collectionid FROM collection where name = %s AND userid = %s)) "
-            cur.execute(sql, (playlist_name, userid))
-            songs = cur.fetchall()
-            user_data[playlist_name] = [round(sum([song[2] for song in songs]) / 60, 2), len(songs)]
-
-        cur.close()
-
         add_album = songid[1]
-        if add_album == "True" :
+        if add_album == "True":
 
             playlistname = request.form['currentplaylist']
-
-
 
             albumInfo = request.form["songid"].split("<sep>")
 
@@ -97,17 +80,30 @@ def add_song_to_playlist():
             session['user_data'] = user_data
 
         else:
-
-            playlistname = request.form['currentplaylist']
-            userid = user_data["id"]
             conn = get_connection()
             cur = conn.cursor()
+            playlistname = request.form['currentplaylist']
+            userid = user_data["id"]
 
             sql = "select collectionid " \
                   "from collection " \
                   "where name = %s and userid = %s"
             cur.execute(sql, (playlistname, userid))
             playlistid = cur.fetchone()
+
+            sql = "insert into collectionsong(collectionid,songid)" \
+                  "values(%s, %s)"
+            cur.execute(sql, (playlistid, songid))
+            conn.commit()
+
+            for playlist_name in user_data["playlist_name"]:
+                sql = " SELECT songid,title,length FROM song WHERE songid IN " \
+                      "(SELECT songid FROM collectionsong WHERE collectionid IN " \
+                      "(SELECT collectionid FROM collection where name = %s AND userid = %s)) "
+                cur.execute(sql, (playlist_name, userid))
+                songs = cur.fetchall()
+                user_data[playlist_name] = [round(sum([song[2] for song in songs]) / 60, 2), len(songs)]
+
 
             sql = "insert into collectionsong(collectionid,songid)" \
                   "values(%s, %s)"

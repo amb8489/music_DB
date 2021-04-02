@@ -1,12 +1,13 @@
 # aaron berghash
 # greg mockler
 # tanner bradford
+# ranen mirot
 
 """
- -------- PHASE 3 requirments by ap april 2: ---------
+ -------- PHASE 3 requirements by ap april 2: ---------
 
 
-[X] link data base to appliction
+[X] link data base to application
 
 [X] fill data base with data sets
 
@@ -46,7 +47,7 @@
         album
         genre
 
-    [IN PROGRESS by ranen] The resulting list of songs must be in alphabetical order by song's name
+    [x] The resulting list of songs must be in alphabetical order by song's name
         and artist's name
 
         (Users can also sort list by artist's name, genre, and released year)

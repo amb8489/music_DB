@@ -441,7 +441,6 @@ def play_song():
         return render_template('login.html')
     if request.method == 'POST':
         songid = request.form["songid"]
-        print(songid)
         user_data = session['user_data']
         userid = user_data['id']
 
@@ -458,6 +457,18 @@ def play_song():
 
         user_data["explore"] = True
         user_data["myAlbums"] = False
+        
+        i = 0
+        for song in user_data['searched_songs']:
+            if int(song[0]) == int(songid):
+                print(song)
+                song = song[0:7] + (song[7] + 1,)
+                user_data['searched_songs'][i] = song
+            i+=1
+
+
+        print(user_data['searched_songs'])
+
         session['user_data'] = user_data
 
         return render_template('userpage.html', user_data=user_data)

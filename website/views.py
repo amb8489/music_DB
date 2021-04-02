@@ -24,9 +24,9 @@ def userpage():
 
 
 @views.route('/addtoplaylist/', methods=['POST', 'GET'])
-def add_to_my_playlist():
+def add_song_to_playlist():
     """
-    function to get a users albums (collections
+    function to add song to playlist
     :return:
     """
 
@@ -34,17 +34,53 @@ def add_to_my_playlist():
         return render_template('userpage.html')
     if request.method == 'POST':
         # geting form data
-        form_data = request.form['song_']
-
         user_data = session['user_data']
-        print(form_data)
-        user_data["new_playlist"].append(form_data[7:-2].replace('\'', '').split(","))
+        songid = request.form["songid"]
+        playlistid = user_data["selected_playlist"]
+
+        conn = get_connection()
+        cur = conn.cursor()
+        sql = "insert into collectionsong(collectionid,songid)" \
+              "values(%s, %s)"
+        cur.execute(sql, (playlistid, songid))
+        conn.commit()
+        cur.close()
+
         user_data["explore"] = True
         user_data["myAlbums"] = False
         session['user_data'] = user_data
 
     return render_template('userpage.html', user_data=user_data)
 
+
+@views.route('/deletefromplaylist/', methods=['POST', 'GET'])
+def delete_song_from_playlist():
+    """
+    function to delete song from playlist
+    :return:
+    """
+
+    if request.method == 'GET':
+        return render_template('userpage.html')
+    if request.method == 'POST':
+        # geting form data
+        user_data = session['user_data']
+        songid = request.form["songid"]
+        playlistid = user_data["selected_playlist"]
+
+        conn = get_connection()
+        cur = conn.cursor()
+        sql = "delete from collectionsong " \
+              "where collectionid = %s and songid = %s"
+        cur.execute(sql, (playlistid, songid))
+        conn.commit()
+        cur.close()
+
+        user_data["explore"] = True
+        user_data["myAlbums"] = False
+        session['user_data'] = user_data
+
+    return render_template('userpage.html', user_data=user_data)
 
 
 @views.route('/removeplaylist/', methods=['POST', 'GET'])
@@ -66,15 +102,12 @@ def remove_playlist():
         cur.execute(sql, (rmplaylist_name,))
         collectionID = cur.fetchone()[0]
 
-
         sql = "DELETE FROM collectionsong WHERE collectionid = %s "
         cur.execute(sql, (collectionID,))
-
 
         sql = "DELETE FROM collection WHERE collectionid = %s "
         cur.execute(sql, (collectionID,))
         user_data["current_playlist"] = []
-
 
         conn.commit()
         cur.close()
@@ -82,16 +115,6 @@ def remove_playlist():
         user_data["myAlbums"] = True
         session['user_data'] = user_data
         return render_template('userpage.html', user_data=user_data)
-
-
-
-
-
-
-
-
-
-
 
 
 @views.route('/getplaylist/', methods=['POST', 'GET'])
@@ -135,60 +158,39 @@ def get_playlist():
 @views.route('/makenewplaylists/', methods=['POST', 'GET'])
 def make_new_playlist():
     """
-    function to get the user's followers
+    function to make a new empty playlist
     :return:
     """
-
 
     if request.method == 'GET':
         return render_template('userpage.html')
     if request.method == 'POST':
-        # getttting form data
+        # getting form data
         form_data = request.form
         user_data = session['user_data']
 
         new_playlist_name = form_data["playlist_name"]
 
-        user_data["playlist_name"].append(new_playlist_name)
-        user_data["playlist_name"] = sorted(user_data["playlist_name"])
-        session['user_data'] = user_data
-
-        usrID = user_data["id"]
+        userID = user_data["id"]
 
         conn = get_connection()
         cur = conn.cursor()
-# making new collection in db
+        # making new collection in db
         sql = "insert into collection(name,userid) " \
               "values(%s, %s) RETURNING collectionid"
-        cur.execute(sql, (new_playlist_name,usrID))
+        cur.execute(sql, (new_playlist_name, userID))
         playlistID = cur.fetchone()[0]
-
-# adding songs to collection --better way to do this ?
-
-        songs_in_playlist = user_data["new_playlist"]
-        songIDs = [song[0] for song in songs_in_playlist]
-        for songid in songIDs:
-            sql = "insert into collectionsong(collectionid,songid)" \
-                  "values(%s, %s)"
-            cur.execute(sql, (playlistID,songid))
 
         conn.commit()
         cur.close()
 
-
-
-        user_data["new_playlist"] = []
+        user_data["new_playlist_id"] = playlistID
         user_data["explore"] = True
         user_data["myAlbums"] = False
 
         session['user_data'] = user_data
 
         return render_template('userpage.html', user_data=user_data)
-
-
-
-
-
 
 
 @views.route('/searchedsong/', methods=['POST', 'GET'])

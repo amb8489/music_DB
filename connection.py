@@ -19,8 +19,6 @@ def get_connection():
     return connection
 
 
-
-
 def add_songs():
     import os
     import sys

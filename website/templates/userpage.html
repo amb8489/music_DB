@@ -141,15 +141,24 @@
 
             <form action="/getplaylist/" method="post">
               <!-- <p>{{playlist}}</p> -->
-              <p><input id = "playlist" name = "playlist" type="submit" value="{{playlist}}"></p>
+              <p><input id = "playlist" name = "playlist" type="submit" value="{{playlist}}">
+
+              </p>
+
+
 
             </form>
+            <form action="/removeplaylist/" method="post">
+            <button class="buttonremove" style="test-align: center; background-color: #f00e0e;" ; id = "rmplaylist" name = "rmplaylist" type="submit" value="{{playlist}}">remove playlist
+            </button>
+          </form>
             {% endfor %}
 
             <div style="right:180px" class="split right">
               {%if user_data["current_playlist"]%}
 
               <h3>{{user_data["current_playlist_name"]}}</h3>
+
               <p style="font-size: 12px;">total length: {{user_data["current_playlist_length"]}} minutes</p>
               <p style="font-size: 12px;">number of songs: {{user_data["current_playlist_number"]}}</p>
               <hr class="rounded">
@@ -280,7 +289,7 @@
 
               {% for song in user_data["new_playlist"] %}
               <p class="card">{{ song[1] }}</p>
-              <button class="buttonEXP" style="test-align: center; background-color: #f00e0e;" ; type="submit" value=search>remove
+              <button class="buttonremove" style="test-align: center; background-color: #f00e0e;" ; type="submit" value=search>remove song
               </button>
               {% endfor %}
 

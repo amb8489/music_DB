@@ -250,7 +250,9 @@ def searched_song():
             user_data["searched_songs"] = sorted(result)
             # user_data["searched_song_id"] = result[1]
         else:
-            user_data["searched_song_errors"] = "no song found!"
+            user_data["searched_song_error"] = "no song found!"
+            user_data["searched_songs"] = "None"
+
         user_data["explore"] = True
         user_data["myAlbums"] = False
         session['user_data'] = user_data
@@ -440,8 +442,11 @@ def play_song():
               "on conflict(userid, songid) do update " \
               "set playcount = userplayssong.playcount + 1"
         cur.execute(sql, (userid, int(songid)))
-        cur.fetchone()
         conn.commit()
         cur.close()
 
-        return jsonify("playcount: %s", ())
+        user_data["explore"] = True
+        user_data["myAlbums"] = False
+        session['user_data'] = user_data
+
+        return render_template('userpage.html', user_data=user_data)

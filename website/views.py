@@ -90,8 +90,8 @@ def add_song_to_playlist():
             playlistid = cur.fetchone()
 
             sql = "insert into collectionsong(collectionid,songid)" \
-                  "values(%s, %s)"
-            cur.execute(sql, (playlistid, songid))
+                  "values(%s, %s) on conflict do nothing"
+            cur.execute(sql, (playlistid, songid[0]))
             conn.commit()
 
             for playlist_name in user_data["playlist_name"]:
@@ -102,10 +102,6 @@ def add_song_to_playlist():
                 songs = cur.fetchall()
                 user_data[playlist_name] = [round(sum([song[2] for song in songs]) / 60, 2), len(songs)]
 
-
-            sql = "insert into collectionsong(collectionid,songid)" \
-                  "values(%s, %s)"
-            cur.execute(sql, (playlistid, songid))
             conn.commit()
             cur.close()
 

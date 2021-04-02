@@ -36,10 +36,19 @@ def add_song_to_playlist():
         # geting form data
         user_data = session['user_data']
         songid = request.form["songid"]
-        playlistid = user_data["selected_playlist"]
+        playlistname = request.form['currentplaylist']
+        print(songid)
+        print(playlistname)
 
         conn = get_connection()
         cur = conn.cursor()
+
+        sql = "select collectionid " \
+              "from collection " \
+              "where name = %s"
+        cur.execute(sql, (playlistname,))
+        playlistid = cur.fetchone()
+
         sql = "insert into collectionsong(collectionid,songid)" \
               "values(%s, %s)"
         cur.execute(sql, (playlistid, songid))
@@ -153,8 +162,6 @@ def get_playlist():
     return render_template('userpage.html', user_data=user_data)
 
 
-
-
 @views.route('/makenewplaylists/', methods=['POST', 'GET'])
 def make_new_playlist():
     """
@@ -184,6 +191,8 @@ def make_new_playlist():
         conn.commit()
         cur.close()
 
+        user_data["playlist_name"].append(new_playlist_name)
+        print(user_data["playlist_name"])
         user_data["new_playlist_id"] = playlistID
         user_data["explore"] = True
         user_data["myAlbums"] = False
@@ -307,7 +316,7 @@ def searched_song():
                                  result[i][4], result[i][5], result[i][6], 0)
 
             user_data["searched_songs"] = result
-            # user_data["searched_song_id"] = result[1]
+            user_data["searched_song_error"] = "None"
         else:
             user_data["searched_song_error"] = "no song found!"
             user_data["searched_songs"] = "None"

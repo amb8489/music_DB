@@ -245,7 +245,7 @@
 
                   </div>
                </div>
-
+  </form>
                <!--explore page -->
 
 
@@ -291,6 +291,7 @@
                         <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>search
                         </button>
                      </form>
+                     </form>
                      <script>
                         var updatedPlayCount = 0;
 
@@ -310,94 +311,79 @@
                         }
                      </script>
 
-                     {% if user_data["searched_songs"] != "None" %}
-                     {% for song in user_data["searched_songs"] %}
-                     <hr class="rounded">
-
-                     <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
-                        '{{ song[4] }}' <br>
-                        genre: {{ song[5] }},
-                        length: {{ song[2] }} seconds,
-                        release year: {{ song[6] }} <br>
-                        your play count: {{ song[7] }}
-                     </p>
-
-                     <div class="btn-group">
-                        <form style="card" action="/playsong/" method="post">
-                           <button class="buttonEXP" class="button" style="test-align: center; " ; type="submit" name="songid" value={{ song[0] }}>
-                              play song
-                           </button>
-                        </form>
-
-
-
-
-
-
-
-
-
-                        <form style="card" action="/playentirealbum/" method="post">
-                           <button class="buttonEXP" class="button" style="test-align: center;" ; type="submit" name="songid" value={{ song[0] }}>
-                              play album
-                           </button>
-                        </form>
-
-
-
-
-                        <form action="/addtoplaylist/" method="post">
-                           <button class="buttonEXP" style="test-align: center; right:100px;" ;id="songid" name="songid" type="submit" value="{{ song[0] }}<sep>False">add to selected playlists
-                           </button>
-
-
-
-                            <button class="buttonEXP" class="button" style="test-align: center;" ; type="submit" id="songid" name="songid" value="{{ song[4] }}<sep>True<sep>{{song[3]}}">
-                                add album
-                              </button>
-
-                     </div>
-
-
-
-
-
-
-
-
-                        <form action="/getplaylist/" method="post">
-                           <div>
-                              <select id="currentplaylist" name="currentplaylist">
-                                 {% for playlist in user_data["playlist_name"] %}
-                                 <option value="{{ playlist }}">{{ playlist }}</option>
-                                 {% endfor %}
-                              </select>
-                              <hr class="rounded">
-                           </div>
-                        </form>
-                     </form>
-
-                     <div>
-
-
-                        {% endfor %}
-
-                        {% endif %}
-
-                        {% if user_data["searched_song_error"] != "None" %}
-
-                        <p>{{ user_data["searched_song_error"] }}</p>
-
-                        {% endif %}
-
-
-                     </div>
 
 
                      <!-- make new alb --->
                      <div class="split right">
 
-                        <h2>playlists</h2>
+                        <h2>searched</h2>
+
+                        {% if user_data["searched_songs"] != "None" %}
+                        {% for song in user_data["searched_songs"] %}
+                        <hr class="rounded">
+
+                        <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
+                           '{{ song[4] }}' <br>
+                           genre: {{ song[5] }},
+                           length: {{ song[2] }} seconds,
+                           release year: {{ song[6] }} <br>
+                           your play count: {{ song[7] }}
+                        </p>
+
+                        <div class="btn-group">
+                           <form style="card" action="/playsong/" method="post">
+                              <button class="buttonEXP" class="button" style="test-align: center; " ; type="submit" name="songid" value={{ song[0] }}>
+                                 play song
+                              </button>
+                           </form>
+
+                           <form style="card" action="/playentirealbum/" method="post">
+                              <button class="buttonEXP" class="button" style="test-align: center;" ; type="submit" name="songid" value={{ song[0] }}>
+                                 play album
+                              </button>
+                           </form>
+
+                           <form action="/addtoplaylist/" method="post">
+                              <button class="buttonEXP" style="test-align: center; right:100px;" ;id="songid" name="songid" type="submit" value="{{ song[0] }}<sep>False">add to selected playlists
+                              </button>
+
+
+
+                               <button class="buttonEXP" class="button" style="test-align: center;" ; type="submit" id="songid" name="songid" value="{{ song[4] }}<sep>True<sep>{{song[3]}}">
+                                   add album
+                                 </button>
+
+                        </div>
+
+
+                           <form action="/getplaylist/" method="post">
+                              <div>
+                                 <select id="currentplaylist" name="currentplaylist">
+                                    {% for playlist in user_data["playlist_name"] %}
+                                    <option value="{{ playlist }}">{{ playlist }}</option>
+                                    {% endfor %}
+                                 </select>
+                                 <hr class="rounded">
+                              </div>
+                           </form>
+                        </form>
+
+                        <div>
+
+
+                           {% endfor %}
+
+                           {% endif %}
+
+                           {% if user_data["searched_song_error"] != "None" %}
+
+                           <p>{{ user_data["searched_song_error"] }}</p>
+
+                           {% endif %}
+
+
+                        </div>
+
 
                         <!-- make new alb --->
 

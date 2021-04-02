@@ -98,6 +98,10 @@ def delete_song_from_playlist():
     return render_template('userpage.html', user_data=user_data)
 
 
+
+
+
+
 @views.route('/removeplaylist/', methods=['POST', 'GET'])
 def remove_playlist():
     if request.method == 'GET':
@@ -487,7 +491,41 @@ def search_users():
 
         return render_template('userpage.html', user_data=user_data)
 
+@views.route('/playentirealbum/', methods=['POST', 'GET'])
+def play_album():
+    if request.method == 'GET':
+        return render_template('login.html')
+    if request.method == 'POST':
+        songID = int(request.form["songid"])
 
+        user_data = session['user_data']
+        userid = user_data['id']
+        print("+++++____+_+_+_+_+_+_+_+_+_+_",songID)
+        conn = get_connection()
+        cur = conn.cursor()
+
+        sql = "SELECT songid from albumcontains WHERE albumid = (SELECT albumid FROM albumcontains "\
+                    "WHERE songid = %s)"
+        cur.execute(sql, (songID,))
+        result  = cur.fetchall()
+        print("!@#$%^&*()(*&^%$%^&*)   ",result)
+
+        for songid in result:
+            print()
+            print(songid[0])
+            print()
+
+            sql = "insert into userplayssong(userid, songid, playcount) " \
+                  "values(%s, %s, 1)" \
+                  "on conflict(userid, songid) do update " \
+                  "set playcount = userplayssong.playcount + 1"
+            cur.execute(sql, (userid, int(songid[0])))
+        conn.commit()
+        cur.close()
+
+    session['user_data'] = user_data
+
+    return render_template('userpage.html', user_data=user_data)
 @views.route('/playsong/', methods=['POST', 'GET'])
 def play_song():
     """

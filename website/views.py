@@ -23,17 +23,14 @@ def userpage():
     return render_template("userpage.html", user_data=user_data)
 
 
+#adds song to playlist
 @views.route('/addtoplaylist/', methods=['POST', 'GET'])
 def add_to_my_playlist():
-    """
-    function to get a users albums (collections
-    :return:
-    """
 
     if request.method == 'GET':
         return render_template('userpage.html')
     if request.method == 'POST':
-        # geting form data
+        # gettttttttttting form data
         form_data = request.form['song_']
 
         user_data = session['user_data']
@@ -41,7 +38,18 @@ def add_to_my_playlist():
         user_data["new_playlist"].append(form_data[7:-2].replace('\'', '').split(","))
         user_data["explore"] = True
         user_data["myAlbums"] = False
+        collectionid = user_data['collectionid']
+        songid = user_data['songid']
         session['user_data'] = user_data
+
+        sql = "insert into collectionsong(collectionid, songid) " \
+              "values(%s, %s)" \
+              "on conflict(userid, songid) do nothing returning null"
+
+        conn = get_connection()
+        cur = conn.cursor()
+        cur.execute(sql, (collectionid, songid))
+        songs = cur.fetchall()
 
     return render_template('userpage.html', user_data=user_data)
 

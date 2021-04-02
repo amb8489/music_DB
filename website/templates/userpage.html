@@ -239,17 +239,17 @@
                 your play count: {{ song[7] }}
               </p>
 
-              <button class="buttonEXP" onclick="ajax_play_song({{ song[1] }})" class="button" style="test-align: center;" ; type="submit" name="songid" value={{ song[1] }}>play song
+              <button class="buttonEXP" onclick="ajax_play_song({{ song[1] }})" class="button" style="test-align: center;" ; type="submit" name="songid" value="{{ song[1] }}"">play song
               </button>
               <!-- <p>play count: {{ song[7] }}</p> -->
 
 
-              <form action="/addtoplaylist/" method="post">
+              <!--<form action="/addtoplaylist/" method="post">
                 <button class="buttonEXP" style="test-align: center; right:100px;" ;id="song_" name="song_" type="submit" value="array({{ song }})">add to new playlists
                 </button>
 
 
-              </form>
+              </form>-->
 
 
               {% endfor %}

@@ -330,7 +330,10 @@
                 <!-- make new alb --->
                 <div class="split right">
 
-                    <h2>playlists</h2>
+                    <h2>playlist song</h2>
+                    {% for song in user_data["current_playlist"] %}
+                        <p class="card">{{ song[1] }}</p>
+                    {%endfor%}
 
                     <!-- make new alb --->
 

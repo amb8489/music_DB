@@ -142,20 +142,20 @@
 
                     <!-- buton to show songs in that alb-->
 
-            <form action="/getplaylist/" method="post">
-              <!-- <p>{{playlist}}</p> -->
-              <p><input id = "playlist" name = "playlist" type="submit" value="{{playlist}}">
+                    <form action="/getplaylist/" method="post">
+                        <!-- <p>{{playlist}}</p> -->
+                        <p><input id="playlist" name="playlist" type="submit" value="{{ playlist }}">
 
-              </p>
+                        </p>
 
 
-
-            </form>
-            <form action="/removeplaylist/" method="post">
-            <button class="buttonremove" style="test-align: center; background-color: #f00e0e;" ; id = "rmplaylist" name = "rmplaylist" type="submit" value="{{playlist}}">remove playlist
-            </button>
-          </form>
-            {% endfor %}
+                    </form>
+                    <form action="/removeplaylist/" method="post">
+                        <button class="buttonremove" style="test-align: center; background-color: #f00e0e;" ;
+                                id="rmplaylist" name="rmplaylist" type="submit" value="{{ playlist }}">remove playlist
+                        </button>
+                    </form>
+                {% endfor %}
 
                 <div style="right:180px" class="split right">
                     {% if user_data["current_playlist"] %}
@@ -164,10 +164,10 @@
                         <p style="font-size: 12px;">total length: {{ user_data["current_playlist_length"] }} minutes</p>
                         <p style="font-size: 12px;">number of songs: {{ user_data["current_playlist_number"] }}</p>
                         <form action="/playcollection/" method="post">
-                                <button class="buttonEXP" class="button"
-                                        style="test-align: center;" ; type="submit" name="songs" >
-                                    play whole playlist
-                                </button>
+                        <button class="buttonEXP" class="button"
+                                style="test-align: center;" ; type="submit" name="songs">
+                            play whole playlist
+                        </button>
                         <hr class="rounded">
 
                         {% for song in user_data["current_playlist"] %}
@@ -308,30 +308,30 @@
                         </button>
                     </form>
 
-              <p>{{ user_data["searched_song_error"] }}</p>
+                    <p>{{ user_data["searched_song_error"] }}</p>
 
+                </div>
 
-            </div>
+                <!-- make new alb --->
+                <div class="split right">
 
+                    <h2>new playlists</h2>
+                    <form class="" action="/makenewplaylists/" method="post">
+                        <p style="font-size: 14px;">playlists name</p>
+                        <input class="input2" type="text" id="playlist_name" name="playlist_name"
+                               value="new playlists name" placeholder="name here...">
+                        </label>
+                        <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new
+                            playlists
+                        </button>
+                    </form>
 
-            <!-- make new alb --->
-            <div class="split right">
-
-              <h2>new playlists</h2>
-              <form class="" action="/makenewplaylists/" method="post">
-                <p style="font-size: 14px;">playlists name</p>
-                <input class="input2" type="text" id="playlist_name" name="playlist_name" value="new playlists name" placeholder="name here...">
-                </label>
-                <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>make new
-                  playlists
-                </button>
-              </form>
-
-              {% for song in user_data["new_playlist"] %}
-              <p class="card">{{ song[1] }}</p>
-              <button class="buttonremove" style="test-align: center; background-color: #f00e0e;" ; type="submit" value=search>remove song
-              </button>
-              {% endfor %}
+                    {% for song in user_data["new_playlist"] %}
+                        <p class="card">{{ song[1] }}</p>
+                        <button class="buttonremove" style="test-align: center; background-color: #f00e0e;" ;
+                                type="submit" value=search>remove song
+                        </button>
+                    {% endfor %}
 
                 </div>
             </div>
@@ -365,9 +365,9 @@
                 showhide('explore');
             </script>{% endif %}
 
-        {% if user_data["mymusic"] == True %}
+        {% if user_data["myAlbums"] %}
             <script>
-                showhide('myAlbum');
+                showhide('myAlbums');
             </script>{% endif %}
 
 

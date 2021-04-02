@@ -78,7 +78,8 @@ def remove_playlist():
 
         conn.commit()
         cur.close()
-
+        user_data["explore"] = False
+        user_data["myAlbums"] = True
         session['user_data'] = user_data
         return render_template('userpage.html', user_data=user_data)
 
@@ -111,20 +112,20 @@ def get_playlist():
         sql = " SELECT songid,title,length FROM song WHERE songid IN "\
               "(SELECT songid FROM collectionsong WHERE collectionid IN "\
               "(SELECT collectionid FROM collection where name = %s AND userid = %s)) "
-        cur.execute(sql, (playlist_name,userID))
+        cur.execute(sql, (playlist_name, userID))
         songs = cur.fetchall()
 
         print(songs)
 
         user_data["current_playlist"] = songs
-        user_data["current_playlist_name"]=playlist_name
+        user_data["current_playlist_name"] = playlist_name
 
         user_data["current_playlist_length"] = round(sum([song[2] for song in songs])/60,2)
         user_data["current_playlist_number"] = len(songs)
 
-        user_data["myAlbum"] = True
+        user_data["myAlbums"] = True
+        user_data["explore"] = False
         session['user_data'] = user_data
-
 
     return render_template('userpage.html', user_data=user_data)
 
@@ -545,8 +546,8 @@ def play_collection():
         conn.commit()
         cur.close()
 
-        user_data["explore"] = True
-        user_data["myAlbums"] = False
+        user_data["explore"] = False
+        user_data["myAlbums"] = True
         session['user_data'] = user_data
 
         return render_template('userpage.html', user_data=user_data)

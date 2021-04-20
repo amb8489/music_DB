@@ -7,6 +7,29 @@
 
 main.py is the main class for the application
 
+
+
+-------TODO phase 4-------
+
+•The application user profile that displays:
+    [ ] The number of collections the user has
+    [X] The number of follower
+    [X] The number of following
+    [ ] users top 10 artists
+
+•A song recommendation system with the following options:
+    [ ] The top 50 most popular songs of the month
+    [ ] The top 50 most popular songs among my friend
+    [ ] The top 5 most popular genres of the month
+    [ ] For you: Recommend songs based on your play history
+        (e.g. genre,artist) and the play history of similar users
+
+•NON app things TODO
+    [ ] POSTER
+    [ ] poster showing
+    [ ] VIDEO
+    [ ] update report
+    [ ] peer reveiw
 """
 
 from website import create_app

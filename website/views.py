@@ -234,6 +234,7 @@ def remove_playlist():
         cur.close()
         user_data["explore"] = False
         user_data["myAlbums"] = True
+        user_data["num_of_costom_playlist"] = str(len(user_data["playlist_name"]))
         session['user_data'] = user_data
         return render_template('userpage.html', user_data=user_data)
 
@@ -326,6 +327,7 @@ def make_new_playlist():
         user_data["new_playlist_id"] = playlistID
         user_data["explore"] = True
         user_data["myAlbums"] = False
+        user_data["num_of_costom_playlist"] = str(len(user_data["playlist_name"]))
 
         session['user_data'] = user_data
 

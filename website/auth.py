@@ -98,6 +98,7 @@ def confirm_new_account(form_data):
                  "num_following": 0, "id": result[3], 'following': []}
     conn.commit()
     cur.close()
+    user_data["num_of_costom_playlist"] = "0"
 
     return user_data, success, error
 
@@ -226,7 +227,6 @@ def login():
                          "num_following": num_following, "id": result[3], 'following': []}
 
             user_data["new_playlist"] = []
-
             # getting the user that they are following
             sql = "SELECT useridfollowing" \
                   " FROM userfollows" \
@@ -265,6 +265,7 @@ def login():
 
             else:
                 user_data["playlist_name"] = []
+            user_data["num_of_costom_playlist"] = str(len(user_data["playlist_name"]))
 
             cur.close()
 

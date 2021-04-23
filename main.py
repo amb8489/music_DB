@@ -12,7 +12,7 @@ main.py is the main class for the application
 -------TODO phase 4-------
 
 •The application user profile that displays:
-    [ ] The number of collections the user has
+    [X] The number of collections the user has
     [X] The number of follower
     [X] The number of following
     [ ] users top 10 artists
@@ -30,6 +30,9 @@ main.py is the main class for the application
     [ ] VIDEO
     [ ] update report
     [ ] peer reveiw
+
+
+
 """
 
 from website import create_app

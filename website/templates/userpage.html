@@ -143,6 +143,8 @@
 
             <div class="myAlbums" id="myAlbums">
                 <h2>my playlists</h2>
+                <p>costom playlists: {{ user_data["num_of_costom_playlist"]}}</p>
+
 
 
                 <!--  for albums in ...<a href="#album name">Home</a> ---->
@@ -253,10 +255,19 @@
 
 
             <div class="explore" id="explore">
+              <div class="split right">
 
+                  <h2>for you</h2>
+                  <p>The top 50 most popular songs of the month</p>
+                  <p>The top 50 most popular songs among my friend</p>
+                  <p>The top 5 most popular genres of the month</p>
+                  <p>Recommend songs based on your play history and the play history of similar users</p>
+
+
+                  </div>
 
                 <div class="split left">
-                    <h2>explore</h2>
+                    <h2>search</h2>
 
                     <form action="/searchedsong/" method="POST" id="form" role="search">
 
@@ -291,6 +302,7 @@
 
                         </div>
 
+
                         <input class="input2" type="search" id="songname" name="song_name" placeholder="Search songs"
                                aria-label="Search through site content">
                         <button class="buttonEXP" style="test-align: center;" ; type="submit" value=search>search
@@ -318,9 +330,10 @@
 
 
                     <!-- make new alb --->
-                    <div class="split right">
 
-                        <h2>searched</h2>
+
+
+                        <!-- make new alb --->
 
                         {% if user_data["searched_songs"] != "None" %}
                             {% for song in user_data["searched_songs"] %}
@@ -372,7 +385,6 @@
                                                 <option value="{{ playlist }}">{{ playlist }}</option>
                                             {% endfor %}
                                         </select>
-                                        <hr class="rounded">
                                     </div>
                                 </form>
                                 </form>
@@ -390,14 +402,9 @@
 
                         {% endif %}
 
-
-                        </div>
-
-
-                        <!-- make new alb --->
-
-
                     </div>
+
+
                     <!--function to show only the page clicked on -->
                     <script>
                         var divState = {};

@@ -51,6 +51,7 @@
     <h1><a style="color: #ffffca;" href="#" onclick="showhide('me');">terrible spotify</a></h1>
 
     <a href="#" onclick="showhide('me');">me</a>
+    <a href="#" onclick="showhide('following');">friends</a>
     <a href="#" onclick="showhide('myAlbums');">my music</a>
     <a href="#" onclick="showhide('explore');">explore</a>
 </div>
@@ -60,7 +61,7 @@
     <h2 style="text-align: center"> {{ user_data['username'] }}</h2>
     <p><a href="#" onclick="showhide('following');">{{ user_data["num_followers"] }} followers</a></p>
     <p><a href="#" onclick="showhide('following');">{{ user_data["num_following"] }} following</a></p>
-    <!-- <p><a href="#" onclick="showhide('myAlbums');">[ X ]collections</a></p> -->
+    <p><a href="#" onclick="showhide('myAlbums');">{{ user_data["num_of_costom_playlist"]}} playlists</a></p>
     <p><a href="#" onclick="showhide('settings');">settings</a></p>
     <p><a href="/">log out</a></p>
 
@@ -77,32 +78,7 @@
         <!--user home page -->
 
         <div class="me" id="me">
-            <h3>find friends</h3>
 
-            {% if user_data['error'] != None %}
-
-                <p style="color:Tomato;">{{ user_data['error'] }}</p>
-
-            {% endif %}
-
-
-            <form class="form" action="/searchusers/" method="POST" id="form" role="search">
-                <input class="input" type="search" type="text" id="usr_email" name="usr_email"
-                       placeholder="Search users by email" aria-label="Search through site content">
-                <button class="button" style="test-align: center;" ; type="submit" value=search>search</button>
-            </form>
-
-            {% if user_data["searched_friend"] != "None" %}
-                <div class="card">
-                    <form class="form" action="/followuser/" method="POST" id="form" role="search">
-                        <p>{{ user_data["searched_friend"] }}</p>
-                        <button style="text-align: center; align: right;" id="usr_email" name="usr_email" type="submit"
-                                value=user_data["searched_friend"]>follow
-                        </button>
-                        </p>
-                    </form>
-                </div>
-            {% endif %}
         </div>
 
         <div id="content">
@@ -121,7 +97,41 @@
 
 
             <div class="following" id="following">
-                <h2>following</h2>
+              <div style="width:550px; left: 720px " class="split right">
+                <h3>find friends</h3>
+
+                {% if user_data['error'] != None %}
+
+                    <p style="color:Tomato;">{{ user_data['error'] }}</p>
+
+                {% endif %}
+
+
+                <form class="form" action="/searchusers/" method="POST" id="form" role="search">
+                    <input class="input" type="search" type="text" id="usr_email" name="usr_email"
+                           placeholder="Search users by email" aria-label="Search through site content">
+                    <button class="button" style="test-align: center;" ; type="submit" value=search>search</button>
+                </form>
+
+                {% if user_data["searched_friend"] != "None" %}
+                    <div class="card">
+                        <form class="form" action="/followuser/" method="POST" id="form" role="search">
+                            <p>{{ user_data["searched_friend"] }}</p>
+                            <button style="text-align: center; align: right;" id="usr_email" name="usr_email" type="submit"
+                                    value=user_data["searched_friend"]>follow
+                            </button>
+                            </p>
+                        </form>
+                    </div>
+                {% endif %}
+              </div>
+              <div style="right:170px" class="split left">
+                <div style="width:280px; left: 435px " class="split right">
+                  <h2 style="text-align:center">follwers</h2>
+
+                </div>
+              <h2>following</h2>
+
                 {% for user in user_data["following"] %}
 
                     <form action="/unfollowuser/" method="POST" id="form" role="search">
@@ -135,6 +145,7 @@
                     </form>
                 {% endfor %}
 
+              </div>
 
             </div>
 
@@ -143,7 +154,7 @@
 
             <div class="myAlbums" id="myAlbums">
                 <h2>my playlists</h2>
-                <p>costom playlists: {{ user_data["num_of_costom_playlist"]}}</p>
+                <p style="font-size: 14px">costom playlists: {{ user_data["num_of_costom_playlist"]}}</p>
 
 
 

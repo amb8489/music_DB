@@ -3,7 +3,9 @@
 }
 
 .all {
-  height: 800px;
+  /* height: 800px; */
+  height: 100%;
+
   border-radius: 10px;
   background-color: #f2f2f2;
   padding: 15px;
@@ -78,11 +80,12 @@ body {
 }
 
 .me {
-  background-color: #99d6e6;
   font-size: 28px;
   /* Increased text to enable scrolling */
   padding: 0px 10px;
   height: 100%;
+  width: 100%;
+
 }
 
 .following {
@@ -391,4 +394,25 @@ hr.rounded {
 .centered img {
   width: 150px;
   border-radius: 50%;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Create four equal columns that floats next to each other */
+.column {
+  font-size: 14px;
+
+  float: left;
+  width: 25%;
+  padding: 10px;
+  height: 600px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }

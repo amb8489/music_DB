@@ -30,6 +30,7 @@ main.py is the main class for the application
     [ ] VIDEO
     [ ] update report
     [ ] peer reveiw
+    [ ] data analysis
 
 
 

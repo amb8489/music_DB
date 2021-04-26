@@ -211,7 +211,6 @@ def remove_playlist():
     if request.method == 'POST':
         rmplaylist_name = request.form["rmplaylist"]
 
-        print("----+++++++++++++", rmplaylist_name)
         user_data = session['user_data']
         user_data["playlist_name"].remove(rmplaylist_name)
         user_data["current_playlist_length"] = 0
@@ -725,11 +724,6 @@ def play_song():
 
 
 
-        sql = "SELECT songid, playcount FROM userplayssong WHERE userid = %s"
-        cur.execute(sql, (userid,))
-        print("+++++++------\n",cur.fetchall())
-
-
 
 
 
@@ -744,9 +738,42 @@ def play_song():
         conn.commit()
 
 
+        sql = "SELECT artistid FROM songartist WHERE songid = %s"
+        cur.execute(sql, (int(songid),))
+        ARTISTID = cur.fetchone()[0]
 
-        # sql = "SELECT songid from albumcontains WHERE albumid = (SELECT albumid FROM albumcontains " \
-        # "WHERE songid = %s)"
+        sql = "SELECT playcount FROM artist_play_counts WHERE userid = %s and artistid = %s"
+        cur.execute(sql, (userid, ARTISTID))
+        count = cur.fetchone()
+        if count is None:
+            count=1
+
+
+
+        sql = "insert into artist_play_counts(userid, artistid, playcount)"\
+              "values(%s, %s, %s) on conflict(artistid) do update " \
+              "set playcount = artist_play_counts.playcount + 1"
+
+        cur.execute(sql, (userid, ARTISTID, count))
+        conn.commit()
+
+#######----------
+
+        sql = "SELECT playcount,artistid FROM artist_play_counts WHERE userid = %s"
+        cur.execute(sql, (userid,))
+        artist_play_counts = list(cur.fetchall())
+
+        artist_play_counts = sorted(artist_play_counts)
+        if len(artist_play_counts)>10:
+            artist_play_counts = artist_play_counts[:10]
+        artist_play_counts = artist_play_counts[::-1]
+        print("_______\n",artist_play_counts)
+
+        artist_play_counts = [artistID[1] for artistID in artist_play_counts]
+        sql = "SELECT artistname from artist where artistid IN %s"
+        cur.execute(sql, (tuple(artist_play_counts),))
+        user_data["top10artists"] = cur.fetchall()
+
         cur.close()
 
         user_data["explore"] = True

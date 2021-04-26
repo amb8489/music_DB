@@ -99,6 +99,7 @@ def confirm_new_account(form_data):
     conn.commit()
     cur.close()
     user_data["num_of_costom_playlist"] = "0"
+    user_data["top10artists"] = []
 
     return user_data, success, error
 
@@ -267,7 +268,26 @@ def login():
                 user_data["playlist_name"] = []
             user_data["num_of_costom_playlist"] = str(len(user_data["playlist_name"]))
 
+
+
+
+            sql = "SELECT playcount,artistid FROM artist_play_counts WHERE userid = %s"
+            cur.execute(sql, (user_data["id"],))
+            artist_play_counts = list(cur.fetchall())
+
+            artist_play_counts = sorted(artist_play_counts)
+            if len(artist_play_counts)>10:
+                artist_play_counts = artist_play_counts[:10]
+            artist_play_counts = artist_play_counts[::-1]
+            print("_______\n",artist_play_counts)
+
+            artist_play_counts = [artistID[1] for artistID in artist_play_counts]
+            sql = "SELECT artistname from artist where artistid IN %s"
+            cur.execute(sql, (tuple(artist_play_counts),))
+            user_data["top10artists"] = cur.fetchall()
+
             cur.close()
+
 
             # saving user details into the session for global use
             session['user_data'] = user_data

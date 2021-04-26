@@ -15,7 +15,7 @@ main.py is the main class for the application
     [X] The number of collections the user has
     [X] The number of follower
     [X] The number of following
-    [ ] users top 10 artists
+    [X] users top 10 artists
 
 •A song recommendation system with the following options:
     [ ] The top 50 most popular songs of the month

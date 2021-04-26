@@ -718,12 +718,35 @@ def play_song():
         conn = get_connection()
         cur = conn.cursor()
 
+
+
+
+
+
+
+
+        sql = "SELECT songid, playcount FROM userplayssong WHERE userid = %s"
+        cur.execute(sql, (userid,))
+        print("+++++++------\n",cur.fetchall())
+
+
+
+
+
+
+
+
         sql = "insert into userplayssong(userid, songid, playcount) " \
-              "values(%s, %s, 1)" \
-              "on conflict(userid, songid) do update " \
+              "values(%s, %s, 1)"\
+              "on conflict(userid, songid, dateplayed) do update " \
               "set playcount = userplayssong.playcount + 1"
         cur.execute(sql, (userid, int(songid)))
         conn.commit()
+
+
+
+        # sql = "SELECT songid from albumcontains WHERE albumid = (SELECT albumid FROM albumcontains " \
+        # "WHERE songid = %s)"
         cur.close()
 
         user_data["explore"] = True

@@ -294,13 +294,45 @@ def login():
             # sql = "SELECT genrename FROM genre WHERE genreid IN (SELECT genreid "\
             #       "FROM songgenre WHERE songid IN (select count(songid) from userplayssong WHERE songid IN (SELECT songid from userplayssong"\
             #       "WHERE userid = %s)))"
-            # sql = "select count(songid) from userplayssong WHERE songid IN (SELECT songid from userplayssong"\
-            # " WHERE userid = %s)"
-            # cur.execute(sql, (user_data["id"],))
-            # print("\n",cur.fetchall(),"\n")
+            sql = "SELECT songid from userplayssong WHERE userid = %s"
+            cur.execute(sql, (user_data["id"],))
+            songids = cur.fetchall()
+
+
+            songs = []
+            for songid in songids:
+                sql = "select count(songid) from userplayssong WHERE songid = %s"
+                cur.execute(sql, (songid[0],))
+                songs.append((cur.fetchone()[0],songid[0]))
+
+            songs = sorted(songs)
+            songs = songs[::-1]
+            songs = [song[1] for song in songs]
+
+
+            top5genre = set()
+            for songid in songs:
+                sql = "SELECT genrename FROM genre WHERE genreid IN (SELECT genreid "\
+                  "FROM songgenre WHERE songid = %s)"
+                cur.execute(sql, (songid,))
+                top5genre.add(cur.fetchone()[0])
+                if len(top5genre) == 5:
+                    break
+            i = 0
+            genres = {0:"rap", 1:"pop", 2:"country", 3:"R&B", 4:"rock", 5:"alternative", 6:"indie"}
+
+            while len(top5genre) < 5:
+                top5genre.add(genres[i])
+                i+=1
+
+
+
+
+            print("\n",top5genre,"\n")
             cur.close()
 
-            user_data["top5genre"] = ["rap", "pop", "country", "R&B", "rock"]
+            # user_data["top5genre"] = ["rap", "pop", "country", "R&B", "rock"]
+            user_data["top5genre"] = list(top5genre)
 
 
             # saving user details into the session for global use

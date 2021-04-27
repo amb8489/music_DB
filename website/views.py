@@ -764,15 +764,19 @@ def play_song():
         artist_play_counts = list(cur.fetchall())
 
         artist_play_counts = sorted(artist_play_counts)
+        artist_play_counts = artist_play_counts[::-1]
+
         if len(artist_play_counts)>10:
             artist_play_counts = artist_play_counts[:10]
-        artist_play_counts = artist_play_counts[::-1]
-        print("_______\n",artist_play_counts)
+        print("1_______\n",artist_play_counts)
 
         artist_play_counts = [artistID[1] for artistID in artist_play_counts]
-        sql = "SELECT artistname from artist where artistid IN %s"
-        cur.execute(sql, (tuple(artist_play_counts),))
-        user_data["top10artists"] = cur.fetchall()
+        print("2_______\n",artist_play_counts)
+        user_data["top10artists"] = []
+        for artistid in artist_play_counts:
+            sql = "SELECT artistname from artist where artistid = %s"
+            cur.execute(sql, (artistid,))
+            user_data["top10artists"].append(cur.fetchone())
 
         cur.close()
 

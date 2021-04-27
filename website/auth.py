@@ -30,6 +30,8 @@ def signup():
             user_data["num_followers"] = "0"
             user_data["num_following"] = "0"
             user_data["new_playlist"] = []
+            user_data["top5genre"] = ["rap", "pop", "country", "R&B", "rock"]
+
 
             user_data["playlist_name"] = []
 
@@ -268,6 +270,7 @@ def login():
                 user_data["playlist_name"] = []
             user_data["num_of_costom_playlist"] = str(len(user_data["playlist_name"]))
 
+            user_data["top5genre"] = ["rap", "pop", "country", "R&B", "rock"]
 
 
 

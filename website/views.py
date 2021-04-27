@@ -778,7 +778,9 @@ def play_song():
             cur.execute(sql, (artistid,))
             user_data["top10artists"].append(cur.fetchone())
 
+
         cur.close()
+        user_data["top5genre"] = ["rap", "pop", "country", "R&B", "rock"]
 
         user_data["explore"] = True
         user_data["myAlbums"] = False

@@ -306,6 +306,13 @@
                      {% endfor %}{%endif%}
 
 
+                     <h2>popular genres</h2>
+                     <p>The 5 most popular genres of the month</p>
+
+                     {% if user_data["searched_songs"] != "None" %}
+                     {% for song in user_data["searched_songs"] %}
+                     <hr class="rounded">
+
                      <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
                         '{{ song[4] }}' <br>
                         genre: {{ song[5] }},

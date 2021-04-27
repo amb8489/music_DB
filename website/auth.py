@@ -270,9 +270,6 @@ def login():
                 user_data["playlist_name"] = []
             user_data["num_of_costom_playlist"] = str(len(user_data["playlist_name"]))
 
-            user_data["top5genre"] = ["rap", "pop", "country", "R&B", "rock"]
-
-
 
             sql = "SELECT playcount,artistid FROM artist_play_counts WHERE userid = %s"
             cur.execute(sql, (user_data["id"],))
@@ -292,7 +289,18 @@ def login():
                 cur.execute(sql, (artistid,))
                 user_data["top10artists"].append(cur.fetchone())
 
+            # get the genres of the top songsss---
+
+            # sql = "SELECT genrename FROM genre WHERE genreid IN (SELECT genreid "\
+            #       "FROM songgenre WHERE songid IN (select count(songid) from userplayssong WHERE songid IN (SELECT songid from userplayssong"\
+            #       "WHERE userid = %s)))"
+            # sql = "select songid, count(songid) from userplayssong WHERE songid IN (SELECT songid from userplayssong"\
+            # " WHERE userid = %s)"
+            # cur.execute(sql, (user_data["id"],))
+            # print("\n",cur.fetchall(),"\n")
             cur.close()
+
+            user_data["top5genre"] = ["rap", "pop", "country", "R&B", "rock"]
 
 
             # saving user details into the session for global use

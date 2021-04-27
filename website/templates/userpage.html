@@ -78,7 +78,7 @@
             <!--user home page -->
 
             <div class="me" id="me">
-              <h2>your listening stats</h2>
+               <h2>your listening stats</h2>
                <div class="row">
                   <div class="column" style="background-color:#aaa;">
                      <h2>top 10 artists</h2>
@@ -276,68 +276,61 @@
                      <h2>popular songs</h2>
                      <p>The 50 most popular songs of the month</p>
 
-                        {% if user_data["searched_songs"] != "None" %}
-                        {% for song in user_data["searched_songs"] %}
-                        <hr class="rounded">
+                     {% if user_data["searched_songs"] != "None" %}
+                     {% for song in user_data["searched_songs"] %}
+                     <hr class="rounded">
 
-                        <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
-                           '{{ song[4] }}' <br>
-                           genre: {{ song[5] }},
-                           length: {{ song[2] }} seconds,
-                           release year: {{ song[6] }} <br>
-                           your play count: {{ song[7] }}
-                        </p>
-                        {% endfor %}{%endif%}
+                     <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
+                        '{{ song[4] }}' <br>
+                        genre: {{ song[5] }},
+                        length: {{ song[2] }} seconds,
+                        release year: {{ song[6] }} <br>
+                        your play count: {{ song[7] }}
+                     </p>
+                     {% endfor %}{%endif%}
 
                      <h2>popular among friends</h2>
                      <p>The 50 most popular songs among your friends</p>
 
-                        {% if user_data["searched_songs"] != "None" %}
-                        {% for song in user_data["searched_songs"] %}
-                        <hr class="rounded">
+                     {% if user_data["searched_songs"] != "None" %}
+                     {% for song in user_data["searched_songs"] %}
+                     <hr class="rounded">
 
-                        <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
-                           '{{ song[4] }}' <br>
-                           genre: {{ song[5] }},
-                           length: {{ song[2] }} seconds,
-                           release year: {{ song[6] }} <br>
-                           your play count: {{ song[7] }}
-                        </p>
-                        {% endfor %}{%endif%}
+                     <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
+                        '{{ song[4] }}' <br>
+                        genre: {{ song[5] }},
+                        length: {{ song[2] }} seconds,
+                        release year: {{ song[6] }} <br>
+                        your play count: {{ song[7] }}
+                     </p>
+                     {% endfor %}{%endif%}
 
 
-                     <h2>popular genres</h2>
-                     <p>The 5 most popular genres of the month</p>
-
-                        {% if user_data["searched_songs"] != "None" %}
-                        {% for song in user_data["searched_songs"] %}
-                        <hr class="rounded">
-
-                        <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
-                           '{{ song[4] }}' <br>
-                           genre: {{ song[5] }},
-                           length: {{ song[2] }} seconds,
-                           release year: {{ song[6] }} <br>
-                           your play count: {{ song[7] }}
-                        </p>
-                        {% endfor %} {%endif%}
+                     <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
+                        '{{ song[4] }}' <br>
+                        genre: {{ song[5] }},
+                        length: {{ song[2] }} seconds,
+                        release year: {{ song[6] }} <br>
+                        your play count: {{ song[7] }}
+                     </p>
+                     {% endfor %} {%endif%}
 
 
                      <h2>for you</h2>
                      <p>Recommend songs based on your play history and the play history of similar users</p>
 
-                        {% if user_data["searched_songs"] != "None" %}
-                        {% for song in user_data["searched_songs"] %}
-                        <hr class="rounded">
+                     {% if user_data["searched_songs"] != "None" %}
+                     {% for song in user_data["searched_songs"] %}
+                     <hr class="rounded">
 
-                        <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
-                           '{{ song[4] }}' <br>
-                           genre: {{ song[5] }},
-                           length: {{ song[2] }} seconds,
-                           release year: {{ song[6] }} <br>
-                           your play count: {{ song[7] }}
-                        </p>
-                        {% endfor %}{%endif%}
+                     <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
+                        '{{ song[4] }}' <br>
+                        genre: {{ song[5] }},
+                        length: {{ song[2] }} seconds,
+                        release year: {{ song[6] }} <br>
+                        your play count: {{ song[7] }}
+                     </p>
+                     {% endfor %}{%endif%}
 
                   </div>
 

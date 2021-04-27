@@ -476,9 +476,14 @@ def searched_song():
             if len(result) > int(amount_of_songs):
                 result = result[:int(amount_of_songs)]
 
+            sql = "select count(songid) from userplayssong where userid = %s and songid = %s"
+            cur.execute(sql, (user_id,result[0][0]))
+            count = cur.fetchone()[0]
+
+
             for i in range(len(result)):
                     result[i] = (result[i][0], result[i][1], result[i][2], result[i][3],
-                                 result[i][4], result[i][5], result[i][6], 99999) #HERE play count
+                                 result[i][4], result[i][5], result[i][6], count) #HERE play count
 
             user_data["searched_songs"] = result
             user_data["searched_song_error"] = "None"

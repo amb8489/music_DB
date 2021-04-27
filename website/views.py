@@ -476,6 +476,8 @@ def searched_song():
             if len(result) > int(amount_of_songs):
                 result = result[:int(amount_of_songs)]
 
+
+            #HERE getting play count
             sql = "select count(songid) from userplayssong where userid = %s and songid = %s"
             cur.execute(sql, (user_id,result[0][0]))
             count = cur.fetchone()[0]

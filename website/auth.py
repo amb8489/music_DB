@@ -294,7 +294,7 @@ def login():
             # sql = "SELECT genrename FROM genre WHERE genreid IN (SELECT genreid "\
             #       "FROM songgenre WHERE songid IN (select count(songid) from userplayssong WHERE songid IN (SELECT songid from userplayssong"\
             #       "WHERE userid = %s)))"
-            # sql = "select songid, count(songid) from userplayssong WHERE songid IN (SELECT songid from userplayssong"\
+            # sql = "select count(songid) from userplayssong WHERE songid IN (SELECT songid from userplayssong"\
             # " WHERE userid = %s)"
             # cur.execute(sql, (user_data["id"],))
             # print("\n",cur.fetchall(),"\n")

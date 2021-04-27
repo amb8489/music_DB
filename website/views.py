@@ -410,7 +410,7 @@ def searched_song():
         # FILTER_SELECTED IS USED TO GET THE SONGS (in 'result'), THEN THE SHARED 'IF' BELOW IS USED
         if filter_selected == "title":
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                  "album.albumname, genre.genrename, song.releasedate, userplayssong.playcount " \
+                  "album.albumname, genre.genrename, song.releasedate " \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "and song.title = %s " \
                   "inner join artist on songartist.artistid = artist.artistid " \
@@ -426,7 +426,7 @@ def searched_song():
 
         elif filter_selected == "genre":
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                  "album.albumname, genre.genrename, song.releasedate, userplayssong.playcount " \
+                  "album.albumname, genre.genrename, song.releasedate " \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "inner join artist on songartist.artistid = artist.artistid " \
                   "inner join albumcontains on song.songid = albumcontains.songid " \
@@ -442,7 +442,7 @@ def searched_song():
 
         elif filter_selected == "album":
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                  "album.albumname, genre.genrename, song.releasedate, userplayssong.playcount " \
+                  "album.albumname, genre.genrename, song.releasedate " \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "inner join artist on songartist.artistid = artist.artistid " \
                   "inner join albumcontains on song.songid = albumcontains.songid " \
@@ -458,7 +458,7 @@ def searched_song():
 
         else:
             sql = "select song.songid, song.title, song.length, artist.artistname, " \
-                  "album.albumname, genre.genrename, song.releasedate, userplayssong.playcount " \
+                  "album.albumname, genre.genrename, song.releasedate " \
                   "from song inner join songartist on song.songid = songartist.songid " \
                   "inner join artist on songartist.artistid = artist.artistid " \
                   "and artist.artistname = %s " \
@@ -477,9 +477,8 @@ def searched_song():
                 result = result[:int(amount_of_songs)]
 
             for i in range(len(result)):
-                if result[i][7] is None:
                     result[i] = (result[i][0], result[i][1], result[i][2], result[i][3],
-                                 result[i][4], result[i][5], result[i][6], 0)
+                                 result[i][4], result[i][5], result[i][6], 99999) #HERE play count
 
             user_data["searched_songs"] = result
             user_data["searched_song_error"] = "None"
@@ -658,7 +657,7 @@ def search_users():
 @views.route('/playentirealbum/', methods=['POST', 'GET'])
 def play_album():
     """
-    adds 1 to the playcount of all songs on an album
+    adds 1 to the  of all songs on an album
     :return: render template
     """
 
@@ -683,10 +682,9 @@ def play_album():
             print(songid[0])
             print()
 
-            sql = "insert into userplayssong(userid, songid, playcount) " \
-                  "values(%s, %s, 1)" \
-                  "on conflict(userid, songid) do update " \
-                  "set playcount = userplayssong.playcount + 1"
+            sql = "insert into userplayssong(userid, songid) " \
+                  "values(%s, %s)"
+
             cur.execute(sql, (userid, int(songid[0])))
         conn.commit()
         cur.close()
@@ -730,10 +728,8 @@ def play_song():
 
 
 
-        sql = "insert into userplayssong(userid, songid, playcount) " \
-              "values(%s, %s, 1)"\
-              "on conflict(userid, songid, dateplayed) do update " \
-              "set playcount = userplayssong.playcount + 1"
+        sql = "insert into userplayssong(userid, songid) " \
+              "values(%s, %s)"
         cur.execute(sql, (userid, int(songid)))
         conn.commit()
 
@@ -816,10 +812,8 @@ def play_collection():
         cur = conn.cursor()
 
         for song in songs:
-            sql = "insert into userplayssong(userid, songid, playcount) " \
-                  "values(%s, %s, 1)" \
-                  "on conflict(userid, songid) do update " \
-                  "set playcount = userplayssong.playcount + 1"
+            sql = "insert into userplayssong(userid, songid) " \
+                  "values(%s, %s)"
             cur.execute(sql, (userid, int(song[0])))
 
         conn.commit()

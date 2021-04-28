@@ -151,10 +151,195 @@ def username_taken(username):
 
 
 
-def getUserData():
-    pass
+def getUserData(form_data):
+    conn = get_connection()
+    cur = conn.cursor()
+    sql = "select email, creationdate, lastaccess, userid " \
+          "from useraccount " \
+          "where username = %s"
+    cur.execute(sql, (form_data["username"],))
+    result = cur.fetchone()
+
+    sql = "select count(useridfollower) " \
+          "from userfollows " \
+          "where useridfollower = %s"
+    cur.execute(sql, (result[3],))
+    num_following = cur.fetchone()[0]
+
+    sql = "select count(useridfollowing) " \
+          "from userfollows " \
+          "where useridfollowing = %s"
+    cur.execute(sql, (result[3],))
+    num_followers = cur.fetchone()[0]
+
+    # caching user data
+    user_data = {"username": form_data["username"], "emailAddress": result[0], "creationDate": result[1],
+                 "lastAccess": result[2], "searched_friend": "None", "num_followers": num_followers,
+                 "num_following": num_following, "id": result[3], 'following': []}
+
+    user_data["new_playlist"] = []
+    # getting the user that they are following
+    sql = "SELECT useridfollowing" \
+          " FROM userfollows" \
+          " WHERE useridfollower = %s"
+
+    cur.execute(sql, (user_data["id"],))
+    result = cur.fetchall()
+
+    # if users follow nobody
+    if len(result) > 0:
+        sql = "SELECT username " \
+              "FROM useraccount " \
+              "WHERE userid IN %s"
+
+        cur.execute(sql, (tuple(result),))
+        result = cur.fetchall()
+
+        # formatting names
+        names = []
+        for name in result:
+            name = name[0]
+            names.append(name)
+        user_data['following'] = names
+
+    sql = "SELECT name FROM collection where userid = %s"
+    cur.execute(sql, (user_data["id"],))
+    all_playlists = cur.fetchall()
+
+    for each in all_playlists:
+        user_data[each[0]] = ''
+
+    userID = user_data["id"]
+
+    if len(all_playlists) > 0:
+        user_data["playlist_name"] = [name[0] for name in all_playlists]
+
+    else:
+        user_data["playlist_name"] = []
+    user_data["num_of_costom_playlist"] = str(len(user_data["playlist_name"]))
 
 
+    sql = "SELECT playcount,artistid FROM artist_play_counts WHERE userid = %s"
+    cur.execute(sql, (user_data["id"],))
+    artist_play_counts = list(cur.fetchall())
+
+    artist_play_counts = sorted(artist_play_counts)
+    artist_play_counts = artist_play_counts[::-1]
+
+    if len(artist_play_counts)>10:
+        artist_play_counts = artist_play_counts[:10]
+    print("_______\n",artist_play_counts)
+
+    artist_play_counts = [artistID[1] for artistID in artist_play_counts]
+    user_data["top10artists"] = []
+    for artistid in artist_play_counts:
+        sql = "SELECT artistname from artist where artistid = %s"
+        cur.execute(sql, (artistid,))
+        user_data["top10artists"].append(cur.fetchone())
+
+    # get the genres of the top songsss of the month---
+
+    sql = "SELECT songid from userplayssong WHERE userid > 0"
+    cur.execute(sql, (user_data["id"],))
+    songids = cur.fetchall()
+
+    if len(songids) > 20:
+        songids = songids[:20]
+
+
+    songs = []
+    for songid in songids:
+        sql = "select count(songid) from userplayssong WHERE songid = %s"
+        cur.execute(sql, (songid[0],))
+        songs.append((cur.fetchone()[0],songid[0]))
+
+    songs = sorted(songs)
+    songs = songs[::-1]
+    songs = [song[1] for song in songs]
+
+    top5genre = []
+    already_have = set()
+    for songid in songs:
+        sql = "SELECT genrename FROM genre WHERE genreid IN (SELECT genreid "\
+          "FROM songgenre WHERE songid = %s)"
+        cur.execute(sql, (songid,))
+        gen = cur.fetchone()[0]
+
+        if gen not in already_have:
+            top5genre.append(gen)
+            already_have.add(gen)
+        if len(top5genre) == 5:
+            break
+    i = 0
+    genres = {0:"rap", 1:"pop", 2:"country", 3:"R&B", 4:"rock", 5:"alternative", 6:"indie"}
+
+    while len(top5genre) < 5:
+        top5genre.appened(genres[i])
+        i+=1
+
+    print("\n",top5genre,"\n")
+
+    user_data["top5genre"] = list(top5genre)
+
+    ## RECOMMENDATIONS ##
+    # top 50 songs
+    #todo
+
+    # top 50 songs friends
+    sql = "select useridfollowing from userfollows where useridfollower = %s"
+    cur.execute(sql, (user_data["id"],))
+    following_ids = cur.fetchall()
+
+    percent_s = ", ".join(["%s"]*len(following_ids))
+    sql = "select songid from userplayssong where userid in (" + percent_s + \
+          ") group by songid order by count(songid) desc"
+    cur.execute(sql, (tuple(following_ids),))
+    song_ids = cur.fetchall()
+    if len(song_ids) > 50:
+        song_ids = song_ids[:50]
+
+    percent_s = ", ".join(["%s"] * len(song_ids))
+    sql = "select title from song where songid in (" + percent_s + ")"
+    print(percent_s)
+    print(song_ids)
+    cur.execute(sql, song_ids)
+    top_songs = cur.fetchall()
+    print(top_songs)
+    user_data["top50byfriends"] = top_songs
+
+
+    # -------recommend--------
+
+    # choosing a song from eachof the top five most popular genres
+    rec = []
+    genreids = {"rap":0,"pop":1,"country":2,"R&B":3,"rock":4,"alternative":5,"indie":6}
+
+    for genre in top5genre:
+
+        sql = "SELECT title FROM song WHERE songid IN (SELECT songid from "\
+              "songgenre WHERE genreid = %s)"
+        cur.execute(sql, (genreids[genre],))
+        similar_songs = cur.fetchall()
+        rec.append(similar_songs[random.randint(0,len(similar_songs))][0])
+
+
+    # choosing a song from the top five most popular songs
+        #TODO
+    already_have = set()
+
+    for i in range(0,10):
+        sng = random.choice(user_data["top50byfriends"])
+        if sng not in already_have:
+            rec.append(sng[0])
+            already_have.add(sng)
+    # add more recommend songs to rec list
+
+    user_data["recommend"] = rec
+
+    cur.close()
+
+    return user_data
+    
 def confirm_login(form_data):
     """
     confirms the log in was successful
@@ -209,199 +394,8 @@ def login():
         if authenticated:
 
             # getting that users data from db
-            conn = get_connection()
-            cur = conn.cursor()
-            sql = "select email, creationdate, lastaccess, userid " \
-                  "from useraccount " \
-                  "where username = %s"
-            cur.execute(sql, (form_data["username"],))
-            result = cur.fetchone()
 
-            sql = "select count(useridfollower) " \
-                  "from userfollows " \
-                  "where useridfollower = %s"
-            cur.execute(sql, (result[3],))
-            num_following = cur.fetchone()[0]
-
-            sql = "select count(useridfollowing) " \
-                  "from userfollows " \
-                  "where useridfollowing = %s"
-            cur.execute(sql, (result[3],))
-            num_followers = cur.fetchone()[0]
-
-            # caching user data
-            user_data = {"username": form_data["username"], "emailAddress": result[0], "creationDate": result[1],
-                         "lastAccess": result[2], "searched_friend": "None", "num_followers": num_followers,
-                         "num_following": num_following, "id": result[3], 'following': []}
-
-            user_data["new_playlist"] = []
-            # getting the user that they are following
-            sql = "SELECT useridfollowing" \
-                  " FROM userfollows" \
-                  " WHERE useridfollower = %s"
-
-            cur.execute(sql, (user_data["id"],))
-            result = cur.fetchall()
-
-            # if users follow nobody
-            if len(result) > 0:
-                sql = "SELECT username " \
-                      "FROM useraccount " \
-                      "WHERE userid IN %s"
-
-                cur.execute(sql, (tuple(result),))
-                result = cur.fetchall()
-
-                # formatting names
-                names = []
-                for name in result:
-                    name = name[0]
-                    names.append(name)
-                user_data['following'] = names
-
-            sql = "SELECT name FROM collection where userid = %s"
-            cur.execute(sql, (user_data["id"],))
-            all_playlists = cur.fetchall()
-
-            for each in all_playlists:
-                user_data[each[0]] = ''
-
-            userID = user_data["id"]
-
-            if len(all_playlists) > 0:
-                user_data["playlist_name"] = [name[0] for name in all_playlists]
-
-            else:
-                user_data["playlist_name"] = []
-            user_data["num_of_costom_playlist"] = str(len(user_data["playlist_name"]))
-
-
-            sql = "SELECT playcount,artistid FROM artist_play_counts WHERE userid = %s"
-            cur.execute(sql, (user_data["id"],))
-            artist_play_counts = list(cur.fetchall())
-
-            artist_play_counts = sorted(artist_play_counts)
-            artist_play_counts = artist_play_counts[::-1]
-
-            if len(artist_play_counts)>10:
-                artist_play_counts = artist_play_counts[:10]
-            print("_______\n",artist_play_counts)
-
-            artist_play_counts = [artistID[1] for artistID in artist_play_counts]
-            user_data["top10artists"] = []
-            for artistid in artist_play_counts:
-                sql = "SELECT artistname from artist where artistid = %s"
-                cur.execute(sql, (artistid,))
-                user_data["top10artists"].append(cur.fetchone())
-
-            # get the genres of the top songsss of the month---
-
-            sql = "SELECT songid from userplayssong WHERE userid > 0"
-            cur.execute(sql, (user_data["id"],))
-            songids = cur.fetchall()
-
-            if len(songids) > 20:
-                songids = songids[:20]
-
-
-            songs = []
-            for songid in songids:
-                sql = "select count(songid) from userplayssong WHERE songid = %s"
-                cur.execute(sql, (songid[0],))
-                songs.append((cur.fetchone()[0],songid[0]))
-
-            songs = sorted(songs)
-            songs = songs[::-1]
-            songs = [song[1] for song in songs]
-
-            top5genre = []
-            already_have = set()
-            for songid in songs:
-                sql = "SELECT genrename FROM genre WHERE genreid IN (SELECT genreid "\
-                  "FROM songgenre WHERE songid = %s)"
-                cur.execute(sql, (songid,))
-                gen = cur.fetchone()[0]
-
-                if gen not in already_have:
-                    top5genre.append(gen)
-                    already_have.add(gen)
-                if len(top5genre) == 5:
-                    break
-            i = 0
-            genres = {0:"rap", 1:"pop", 2:"country", 3:"R&B", 4:"rock", 5:"alternative", 6:"indie"}
-
-            while len(top5genre) < 5:
-                top5genre.appened(genres[i])
-                i+=1
-
-            print("\n",top5genre,"\n")
-
-            user_data["top5genre"] = list(top5genre)
-
-            ## RECOMMENDATIONS ##
-            # top 50 songs
-            #todo
-
-            # top 50 songs friends
-            sql = "select useridfollowing from userfollows where useridfollower = %s"
-            cur.execute(sql, (user_data["id"],))
-            following_ids = cur.fetchall()
-
-            percent_s = ", ".join(["%s"]*len(following_ids))
-            sql = "select songid from userplayssong where userid in (" + percent_s + \
-                  ") group by songid order by count(songid) desc"
-            cur.execute(sql, (tuple(following_ids),))
-            song_ids = cur.fetchall()
-            if len(song_ids) > 50:
-                song_ids = song_ids[:50]
-
-            percent_s = ", ".join(["%s"] * len(song_ids))
-            sql = "select title from song where songid in (" + percent_s + ")"
-            print(percent_s)
-            print(song_ids)
-            cur.execute(sql, song_ids)
-            top_songs = cur.fetchall()
-            print(top_songs)
-            user_data["top50byfriends"] = top_songs
-
-
-            # -------recommend--------
-
-            # choosing a song from eachof the top five most popular genres
-            rec = []
-            genreids = {"rap":0,"pop":1,"country":2,"R&B":3,"rock":4,"alternative":5,"indie":6}
-
-            for genre in top5genre:
-
-                sql = "SELECT title FROM song WHERE songid IN (SELECT songid from "\
-                      "songgenre WHERE genreid = %s)"
-                cur.execute(sql, (genreids[genre],))
-                similar_songs = cur.fetchall()
-                rec.append(similar_songs[random.randint(0,len(similar_songs))][0])
-
-
-            # choosing a song from the top five most popular songs
-                #TODO
-            already_have = set()
-
-            for i in range(0,10):
-                sng = random.choice(user_data["top50byfriends"])
-                if sng not in already_have:
-                    rec.append(sng[0])
-                    already_have.add(sng)
-            # add more recommend songs to rec list
-
-            user_data["recommend"] = rec
-
-
-
-            cur.close()
-
-
-            # for you
-            #todo
-
-            cur.close()
+            user_data = getUserData(form_data)
 
             # saving user details into the session for global use
             session['user_data'] = user_data

@@ -103,7 +103,7 @@ body {
 
 .sidenav {
   height: 100%;
-  /*width: 180px;*/
+  width: 180px;
   position: fixed;
   z-index: 1;
   top: 0;
@@ -178,7 +178,8 @@ hr.rounded {
   background-color: #ffffca;
 
   border-radius: 12px;
-  border-color: black cursor: pointer;
+  border-color: black;
+  cursor: pointer;
   width: 100px;
   height: 35px;
   font-size: 12px;
@@ -193,7 +194,8 @@ hr.rounded {
   background-color: #ffffca;
   font-size: 12px;
   border-radius: 12px;
-  border-color: black cursor: pointer;
+  border-color: black;
+  cursor: pointer;
   width: 120px;
   height: 20px;
   font-size: 12px;

@@ -326,7 +326,7 @@ def login():
 
 
             print("\n",top5genre,"\n")
-            cur.close()
+
 
             user_data["top5genre"] = list(top5genre)
 
@@ -335,11 +335,31 @@ def login():
             #todo
 
             # top 50 songs friends
-            #todo
+            sql = "select useridfollowing from userfollows where useridfollower = %s"
+            cur.execute(sql, (user_data["id"],))
+            following_ids = cur.fetchall()
+
+            percent_s = ", ".join(["%s"]*len(following_ids))
+            sql = "select songid from userplayssong where userid in (" + percent_s + \
+                  ") group by songid order by count(songid) desc"
+            cur.execute(sql, following_ids)
+            song_ids = cur.fetchall()
+            if len(song_ids) > 50:
+                song_ids = song_ids[:50]
+
+            percent_s = ", ".join(["%s"] * len(song_ids))
+            sql = "select title from song where songid in (" + percent_s + ")"
+            print(percent_s)
+            print(song_ids)
+            cur.execute(sql, song_ids)
+            top_songs = cur.fetchall()
+            print(top_songs)
+            user_data["top50byfriends"] = top_songs
 
             # for you
             #todo
 
+            cur.close()
 
             # saving user details into the session for global use
             session['user_data'] = user_data

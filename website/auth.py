@@ -322,7 +322,6 @@ def login():
                 top5genre.add(genres[i])
                 i+=1
 
-            cur.close()
             user_data["top5genre"] = list(top5genre)
 
             ## RECOMMENDATIONS ##
@@ -331,6 +330,31 @@ def login():
 
             # top 50 songs friends
             #todo
+
+
+            # -------recommend--------
+
+            # choosing a song from eachof the top five most popular genres
+            rec = []
+            genreids = {"rap":0,"pop":1,"country":2,"R&B":3,"rock":4,"alternative":5,"indie":6}
+
+            for genre in top5genre:
+
+                sql = "SELECT title FROM song WHERE songid IN (SELECT songid from "\
+                      "songgenre WHERE genreid = %s)"
+                cur.execute(sql, (genreids[genre],))
+                rec.append(cur.fetchone()[0])
+
+
+            # choosing a song from the top five most popular songs
+                #TODO
+
+            user_data["recommend"] = rec
+
+
+
+            cur.close()
+
 
             # for you
             #todo

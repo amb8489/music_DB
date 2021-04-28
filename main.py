@@ -21,7 +21,7 @@ main.py is the main class for the application
     [ ] The top 50 most popular songs of the month
     [ ] The top 50 most popular songs among my friend
     [X] The top 5 most popular genres of the month
-    [...] For you: Recommend songs based on your play history
+    [X] For you: Recommend songs based on your play history
         (e.g. genre,artist) and the play history of similar users
 
 •NON app things TODO

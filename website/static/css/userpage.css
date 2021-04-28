@@ -433,3 +433,7 @@ hr.rounded {
   padding: 14px;
   text-decoration: none;
 }
+
+.small-list {
+  font-size: 9px;
+}

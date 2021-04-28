@@ -341,10 +341,6 @@ def login():
             # top 50 songs friends
             #todo
 
-            # top 5 genres
-            #todo
-            user_data['top5genres'] = ('rock','rock','rock','rock','rock')
-
             # for you
             #todo
 

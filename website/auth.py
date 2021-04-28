@@ -350,7 +350,7 @@ def login():
             percent_s = ", ".join(["%s"]*len(following_ids))
             sql = "select songid from userplayssong where userid in (" + percent_s + \
                   ") group by songid order by count(songid) desc"
-            cur.execute(sql, following_ids)
+            '''cur.execute(sql, following_ids)
             song_ids = cur.fetchall()
             if len(song_ids) > 50:
                 song_ids = song_ids[:50]
@@ -363,7 +363,7 @@ def login():
             top_songs = cur.fetchall()
             print(top_songs)
             user_data["top50byfriends"] = top_songs
-
+            '''
 
             # -------recommend--------
 

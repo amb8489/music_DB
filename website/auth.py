@@ -154,6 +154,7 @@ def username_taken(username):
 def getUserData(form_data):
     conn = get_connection()
     cur = conn.cursor()
+    
     sql = "select email, creationdate, lastaccess, userid " \
           "from useraccount " \
           "where username = %s"
@@ -339,7 +340,7 @@ def getUserData(form_data):
     cur.close()
 
     return user_data
-    
+
 def confirm_login(form_data):
     """
     confirms the log in was successful

@@ -726,18 +726,6 @@ def play_song():
         cur = conn.cursor()
 
 
-
-
-
-
-
-
-
-
-
-
-
-
         sql = "insert into userplayssong(userid, songid, dateplayed) " \
               "values(%s, %s, %s)"
         cur.execute(sql, (userid, int(songid), datetime.now()))

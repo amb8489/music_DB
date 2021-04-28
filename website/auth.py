@@ -387,7 +387,7 @@ def login():
             for i in range(0,10):
                 sng = random.choice(user_data["top50byfriends"])
                 if sng not in already_have:
-                    user_data["recommend"].appened(sng)
+                    rec.append(sng[0])
                     already_have.add(sng)
             # add more recommend songs to rec list
 

@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, request, session
-
+from datetime import datetime
 from connection import get_connection
 
 views = Blueprint('views', __name__)
@@ -689,10 +689,10 @@ def play_album():
             print(songid[0])
             print()
 
-            sql = "insert into userplayssong(userid, songid) " \
-                  "values(%s, %s)"
+            sql = "insert into userplayssong(userid, songid, dateplayed) " \
+                  "values(%s, %s, %s)"
 
-            cur.execute(sql, (userid, int(songid[0])))
+            cur.execute(sql, (userid, int(songid[0]), datetime.now()))
         conn.commit()
         cur.close()
     i = 0
@@ -735,9 +735,9 @@ def play_song():
 
 
 
-        sql = "insert into userplayssong(userid, songid) " \
-              "values(%s, %s)"
-        cur.execute(sql, (userid, int(songid)))
+        sql = "insert into userplayssong(userid, songid, dateplayed) " \
+              "values(%s, %s, %s)"
+        cur.execute(sql, (userid, int(songid), datetime.now()))
         conn.commit()
 
 

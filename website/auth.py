@@ -150,6 +150,11 @@ def username_taken(username):
     return True
 
 
+
+def getUserData():
+    pass
+
+
 def confirm_login(form_data):
     """
     confirms the log in was successful
@@ -356,6 +361,8 @@ def login():
 
             # choosing a song from the top five most popular songs
                 #TODO
+
+            # add more recommend songs to rec list
 
             user_data["recommend"] = rec
 

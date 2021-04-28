@@ -322,7 +322,7 @@
                      <h2>for you</h2>
                      <p>Here are some recommend songs based on your play history and similar users</p>
                      {% for song in user_data["recommend"] %}
-                        <p>{{song}}</p>
+                        <p style="font-size: 16px">{{song}}</p>
                      {% endfor %}
                      <div class="scrollmenu">
                         {% if user_data["foryou"] != "None" %}

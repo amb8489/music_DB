@@ -19,7 +19,7 @@ main.py is the main class for the application
 
 •A song recommendation system with the following options:
     [ ] The top 50 most popular songs of the month
-    [ ] The top 50 most popular songs among my friend
+    [X] The top 50 most popular songs among my friend
     [X] The top 5 most popular genres of the month
     [X] For you: Recommend songs based on your play history
         (e.g. genre,artist) and the play history of similar users

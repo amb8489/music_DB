@@ -91,6 +91,9 @@
                   </div>
                   <div class="column" style="background-color:#ccc;">
                      <h2>50 most popular songs among friends</h2>
+                      {% for song in user_data["top50byfriends"] %}
+                     <p>{{ song[0] }}</p>
+                     {% endfor %}
                   </div>
                   <div class="column" style="background-color:#ddd;">
                      <h2>top 5 most popular genres of the month</h2>
@@ -320,10 +323,27 @@
 
                      <h2>for you</h2>
                      <p>Here are some recommend songs based on your play history and similar users</p>
+<<<<<<< HEAD
+                     {% for song in user_data["recommend"] %}
+                        <p style="font-size: 16px">{{song}}</p>
+                     {% endfor %}
+                     <div class="scrollmenu">
+                        {% if user_data["foryou"] != "None" %}
+                        {% for song in user_data["foryou"] %}
+                        <hr class="rounded">
+                        <p class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
+                           '{{ song[4] }}' <br>
+                           genre: {{ song[5] }},
+                           length: {{ song[2] }} seconds,
+                           release year: {{ song[6] }} <br>
+                           your play count: {{ song[7] }}
+                        </p>
+=======
                      <ul class="small-list">
                         {% if user_data["recommend"] != "None" %}
                         {% for song in user_data["recommend"] %}
                         <li style="font-size: 14px;">{{song}}</li>
+>>>>>>> 8f3a6792b7237820f80f1a8b0735f21399aab615
                         {% endfor %}{%endif%}
                      </ul>
                   </div>

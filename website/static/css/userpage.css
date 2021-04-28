@@ -103,7 +103,7 @@ body {
 
 .sidenav {
   height: 100%;
-  width: 180px;
+  /*width: 180px;*/
   position: fixed;
   z-index: 1;
   top: 0;
@@ -418,20 +418,16 @@ hr.rounded {
 }
 
 
-div.scrollmenu {
-  background-color: #333;
-  overflow: auto;
+.scrolling-wrapper {
+  overflow-x: scroll;
+  overflow-y: hidden;
   white-space: nowrap;
+  overflow: auto;
 }
 
-div.scrollmenu a {
+.scrolling-wrapper.cardh {
   display: inline-block;
-  color: white;
   text-align: center;
   padding: 14px;
   text-decoration: none;
-}
-
-div.scrollmenu a:hover {
-  background-color: #777;
 }

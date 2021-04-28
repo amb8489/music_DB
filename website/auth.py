@@ -302,6 +302,20 @@ def login():
 
             user_data["top5genre"] = ["rap", "pop", "country", "R&B", "rock"]
 
+            ## RECOMMENDATIONS ##
+            # top 50 songs
+            #todo
+
+            # top 50 songs friends
+            #todo
+
+            # top 5 genres
+            #todo
+            user_data['top5genres'] = ('rock','rock','rock','rock','rock')
+
+            # for you
+            #todo
+
 
             # saving user details into the session for global use
             session['user_data'] = user_data

@@ -311,11 +311,12 @@
                      <h2>popular genres</h2>
                      <p>The 5 most popular genres of the month</p>
 
-                     {% if user_data["top5genres"] != "None" %}
-                     {% for genre in user_data["top5genres"] %}
-                     <hr class="rounded">
-                     <!-- todo genres -->
-                     {% endfor %} {%endif%}
+                     <div class="scrolling-wrapper">
+                        {% if user_data["top5genres"] != "None" %}
+                        {% for genre in user_data["top5genres"] %}
+                           <p class="cardh"> {{genre}}</p>
+                        {% endfor %} {%endif%}
+                     </div>
 
 
                      <h2>for you</h2>

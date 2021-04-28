@@ -103,8 +103,7 @@ body {
 
 .sidenav {
   height: 100%;
-  width: 180px;
-  position: fixed;
+  position: relative;
   z-index: 1;
   top: 0;
   left: 0;
@@ -114,7 +113,6 @@ body {
 }
 
 .sidenav a {
-  padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 25px;
   color: #818181;
@@ -342,7 +340,7 @@ hr.rounded {
 .split {
   height: 100%;
   width: 50%;
-  position: fixed;
+  position: relative;
   z-index: 1;
   top: 0;
   overflow-x: hidden;
@@ -351,9 +349,9 @@ hr.rounded {
 
 /* Control the left side */
 .left {
-  left: 180px;
+  left: 20% ;
   background-color: gray;
-  width: 37%;
+  width: 30%;
 
 }
 

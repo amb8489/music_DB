@@ -48,7 +48,7 @@
       <!--side bar-->
 
       <div class="sidenav">
-         <h1><a style="color: #ffffca;" href="#" onclick="showhide('me');">terrible spotify</a></h1>
+         <h1><a style="color: #ffffca; font-size: 14px" href="#" onclick="showhide('me');">terrible spotify</a></h1>
 
          <a href="#" onclick="showhide('me');">me</a>
          <a href="#" onclick="showhide('following');">friends</a>
@@ -119,7 +119,7 @@
 
 
                <div class="following" id="following">
-                  <div style="width:550px; left: 720px " class="split right">
+                  <div style="width:30%; left: 50% " class="split right">
                      <h3>find friends</h3>
 
                      {% if user_data['error'] != None %}
@@ -145,7 +145,7 @@
                      </div>
                      {% endif %}
                   </div>
-                  <div style="right:170px" class="split left">
+                  <div style="width:25%; right:30%" class="split left">
                      <h2>following</h2>
 
                      {% for user in user_data["following"] %}

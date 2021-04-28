@@ -41,76 +41,79 @@ def add_song_to_playlist():
     if request.method == 'GET':
         return render_template('userpage.html')
     if request.method == 'POST':
-        # geting form data
-        conn = get_connection()
-        cur = conn.cursor()
-        user_data = session['user_data']
-
-        songid = request.form["songid"].split("<sep>")
-
-        add_album = songid[1]
-        if add_album == "True":
-
-            playlistname = request.form['currentplaylist']
-
-            albumInfo = request.form["songid"].split("<sep>")
-
-            print("ALBUM INFO:", albumInfo)
+        try:
+            # geting form data
+            conn = get_connection()
+            cur = conn.cursor()
             user_data = session['user_data']
-            userid = user_data['id']
 
-            conn = get_connection()
-            cur = conn.cursor()
+            songid = request.form["songid"].split("<sep>")
 
-            # getting getting album id
+            add_album = songid[1]
+            if add_album == "True":
 
-            sql = "select collectionid " \
-                  "from collection " \
-                  "where name = %s and userid = %s"
-            cur.execute(sql, (playlistname, userid))
-            playlistid = cur.fetchone()
+                playlistname = request.form['currentplaylist']
 
-            sql = "select album.albumid " \
-                  "from album " \
-                  "inner join albumcontains on album.albumid = albumcontains.albumid " \
-                  "and album.albumname = %s " \
-                  "inner join song on albumcontains.songid = song.songid " \
-                  "inner join songartist on song.songid = songartist.songid " \
-                  "inner join artist on songartist.artistid = artist.artistid " \
-                  "and artist.artistname = %s"
-            cur.execute(sql, (albumInfo[0], albumInfo[2]))
+                albumInfo = request.form["songid"].split("<sep>")
 
-            albumID = cur.fetchone()
+                print("ALBUM INFO:", albumInfo)
+                user_data = session['user_data']
+                userid = user_data['id']
 
-            sql = "insert into collectionalbum(collectionid,albumid)" \
-                  "values(%s, %s) on conflict do nothing"
-            cur.execute(sql, (playlistid, albumID))
-            conn.commit()
-            cur.close()
+                conn = get_connection()
+                cur = conn.cursor()
 
-            session['user_data'] = user_data
+                # getting getting album id
 
-        else:
-            conn = get_connection()
-            cur = conn.cursor()
-            playlistname = request.form['currentplaylist']
-            userid = user_data["id"]
+                sql = "select collectionid " \
+                    "from collection " \
+                    "where name = %s and userid = %s"
+                cur.execute(sql, (playlistname, userid))
+                playlistid = cur.fetchone()
 
-            sql = "select collectionid " \
-                  "from collection " \
-                  "where name = %s and userid = %s"
-            cur.execute(sql, (playlistname, userid))
-            playlistid = cur.fetchone()
+                sql = "select album.albumid " \
+                    "from album " \
+                    "inner join albumcontains on album.albumid = albumcontains.albumid " \
+                    "and album.albumname = %s " \
+                    "inner join song on albumcontains.songid = song.songid " \
+                    "inner join songartist on song.songid = songartist.songid " \
+                    "inner join artist on songartist.artistid = artist.artistid " \
+                    "and artist.artistname = %s"
+                cur.execute(sql, (albumInfo[0], albumInfo[2]))
 
-            sql = "insert into collectionsong(collectionid,songid)" \
-                  "values(%s, %s) on conflict do nothing"
-            cur.execute(sql, (playlistid, songid[0]))
-            conn.commit()
-            cur.close()
+                albumID = cur.fetchone()
 
-            user_data["explore"] = True
-            user_data["myAlbums"] = False
-            session['user_data'] = user_data
+                sql = "insert into collectionalbum(collectionid,albumid)" \
+                    "values(%s, %s) on conflict do nothing"
+                cur.execute(sql, (playlistid, albumID))
+                conn.commit()
+                cur.close()
+
+                session['user_data'] = user_data
+
+            else:
+                conn = get_connection()
+                cur = conn.cursor()
+                playlistname = request.form['currentplaylist']
+                userid = user_data["id"]
+
+                sql = "select collectionid " \
+                    "from collection " \
+                    "where name = %s and userid = %s"
+                cur.execute(sql, (playlistname, userid))
+                playlistid = cur.fetchone()
+
+                sql = "insert into collectionsong(collectionid,songid)" \
+                    "values(%s, %s) on conflict do nothing"
+                cur.execute(sql, (playlistid, songid[0]))
+                conn.commit()
+                cur.close()
+
+                user_data["explore"] = True
+                user_data["myAlbums"] = False
+                session['user_data'] = user_data
+        except:
+            pass
 
     return render_template('userpage.html', user_data=user_data)
 

@@ -1,5 +1,5 @@
 from datetime import datetime
-
+import random
 from flask import Blueprint, render_template, request, redirect, url_for, session
 
 from connection import get_connection
@@ -150,6 +150,11 @@ def username_taken(username):
     return True
 
 
+
+def getUserData():
+    pass
+
+
 def confirm_login(form_data):
     """
     confirms the log in was successful
@@ -291,9 +296,12 @@ def login():
 
             # get the genres of the top songsss of the month---
 
-            sql = "SELECT songid from userplayssong WHERE userid = %s"
+            sql = "SELECT songid from userplayssong WHERE userid > 0"
             cur.execute(sql, (user_data["id"],))
             songids = cur.fetchall()
+
+            if len(songids) > 20:
+                songids = songids[:20]
 
 
             songs = []
@@ -306,27 +314,27 @@ def login():
             songs = songs[::-1]
             songs = [song[1] for song in songs]
 
-
-            top5genre = set()
+            top5genre = []
+            already_have = set()
             for songid in songs:
                 sql = "SELECT genrename FROM genre WHERE genreid IN (SELECT genreid "\
                   "FROM songgenre WHERE songid = %s)"
                 cur.execute(sql, (songid,))
-                top5genre.add(cur.fetchone()[0])
+                gen = cur.fetchone()[0]
+
+                if gen not in already_have:
+                    top5genre.append(gen)
+                    already_have.add(gen)
                 if len(top5genre) == 5:
                     break
             i = 0
             genres = {0:"rap", 1:"pop", 2:"country", 3:"R&B", 4:"rock", 5:"alternative", 6:"indie"}
 
             while len(top5genre) < 5:
-                top5genre.add(genres[i])
+                top5genre.appened(genres[i])
                 i+=1
 
-
-
-
             print("\n",top5genre,"\n")
-
 
             user_data["top5genre"] = list(top5genre)
 
@@ -355,6 +363,34 @@ def login():
             top_songs = cur.fetchall()
             print(top_songs)
             user_data["top50byfriends"] = top_songs
+
+
+            # -------recommend--------
+
+            # choosing a song from eachof the top five most popular genres
+            rec = []
+            genreids = {"rap":0,"pop":1,"country":2,"R&B":3,"rock":4,"alternative":5,"indie":6}
+
+            for genre in top5genre:
+
+                sql = "SELECT title FROM song WHERE songid IN (SELECT songid from "\
+                      "songgenre WHERE genreid = %s)"
+                cur.execute(sql, (genreids[genre],))
+                similar_songs = cur.fetchall()
+                rec.append(similar_songs[random.randint(0,len(similar_songs))][0])
+
+
+            # choosing a song from the top five most popular songs
+                #TODO
+
+            # add more recommend songs to rec list
+
+            user_data["recommend"] = rec
+
+
+
+            cur.close()
+
 
             # for you
             #todo

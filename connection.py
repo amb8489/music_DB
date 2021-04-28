@@ -39,7 +39,7 @@ def add_songs():
     conn = get_connection()
     cur = conn.cursor()
 
-    number_of_song_files_to_add = 2
+    number_of_song_files_to_add = ø
     d = 0
     b = 0
     songid = 1

@@ -322,12 +322,7 @@ def login():
                 top5genre.add(genres[i])
                 i+=1
 
-
-
-
-            print("\n",top5genre,"\n")
             cur.close()
-
             user_data["top5genre"] = list(top5genre)
 
             ## RECOMMENDATIONS ##

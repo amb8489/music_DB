@@ -289,11 +289,8 @@ def login():
                 cur.execute(sql, (artistid,))
                 user_data["top10artists"].append(cur.fetchone())
 
-            # get the genres of the top songsss---
+            # get the genres of the top songsss of the month---
 
-            # sql = "SELECT genrename FROM genre WHERE genreid IN (SELECT genreid "\
-            #       "FROM songgenre WHERE songid IN (select count(songid) from userplayssong WHERE songid IN (SELECT songid from userplayssong"\
-            #       "WHERE userid = %s)))"
             sql = "SELECT songid from userplayssong WHERE userid = %s"
             cur.execute(sql, (user_data["id"],))
             songids = cur.fetchall()
@@ -331,7 +328,6 @@ def login():
             print("\n",top5genre,"\n")
             cur.close()
 
-            # user_data["top5genre"] = ["rap", "pop", "country", "R&B", "rock"]
             user_data["top5genre"] = list(top5genre)
 
             ## RECOMMENDATIONS ##

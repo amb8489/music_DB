@@ -350,7 +350,7 @@ def login():
             percent_s = ", ".join(["%s"]*len(following_ids))
             sql = "select songid from userplayssong where userid in (" + percent_s + \
                   ") group by songid order by count(songid) desc"
-            '''cur.execute(sql, following_ids)
+            cur.execute(sql, (tuple(following_ids),))
             song_ids = cur.fetchall()
             if len(song_ids) > 50:
                 song_ids = song_ids[:50]
@@ -363,7 +363,7 @@ def login():
             top_songs = cur.fetchall()
             print(top_songs)
             user_data["top50byfriends"] = top_songs
-            '''
+
 
             # -------recommend--------
 
@@ -382,7 +382,13 @@ def login():
 
             # choosing a song from the top five most popular songs
                 #TODO
+            already_have = set()
 
+            for i in range(0,10):
+                sng = random.choice(user_data["top50byfriends"])
+                if sng not in already_have:
+                    user_data["recommend"].appened(sng)
+                    already_have.add(sng)
             # add more recommend songs to rec list
 
             user_data["recommend"] = rec

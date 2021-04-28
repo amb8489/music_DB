@@ -91,6 +91,9 @@
                   </div>
                   <div class="column" style="background-color:#ccc;">
                      <h2>50 most popular songs among friends</h2>
+                      {% for song in user_data["top50byfriends"] %}
+                     <p>{{ song[0] }}</p>
+                     {% endfor %}
                   </div>
                   <div class="column" style="background-color:#ddd;">
                      <h2>top 5 most popular genres of the month</h2>

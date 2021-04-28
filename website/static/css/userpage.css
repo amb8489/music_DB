@@ -103,7 +103,8 @@ body {
 
 .sidenav {
   height: 100%;
-  position: relative;
+  width: 180px;
+  position: fixed;
   z-index: 1;
   top: 0;
   left: 0;
@@ -113,6 +114,7 @@ body {
 }
 
 .sidenav a {
+  padding: 6px 8px 6px 16px;
   text-decoration: none;
   font-size: 25px;
   color: #818181;
@@ -156,7 +158,8 @@ body {
   all: unset;
   background-color: #ffffca;
   /* border-radius: 12px; */
-  border-color: black cursor: pointer;
+  border-color: black;
+  cursor: pointer;
   width: 90px;
   height: 56px;
   font-size: 12px;
@@ -340,7 +343,7 @@ hr.rounded {
 .split {
   height: 100%;
   width: 50%;
-  position: relative;
+  position: fixed;
   z-index: 1;
   top: 0;
   overflow-x: hidden;
@@ -349,9 +352,9 @@ hr.rounded {
 
 /* Control the left side */
 .left {
-  left: 20% ;
+  left: 180px;
   background-color: gray;
-  width: 30%;
+  width: 37%;
 
 }
 
@@ -415,23 +418,4 @@ hr.rounded {
   content: "";
   display: table;
   clear: both;
-}
-
-
-.scrolling-wrapper {
-  overflow-x: scroll;
-  overflow-y: hidden;
-  white-space: nowrap;
-  overflow: auto;
-}
-
-.scrolling-wrapper.cardh {
-  display: inline-block;
-  text-align: center;
-  padding: 14px;
-  text-decoration: none;
-}
-
-.small-list {
-  font-size: 9px;
 }

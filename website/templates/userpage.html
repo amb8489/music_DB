@@ -175,7 +175,7 @@
 
                <div class="myAlbums" id="myAlbums">
                   <h2>my playlists</h2>
-                  <p style="font-size: 14px">costom playlists: {{ user_data["num_of_costom_playlist"]}}</p>
+                  <p style="font-size: 14px">custom playlists: {{ user_data["num_of_costom_playlist"]}}</p>
 
 
 
@@ -279,39 +279,6 @@
 
                <div class="explore" id="explore">
                   <div class="split right">
-                     <h2>popular songs</h2>
-                     <p>The 50 most popular songs of the month</p>
-
-                     <ul class="scrollmenu">
-                        {% if user_data["top50songs"] != "None" %}
-                        {% for song in user_data["top50songs"] %}
-                        <hr class="rounded">
-                        <li class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
-                           '{{ song[4] }}' <br>
-                           genre: {{ song[5] }},
-                           length: {{ song[2] }} seconds,
-                           release year: {{ song[6] }} <br>
-                           your play count: {{ song[7] }}
-                        </li>
-                        {% endfor %}{%endif%}
-                     </ul>
-
-                     <h2>popular among friends</h2>
-                     <p>The 50 most popular songs among your friends</p>
-
-                     <ul class="scrollmenu">
-                        {% if user_data["top50songsfriends"] != "None" %}
-                        {% for song in user_data["top50songsfriends"] %}
-                        <li class="card" style="font-size: 14px;">'{{ song[1] }}' by '{{ song[3] }}' on album
-                           '{{ song[4] }}' <br>
-                           genre: {{ song[5] }},
-                           length: {{ song[2] }} seconds,
-                           release year: {{ song[6] }} <br>
-                           your play count: {{ song[7] }}
-                        </li>
-                        {% endfor %}{%endif%}
-                     </ul>
-
 
                      <h2>popular genres</h2>
                      <p>The 5 most popular genres of the month</p>

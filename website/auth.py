@@ -238,7 +238,7 @@ def getUserData(form_data):
         cur.execute(sql, (artistid,))
         user_data["top10artists"].append(cur.fetchone())
 
-    # get the genres of the top songsss of the month---
+    # get the genres of the top songs of the month---
 
     sql = "SELECT songid from userplayssong WHERE userid > 0"
     cur.execute(sql, (user_data["id"],))
@@ -284,7 +284,23 @@ def getUserData(form_data):
 
     ## RECOMMENDATIONS ##
     # top 50 songs
-    #todo
+
+    rec = []
+    sql = "select songid "\
+        "from userplayssong "\
+        "where dateplayed >= date_trunc('month', current_date - interval '1' month) "\
+        "group by songid "\
+        "order by count(*) desc"
+    cur.execute(sql)
+    song_ids = cur.fetchall()
+    if len(song_ids) > 50:
+        song_ids = song_ids[:50]
+    for songid in song_ids:
+        sql = "SELECT title FROM song WHERE songid = %s"
+        cur.execute(sql, (songid[0],))
+        similar_songs = cur.fetchall()
+        rec.append(similar_songs[0])
+    user_data["top50bymonth"] = rec
 
     # top 50 songs friends
     sql = "select useridfollowing from userfollows where useridfollower = %s"
